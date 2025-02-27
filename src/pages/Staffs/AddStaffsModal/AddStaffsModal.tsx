@@ -3,11 +3,11 @@ import { observer } from 'mobx-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Checkbox, Collapse, Form, Input, InputNumber, Modal } from 'antd';
 import { IAddStaff, IUpdateStaff, staffsApi } from '@/api/staffs';
-import { staffsStore } from '@/stores/workers';
 import { addNotification } from '@/utils';
 import { regexPhoneNumber } from '@/utils/phoneFormat';
-import { roleApi } from '@/api/role';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { roleApi } from '@/api/role';
+import { staffsStore } from '@/stores/staffs';
 
 export const AddStaffsModal = observer(() => {
   const [form] = Form.useForm();

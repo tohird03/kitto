@@ -1,10 +1,11 @@
+import { IClientsInfo } from "../clients"
 import { IPagination, IPaymentType } from "../types"
 
 export interface IClientsPayments extends IPaymentType {
   id: string,
   createdAt: string,
   order: any,
-  client: any,
+  client: IClientsInfo,
 }
 
 export interface IGetClientsPaymentsParams extends IPagination {

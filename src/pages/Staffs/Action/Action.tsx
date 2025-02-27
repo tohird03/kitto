@@ -4,8 +4,8 @@ import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {Button, Popconfirm} from 'antd';
 import {IStaffs, staffsApi} from '@/api/staffs';
-import {staffsStore} from '@/stores/workers';
 import {addNotification} from '@/utils';
+import { staffsStore } from '@/stores/staffs';
 
 type Props = {
   staff: IStaffs;
@@ -25,7 +25,7 @@ export const Action: FC<Props> = observer(({staff}) => {
     onError: addNotification,
   });
 
-  const handleEditProcess = () => {
+  const handleEditStaff = () => {
     staffsStore.setSingleStaff(staff);
     staffsStore.setIsOpenAddEditStaffModal(true);
   };
@@ -36,7 +36,7 @@ export const Action: FC<Props> = observer(({staff}) => {
 
   return (
     <div style={{display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center'}}>
-      <Button onClick={handleEditProcess} type="primary" icon={<EditOutlined />} />
+      <Button onClick={handleEditStaff} type="primary" icon={<EditOutlined />} />
       <Popconfirm
         title="Xodimni o'chirish"
         description="Rostdan ham bu xodimni o'chirishni xohlaysizmi?"

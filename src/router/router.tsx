@@ -7,7 +7,9 @@ import {Layout} from '@/modules/Layout';
 import {
   ClientsInfo,
   Login,
+  Payments,
   ProductsList,
+  Staffs,
   Statistic,
   Warehouse,
 } from './lazy';
@@ -44,6 +46,14 @@ export const Router = ({isAuth}: Props) => useRoutes([
           {
             element: <Suspense fallback={<Loading />}><ProductsList /></Suspense>,
             path: ROUTES.products,
+          },
+          {
+            element: <Suspense fallback={<Loading />}><Staffs /></Suspense>,
+            path: ROUTES.staffs,
+          },
+          {
+            element: <Suspense fallback={<Loading />}><Payments /></Suspense>,
+            path: ROUTES.payments,
           },
           // SETTING ROUTES
           {

@@ -21,3 +21,9 @@ export const Warehouse = lazy(() =>
 
 export const ProductsList = lazy(() =>
   import('@/pages/Products').then(({ProductsList}) => ({default: ProductsList})).catch(handleCatchChunkError));
+
+export const Staffs = lazy(() =>
+  import('@/pages/Staffs').then(({Staffs}) => ({default: Staffs})).catch(handleCatchChunkError));
+
+export const Payments = lazy(() =>
+  import('@/pages/Payments').then(({ClientsPayments}) => ({default: ClientsPayments})).catch(handleCatchChunkError));

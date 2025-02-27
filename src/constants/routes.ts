@@ -4,6 +4,8 @@ export const ROUTES = {
   warehouse: '/warehouse',
   clientsInfo: '/clients-info',
   products: '/products',
+  staffs: '/staffs',
+  payments: '/payments',
 } as const;
 
 export const roleChecker = {

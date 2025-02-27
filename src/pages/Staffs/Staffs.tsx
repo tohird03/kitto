@@ -5,32 +5,32 @@ import {useQuery} from '@tanstack/react-query';
 import {Button, Input, Typography} from 'antd';
 import classNames from 'classnames';
 import {DataTable} from '@/components/Datatable/datatable';
-import {staffsStore} from '@/stores/workers';
 import {getPaginationParams} from '@/utils/getPaginationParams';
 import {useMediaQuery} from '@/utils/mediaQuery';
 import {AddStaffsModal} from './AddStaffsModal';
 import {staffsColumns} from './constants';
 import styles from './staffs.scss';
+import { staffsStore } from '@/stores/staffs';
 
 const cn = classNames.bind(styles);
 
 export const Staffs = observer(() => {
   const isMobile = useMediaQuery('(max-width: 800px)');
 
-  const {data: staffsData, isLoading: loading} = useQuery({
-    queryKey: [
-      'getStaffs',
-      staffsStore.pageNumber,
-      staffsStore.pageSize,
-      staffsStore.search,
-    ],
-    queryFn: () =>
-      staffsStore.getStaffs({
-        pageNumber: staffsStore.pageNumber,
-        pageSize: staffsStore.pageSize,
-        search: staffsStore.search!,
-      }),
-  });
+  // const {data: staffsData, isLoading: loading} = useQuery({
+  //   queryKey: [
+  //     'getStaffs',
+  //     staffsStore.pageNumber,
+  //     staffsStore.pageSize,
+  //     staffsStore.search,
+  //   ],
+  //   queryFn: () =>
+  //     staffsStore.getStaffs({
+  //       pageNumber: staffsStore.pageNumber,
+  //       pageSize: staffsStore.pageSize,
+  //       search: staffsStore.search!,
+  //     }),
+  // });
 
   const handleAddNewStaff = () => {
     staffsStore.setIsOpenAddEditStaffModal(true);
@@ -72,17 +72,17 @@ export const Staffs = observer(() => {
 
       <DataTable
         columns={staffsColumns}
-        data={staffsData?.data || []}
-        loading={loading}
+        data={[]}
+        // loading={loading}
         isMobile={isMobile}
-        pagination={{
-          total: staffsData?.totalCount,
-          current: staffsStore?.pageNumber,
-          pageSize: staffsStore?.pageSize,
-          showSizeChanger: true,
-          onChange: handlePageChange,
-          ...getPaginationParams(staffsData?.totalCount),
-        }}
+        // pagination={{
+        //   total: staffsData?.totalCount,
+        //   current: staffsStore?.pageNumber,
+        //   pageSize: staffsStore?.pageSize,
+        //   showSizeChanger: true,
+        //   onChange: handlePageChange,
+        //   ...getPaginationParams(staffsData?.totalCount),
+        // }}
       />
 
       {staffsStore.isOpenAddEditStaffModal && <AddStaffsModal />}

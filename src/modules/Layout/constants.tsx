@@ -45,12 +45,12 @@ export const mainMenuList: IMenuItems[] = [
   },
   {
     label: 'To\'lovlar',
-    key: ROUTES.home,
+    key: ROUTES.payments,
     icon: <CalculatorOutlined />,
   },
   {
     label: 'Sotuvchilar',
-    key: ROUTES.home,
+    key: ROUTES.staffs,
     icon: <UserSwitchOutlined />,
   },
 ];
