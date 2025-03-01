@@ -19,14 +19,19 @@ export const mainMenuList: IMenuItems[] = [
     icon: <ShoppingCartOutlined />,
   },
   {
-    label: 'Skladlar',
-    key: ROUTES.warehouse,
-    icon: <HomeOutlined />,
-  },
-  {
     label: 'Mahsulotlar',
     key: ROUTES.products,
     icon: <AppstoreOutlined />,
+  },
+  {
+    label: 'Mahsulotlarni ko\'chirish',
+    key: ROUTES.warehouseProducts,
+    icon: <RetweetOutlined />,
+  },
+  {
+    label: 'Skladlar',
+    key: ROUTES.warehouse,
+    icon: <HomeOutlined />,
   },
   {
     label: 'Mijozlar',
@@ -37,11 +42,6 @@ export const mainMenuList: IMenuItems[] = [
     label: 'Statistika',
     key: ROUTES.home,
     icon: <BarChartOutlined />,
-  },
-  {
-    label: 'Mahsulotlarni ko\'chirish',
-    key: ROUTES.home,
-    icon: <RetweetOutlined />,
   },
   {
     label: 'To\'lovlar',

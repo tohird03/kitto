@@ -8,7 +8,7 @@ const handleCatchChunkError = () => {
 };
 
 export const Statistic = lazy(() =>
-  import('@/pages/Home').then(({Statistic}) => ({default: Statistic})).catch(handleCatchChunkError));
+  import('@/pages/Statistic').then(({Statistic}) => ({default: Statistic})).catch(handleCatchChunkError));
 
 export const Login = lazy(() =>
   import('@/pages/Login').then(({Login}) => ({default: Login})).catch(handleCatchChunkError));
@@ -21,6 +21,9 @@ export const Warehouse = lazy(() =>
 
 export const ProductsList = lazy(() =>
   import('@/pages/Products').then(({ProductsList}) => ({default: ProductsList})).catch(handleCatchChunkError));
+
+export const WarehouseProductsList = lazy(() =>
+  import('@/pages/WarehouseProducts').then(({WarehouseProductsList}) => ({default: WarehouseProductsList})).catch(handleCatchChunkError));
 
 export const Staffs = lazy(() =>
   import('@/pages/Staffs').then(({Staffs}) => ({default: Staffs})).catch(handleCatchChunkError));

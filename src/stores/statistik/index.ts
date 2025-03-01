@@ -1,0 +1,1 @@
+export {statisticStore} from './statistik';

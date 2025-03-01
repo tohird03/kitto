@@ -4,6 +4,7 @@ export const ROUTES = {
   warehouse: '/warehouse',
   clientsInfo: '/clients-info',
   products: '/products',
+  warehouseProducts: '/warehouse-products',
   staffs: '/staffs',
   payments: '/payments',
 } as const;

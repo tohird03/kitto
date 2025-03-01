@@ -1,0 +1,1 @@
+export {WarehouseProductsList} from './WarehouseProducts';

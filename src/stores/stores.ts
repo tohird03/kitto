@@ -6,6 +6,8 @@ import {warehousesStore} from './warehouse';
 import {productsListStore} from './products-list';
 import {paymentsStore} from './payments';
 import {staffsStore} from './staffs';
+import {statisticStore} from './statistik';
+import {warehouseProductsStore} from './warehouse-products';
 
 export const stores = {
   appStore,
@@ -16,6 +18,8 @@ export const stores = {
   productsListStore,
   paymentsStore,
   staffsStore,
+  statisticStore,
+  warehouseProductsStore,
 };
 
 export const resetStores = () => {
@@ -25,4 +29,5 @@ export const resetStores = () => {
   clientsInfoStore.reset();
   warehousesStore.reset();
   productsListStore.reset();
+  warehouseProductsStore.reset();
 };
