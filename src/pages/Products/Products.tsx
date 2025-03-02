@@ -8,24 +8,25 @@ import styles from './product.scss';
 import { productsListColumn } from './constants';
 import { productsListStore } from '@/stores/products-list';
 import { IProducts } from '@/api/products/types';
+import { useQuery } from '@tanstack/react-query';
 
 const cn = classNames.bind(styles);
 
 export const ProductsList = observer(() => {
-  // const { data: productsData, isLoading: loading } = useQuery({
-  //   queryKey: [
-  //     'getProducts',
-  //     productsListStore.pageNumber,
-  //     productsListStore.pageSize,
-  //     productsListStore.search,
-  //   ],
-  //   queryFn: () =>
-  //     productsListStore.getProducts({
-  //       pageNumber: productsListStore.pageNumber,
-  //       pageSize: productsListStore.pageSize,
-  //       search: productsListStore.search!,
-  //     }),
-  // });
+  const { data: productsData, isLoading: loading } = useQuery({
+    queryKey: [
+      'getProducts',
+      productsListStore.pageNumber,
+      productsListStore.pageSize,
+      productsListStore.search,
+    ],
+    queryFn: () =>
+      productsListStore.getProducts({
+        pageNumber: productsListStore.pageNumber,
+        pageSize: productsListStore.pageSize,
+        search: productsListStore.search!,
+      }),
+  });
 
   const handleAddNewProduct = () => {
     productsListStore.setIsOpenAddEditProductModal(true);
@@ -72,7 +73,7 @@ export const ProductsList = observer(() => {
 
       <Table
         columns={productsListColumn}
-        dataSource={[]}
+        dataSource={productsData?.data || []}
         // loading={loading}
         rowClassName={rowClassName}
         // pagination={{

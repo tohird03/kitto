@@ -40,7 +40,7 @@ export const mainMenuList: IMenuItems[] = [
   },
   {
     label: 'Statistika',
-    key: ROUTES.home,
+    key: ROUTES.statistic,
     icon: <BarChartOutlined />,
   },
   {

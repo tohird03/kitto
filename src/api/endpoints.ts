@@ -1,4 +1,4 @@
-import {TStage} from './types';
+import { TStage } from './types';
 export const stage = process.env.REACT_APP_STAGE || 'dev';
 
 export enum Endpoints {
@@ -23,7 +23,10 @@ export enum Endpoints {
   UploadClient = '/user/client/debtors',
 
   // PRODUCTS
-  products = '/product',
+  product = '/product/one',
+  productsMany = '/product/many',
+
+
   productsIncomeOrder = '/incomingOrder',
   productsIncomeOrderProduct = '/incomingProduct',
   productsOrder = '/Order',

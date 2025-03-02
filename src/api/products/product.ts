@@ -15,16 +15,16 @@ class ProductsApi extends Instance {
   }
 
   getProducts = (params: IGetProductsParams): Promise<IResponse<IProducts[], IProductTotalCalc>> =>
-    this.get(Endpoints.products, {params});
+    this.get(Endpoints.productsMany, {params});
 
   addNewProduct = (params: IAddEditProduct): Promise<AxiosResponse> =>
-    this.post(Endpoints.products, params);
+    this.post(Endpoints.product, params);
 
   updateProduct = (params: IAddEditProduct): Promise<AxiosResponse> =>
-    this.patch(`${Endpoints.products}/${params?.id}`, params);
+    this.patch(`${Endpoints.product}/${params?.id}`, params);
 
   deleteProduct = (id: string): Promise<AxiosResponse> =>
-    this.delete(`${Endpoints.products}/${id}`);
+    this.delete(`${Endpoints.product}/${id}`);
 }
 
 export const productsApi = new ProductsApi(config);

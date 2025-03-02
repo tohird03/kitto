@@ -9,6 +9,7 @@ import {
   Login,
   Payments,
   ProductsList,
+  Sale,
   Staffs,
   Statistic,
   Warehouse,
@@ -32,9 +33,13 @@ export const Router = ({isAuth}: Props) => useRoutes([
         children: [
           // ADMIN
           {
-            element: <Suspense fallback={<Loading />}><Statistic /></Suspense>,
+            element: <Suspense fallback={<Loading />}><Sale /></Suspense>,
             path: ROUTES.home,
             index: true,
+          },
+          {
+            element: <Suspense fallback={<Loading />}><Statistic /></Suspense>,
+            path: ROUTES.statistic,
           },
           {
             element: <Suspense fallback={<Loading />}><Warehouse /></Suspense>,
