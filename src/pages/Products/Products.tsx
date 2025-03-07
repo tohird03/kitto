@@ -46,8 +46,8 @@ export const ProductsList = observer(() => {
   }, []);
 
   const rowClassName = (record: IProducts) =>
-    record.count < 0 ? 'error__row'
-      : record.count < record?.min_amount
+    record.quantity < 0 ? 'error__row'
+      : record.quantity < record?.warningThreshold
         ? 'warning__row' : '';
 
   return (
@@ -73,7 +73,7 @@ export const ProductsList = observer(() => {
 
       <Table
         columns={productsListColumn}
-        dataSource={productsData?.data || []}
+        dataSource={productsData?.data?.data || []}
         // loading={loading}
         rowClassName={rowClassName}
         // pagination={{

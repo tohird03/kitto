@@ -32,14 +32,14 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     dataIndex: 'count',
     title: 'O\'ramlar qoldig\'i',
     align: 'center',
-    render: (value, record) => `${record?.count} dona`,
+    render: (value, record) => `${record?.quantity} dona`,
   },
   {
     key: 'count',
     dataIndex: 'count',
     title: 'O\'ramdagi mahsulotlar soni',
     align: 'center',
-    render: (value, record) => `${record?.count} dona`,
+    render: (value, record) => `${record?.quantity} dona`,
   },
   {
     key: 'cost',
@@ -53,7 +53,7 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     dataIndex: 'selling_price',
     title: 'Sotilish narxi',
     align: 'center',
-    render: (value, record) => record?.selling_price,
+    render: (value, record) => record?.price,
   },
   {
     key: 'totalPrice',
@@ -61,7 +61,7 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     title: 'Umumiy sotib olingan qiymati',
     align: 'center',
     render: (value, record) => {
-      const totalSellingPrice = record?.selling_price * record?.count;
+      const totalSellingPrice = record?.cost * record?.quantity;
 
       return priceFormat(totalSellingPrice);
     },
@@ -71,7 +71,7 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     dataIndex: 'min_amount',
     title: 'Ogohlantirish',
     align: 'center',
-    render: (value, record) => `${record?.min_amount} dona`,
+    render: (value, record) => `${record?.warningThreshold} dona`,
   },
   {
     key: 'createdAt',
@@ -109,7 +109,7 @@ export const transferProductsListColumn: ColumnType<IProducts>[] = [
     dataIndex: 'count',
     title: 'O\'ramlar soni',
     align: 'center',
-    render: (value, record) => `${record?.count} dona`,
+    render: (value, record) => `${record?.quantity} dona`,
   },
   {
     key: 'action',

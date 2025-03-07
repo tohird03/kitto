@@ -23,7 +23,7 @@ export const warehouseColumns: ColumnType<IWarehouse>[] = [
     dataIndex: 'color',
     title: 'Rangi',
     align: 'center',
-    render: (value, record) => <div style={{background: 'red', width: '100px', height: '20px', borderRadius: '8px'}} />,
+    render: (value, record) => <div style={{background: record?.hexColor, width: '100px', height: '20px', borderRadius: '8px', margin: '0 auto'}} />,
   },
   {
     key: 'totalPackages',
@@ -31,14 +31,6 @@ export const warehouseColumns: ColumnType<IWarehouse>[] = [
     title: 'Jami o\'ramlar soni',
     align: 'center',
     render: (value, record) => <span>Jami oramlar soni</span>,
-    sorter: (a, b) => a?.debt - b?.debt,
-  },
-  {
-    key: 'totalCount',
-    dataIndex: 'totalCount',
-    title: 'Jami mahsulotlar soni',
-    align: 'center',
-    render: (value, record) => <span>Jami mahsulotlar soni</span>,
     sorter: (a, b) => a?.debt - b?.debt,
   },
   {

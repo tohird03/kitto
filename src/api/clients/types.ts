@@ -1,11 +1,5 @@
 import {IPagination, IPayment} from '../types';
 
-export interface IUpdateUser {
-  id: string;
-  name: string;
-  phone: string;
-}
-
 // THIS SELLER USER
 export interface ISeller {
   id: string;
@@ -16,7 +10,7 @@ export interface ISeller {
 // CLIENT
 export interface IClientsInfo {
   id: string;
-  name: string;
+  fullname: string;
   phone: string;
   debt: number;
   lastSale: string;
@@ -28,7 +22,13 @@ export interface IGetClientsInfoParams extends IPagination {
 
 export interface IAddClientInfo {
   id?: string;
-  name: string;
+  fullname: string;
+  phone: string;
+}
+
+export interface IUpdateClient {
+  id: string;
+  fullname: string;
   phone: string;
 }
 

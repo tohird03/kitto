@@ -18,24 +18,24 @@ const cn = classNames.bind(styles);
 export const ClientsPayments = observer(() => {
   const [downloadLoading, setDownLoadLoading] = useState(false);
 
-  // const { data: paymentsData, isLoading: loading } = useQuery({
-  //   queryKey: [
-  //     'getPayments',
-  //     paymentsStore.pageNumber,
-  //     paymentsStore.pageSize,
-  //     paymentsStore.search,
-  //     paymentsStore.startDate,
-  //     paymentsStore.endDate,
-  //   ],
-  //   queryFn: () =>
-  //     paymentsStore.getClientsPayments({
-  //       pageNumber: paymentsStore.pageNumber,
-  //       pageSize: paymentsStore.pageSize,
-  //       search: paymentsStore.search!,
-  //       startDate: paymentsStore?.startDate!,
-  //       endDate: paymentsStore?.endDate!,
-  //     }),
-  // });
+  const { data: paymentsData, isLoading: loading } = useQuery({
+    queryKey: [
+      'getPayments',
+      paymentsStore.pageNumber,
+      paymentsStore.pageSize,
+      paymentsStore.search,
+      paymentsStore.startDate,
+      paymentsStore.endDate,
+    ],
+    queryFn: () =>
+      paymentsStore.getClientsPayments({
+        pageNumber: paymentsStore.pageNumber,
+        pageSize: paymentsStore.pageSize,
+        search: paymentsStore.search!,
+        startDate: paymentsStore?.startDate!,
+        endDate: paymentsStore?.endDate!,
+      }),
+  });
 
   const handleAddNewPayment = () => {
     paymentsStore.setIsOpenAddEditPaymentModal(true);
@@ -127,41 +127,41 @@ export const ClientsPayments = observer(() => {
 
       <Table
         columns={paymentsColumns}
-        dataSource={[]}
-        // loading={loading}
-        // pagination={{
-        //   total: paymentsData?.totalCount,
-        //   current: paymentsStore?.pageNumber,
-        //   pageSize: paymentsStore?.pageSize,
-        //   showSizeChanger: true,
-        //   onChange: handlePageChange,
-        //   ...getPaginationParams(paymentsData?.totalCount),
-        // }}
-        // summary={() => (
-        //   <Table.Summary.Row>
-        //     <Table.Summary.Cell colSpan={2} index={1} />
-        //     <Table.Summary.Cell index={2}>
-        //       <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-        //         Jami: {paymentsData?.totalCalc?.totalCash}
-        //       </div>
-        //     </Table.Summary.Cell>
-        //     <Table.Summary.Cell index={2}>
-        //       <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-        //         Jami: {paymentsData?.totalCalc?.totalCard}
-        //       </div>
-        //     </Table.Summary.Cell>
-        //     <Table.Summary.Cell index={2}>
-        //       <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-        //         Jami: {paymentsData?.totalCalc?.totalTransfer}
-        //       </div>
-        //     </Table.Summary.Cell>
-        //     <Table.Summary.Cell index={2}>
-        //       <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-        //         Jami: {paymentsData?.totalCalc?.totalOther}
-        //       </div>
-        //     </Table.Summary.Cell>
-        //   </Table.Summary.Row>
-        // )}
+        dataSource={paymentsData?.data?.data || []}
+        loading={loading}
+        pagination={{
+          total: paymentsData?.data?.totalCount,
+          current: paymentsStore?.pageNumber,
+          pageSize: paymentsStore?.pageSize,
+          showSizeChanger: true,
+          onChange: handlePageChange,
+          ...getPaginationParams(paymentsData?.data?.totalCount),
+        }}
+        summary={() => (
+          <Table.Summary.Row>
+            <Table.Summary.Cell colSpan={2} index={1} />
+            <Table.Summary.Cell index={2}>
+              <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                Jami: {paymentsData?.totalCalc?.totalCash}
+              </div>
+            </Table.Summary.Cell>
+            <Table.Summary.Cell index={2}>
+              <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                Jami: {paymentsData?.totalCalc?.totalCard}
+              </div>
+            </Table.Summary.Cell>
+            <Table.Summary.Cell index={2}>
+              <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                Jami: {paymentsData?.totalCalc?.totalTransfer}
+              </div>
+            </Table.Summary.Cell>
+            <Table.Summary.Cell index={2}>
+              <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                Jami: {paymentsData?.totalCalc?.totalOther}
+              </div>
+            </Table.Summary.Cell>
+          </Table.Summary.Row>
+        )}
       />
 
       {paymentsStore.isOpenAddEditPaymentModal && <AddEditModal />}

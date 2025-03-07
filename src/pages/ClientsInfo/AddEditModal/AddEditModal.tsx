@@ -4,7 +4,7 @@ import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {Form, Input, InputNumber, Modal} from 'antd';
 import {addNotification} from '@/utils';
 import {regexPhoneNumber} from '@/utils/phoneFormat';
-import { IAddClientInfo, IUpdateUser, clientsInfoApi } from '@/api/clients';
+import { IAddClientInfo, IUpdateClient, clientsInfoApi } from '@/api/clients';
 import { clientsInfoStore } from '@/stores/clients-info';
 
 export const AddEditModal = observer(() => {
@@ -29,7 +29,7 @@ export const AddEditModal = observer(() => {
   const {mutate: updateClient} =
     useMutation({
       mutationKey: ['updateClient'],
-      mutationFn: (params: IUpdateUser) => clientsInfoApi.updateClient(params),
+      mutationFn: (params: IUpdateClient) => clientsInfoApi.updateClient(params),
       onSuccess: () => {
         queryClient.invalidateQueries({queryKey: ['getClients']});
         handleModalClose();
@@ -48,15 +48,15 @@ export const AddEditModal = observer(() => {
 
     setLoading(true);
 
-    // if (clientsInfoStore?.singleClientInfo) {
-    //   updateClient({
-    //     ...valueControl,
-    //     id: clientsInfoStore?.singleClientInfo?.id!,
-    //   });
+    if (clientsInfoStore?.singleClientInfo) {
+      updateClient({
+        ...valueControl,
+        id: clientsInfoStore?.singleClientInfo?.id!,
+      });
 
-    //   return;
-    // }
-    // addNewClients(valueControl);
+      return;
+    }
+    addNewClients(valueControl);
   };
 
   const handleModalClose = () => {
@@ -95,7 +95,7 @@ export const AddEditModal = observer(() => {
         autoComplete="off"
       >
         <Form.Item
-          name="name"
+          name="fullname"
           label="Mijoz"
           rules={[{required: true}]}
         >

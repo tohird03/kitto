@@ -8,15 +8,13 @@ export interface IGetProductsParams extends IPagination {
 export interface IProducts {
   id: string;
   name: string;
-  count: number;
-  min_amount: number;
+  quantity: number;
+  warningThreshold: number;
   createdAt: string;
   // Sotib olingan narx
   cost: number;
   // Sotuvda sotiladigan narxi
-  selling_price: number;
-  // Kelishtirib berishning oxirgi narxi
-  wholesale_price: number;
+  price: number;
   // Foyda
   avarage_cost: number;
   lastSale: string;
@@ -24,13 +22,11 @@ export interface IProducts {
 
 export interface IAddEditProduct {
   id?: string;
-  min_amount?: number;
-  wholesale_price?: number;
   name: string;
-  count: number;
   cost: number;
-  selling_price: number;
-  unit: string;
+  price: number;
+  quantity: number;
+  warningThreshold: number;
 }
 
 export interface IProductTotalCalc {

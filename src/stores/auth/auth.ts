@@ -37,11 +37,13 @@ class AuthStore {
     authApi.getUserProfile()
       .then(res => {
         if (res) {
-          this.mainMenuItems = generateAllMenuItems(mainMenuList);
           this.setStaffInfo(res);
         }
       })
-      .catch(addNotification);
+      .catch(addNotification)
+      .finally(() => {
+        this.mainMenuItems = generateAllMenuItems(mainMenuList);
+      });
 
   setMainMenuItems = (menuItems: MenuProps['items'] | null) => {
     this.mainMenuItems = menuItems;

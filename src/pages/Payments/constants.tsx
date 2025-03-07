@@ -34,23 +34,15 @@ export const paymentsColumns: ColumnType<IClientsPayments>[] = [
     dataIndex: 'card',
     title: 'Bank kartasi orqali to\'lov',
     align: 'center',
-    width: '150px',
+    width: 200,
     render: (value, record) => priceFormat(record?.card),
-  },
-  {
-    key: 'transfer',
-    dataIndex: 'transfer',
-    title: 'Bank o\'tkazmasi orqali to\'lov',
-    align: 'center',
-    width: '150px',
-    render: (value, record) => priceFormat(record?.transfer),
   },
   {
     key: 'other',
     dataIndex: 'other',
     title: 'Boshqa usullar bilan to\'lov',
     align: 'center',
-    width: '150px',
+    width: 200,
     render: (value, record) => priceFormat(record?.other),
   },
   {
@@ -66,6 +58,7 @@ export const paymentsColumns: ColumnType<IClientsPayments>[] = [
     dataIndex: 'createdAt',
     title: 'To\'lov vaqti',
     align: 'center',
+    width: 200,
     render: (value, record) => getFullDateFormat(record?.createdAt),
   },
   {
@@ -73,6 +66,7 @@ export const paymentsColumns: ColumnType<IClientsPayments>[] = [
     dataIndex: 'action',
     title: 'Action',
     align: 'center',
+    width: 200,
     render: (value, record) => <Action clientPayment={record} />,
   },
 ];

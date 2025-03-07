@@ -7,24 +7,25 @@ import { AddEditModal } from './AddEditModal';
 import styles from './warehouse.scss';
 import { warehouseColumns } from './constants';
 import { warehousesStore } from '@/stores/warehouse';
+import { useQuery } from '@tanstack/react-query';
 
 const cn = classNames.bind(styles);
 
 export const Warehouse = observer(() => {
-  // const { data: clientsInfoData, isLoading: loading } = useQuery({
-  //   queryKey: [
-  //     'getClients',
-  //     warehousesStore.pageNumber,
-  //     warehousesStore.pageSize,
-  //     warehousesStore.search,
-  //   ],
-  //   queryFn: () =>
-  //     warehousesStore.getClients({
-  //       pageNumber: warehousesStore.pageNumber,
-  //       pageSize: warehousesStore.pageSize,
-  //       search: warehousesStore.search!,
-  //     }),
-  // });
+  const { data: warehouseData, isLoading: loading } = useQuery({
+    queryKey: [
+      'getWarehouses',
+      warehousesStore.pageNumber,
+      warehousesStore.pageSize,
+      warehousesStore.name,
+    ],
+    queryFn: () =>
+      warehousesStore.getWarehouse({
+        pageNumber: warehousesStore.pageNumber,
+        pageSize: warehousesStore.pageSize,
+        name: warehousesStore.name!,
+      }),
+  });
 
   const handleAddNewWarehouse = () => {
     warehousesStore.setIsOpenAddEditWarehouseModal(true);
@@ -51,8 +52,8 @@ export const Warehouse = observer(() => {
 
       <Table
         columns={warehouseColumns}
-        dataSource={[]}
-        // loading={loading}
+        dataSource={warehouseData?.data?.data || []}
+        loading={loading}
         pagination={false}
       />
 

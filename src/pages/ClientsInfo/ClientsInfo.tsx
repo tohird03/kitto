@@ -21,20 +21,20 @@ export const ClientsInfo = observer(() => {
   const isMobile = useMediaQuery('(max-width: 800px)');
   const [downloadLoading, setDownLoadLoading] = useState(false);
 
-  // const { data: clientsInfoData, isLoading: loading } = useQuery({
-  //   queryKey: [
-  //     'getClients',
-  //     clientsInfoStore.pageNumber,
-  //     clientsInfoStore.pageSize,
-  //     clientsInfoStore.search,
-  //   ],
-  //   queryFn: () =>
-  //     clientsInfoStore.getClients({
-  //       pageNumber: clientsInfoStore.pageNumber,
-  //       pageSize: clientsInfoStore.pageSize,
-  //       search: clientsInfoStore.search!,
-  //     }),
-  // });
+  const { data: clientsInfoData, isLoading: loading } = useQuery({
+    queryKey: [
+      'getClients',
+      clientsInfoStore.pageNumber,
+      clientsInfoStore.pageSize,
+      clientsInfoStore.search,
+    ],
+    queryFn: () =>
+      clientsInfoStore.getClients({
+        pageNumber: clientsInfoStore.pageNumber,
+        pageSize: clientsInfoStore.pageSize,
+        search: clientsInfoStore.search!,
+      }),
+  });
 
   const handleAddNewClient = () => {
     clientsInfoStore.setIsOpenAddEditClientModal(true);
@@ -116,17 +116,17 @@ export const ClientsInfo = observer(() => {
 
       <DataTable
         columns={clientsColumns}
-        data={[]}
-        // loading={loading}
+        data={clientsInfoData?.data?.data || []}
+        loading={loading}
         isMobile={isMobile}
         rowClassName={rowClassName}
         pagination={{
-          // total: clientsInfoData?.totalCount,
+          total: clientsInfoData?.data?.totalCount,
           current: clientsInfoStore?.pageNumber,
           pageSize: clientsInfoStore?.pageSize,
           showSizeChanger: true,
           onChange: handlePageChange,
-          // ...getPaginationParams(clientsInfoData?.totalCount),
+          ...getPaginationParams(clientsInfoData?.data?.totalCount),
         }}
       />
 

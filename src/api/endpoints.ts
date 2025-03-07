@@ -14,7 +14,6 @@ export enum Endpoints {
 
   // CLIENTS
   Users = '/user',
-  Clients = '/user/client',
   ClientsDeed = '/user/client/deed',
   SupplierDeed = '/user/supplier/deed',
   Supplier = '/user/supplier',
@@ -25,7 +24,15 @@ export enum Endpoints {
   // PRODUCTS
   product = '/product/one',
   productsMany = '/product/many',
-
+  // CLIENTS
+  Clients = '/client/one',
+  ClientsMany = '/client/many',
+  // PAYMENT
+  payment = '/payment/one',
+  paymentMany = '/payment/many',
+  // WAREHOUSE
+  warehouse = '/storehouse/one',
+  warehouseMany = '/storehouse/many',
 
   productsIncomeOrder = '/incomingOrder',
   productsIncomeOrderProduct = '/incomingProduct',
@@ -35,8 +42,6 @@ export enum Endpoints {
   productsOrderExel = '/Order/upload',
   productsIncomeOrderExel = '/incomingOrder/upload',
 
-  // PAYMENT
-  payment = '/payment',
   paymentUpload = '/payment/upload',
   incomePayment = '/incomingOrderPayment',
 
@@ -50,10 +55,10 @@ export enum Endpoints {
 
 const config: Record<string, TStage> = {
   dev: {
-    apiUrl: 'https://santexnika.mirabdulloh.uz',
+    apiUrl: 'http://51.21.171.73:3000',
   },
   prod: {
-    apiUrl: 'https://santexnika.mirabdulloh.uz',
+    apiUrl: 'http://51.21.171.73:3000',
   },
 };
 
@@ -66,6 +71,11 @@ const imgConfig: Record<string, TStage> = {
   },
 };
 
+
+// {
+//   "phone": "998949174127",
+//   "password": "jamalov07"
+// }
 
 export const umsStages = config[stage];
 export const imgStages = imgConfig[stage];

@@ -15,7 +15,7 @@ class PaymentApi extends Instance {
   }
 
   getPayments = (params: IGetClientsPaymentsParams): Promise<IResponse<IClientsPayments[], ITotalPayment>> =>
-    this.get(Endpoints.payment, { params });
+    this.get(Endpoints.paymentMany, { params });
 
   addPayment = (params: IAddEditPaymentParams): Promise<AxiosResponse> =>
     this.post(Endpoints.payment, params);

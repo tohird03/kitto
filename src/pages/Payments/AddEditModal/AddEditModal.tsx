@@ -80,9 +80,9 @@ export const AddEditModal = observer(() => {
   };
 
   const clientsOptions = useMemo(() => (
-    clientsData?.data.map((supplier) => ({
+    clientsData?.data?.data.map((supplier) => ({
       value: supplier?.id,
-      label: `${supplier?.name}: +${supplier?.phone}`,
+      label: `${supplier?.fullname}: +${supplier?.phone}`,
     }))
   ), [clientsData]);
 
@@ -152,17 +152,6 @@ export const AddEditModal = observer(() => {
           <InputNumber
             placeholder="Bank kartasi orqali to'lov"
             defaultValue={0}
-            style={{ width: '100%' }}
-            formatter={(value) => priceFormat(value!)}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Bank o'tkazmasi orqali to'lov"
-          name="transfer"
-          initialValue={0}
-        >
-          <InputNumber
-            placeholder="Bank o'tkazmasi orqali to'lov"
             style={{ width: '100%' }}
             formatter={(value) => priceFormat(value!)}
           />

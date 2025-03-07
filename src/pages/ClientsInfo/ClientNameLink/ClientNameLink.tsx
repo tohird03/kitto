@@ -17,7 +17,7 @@ export const ClientNameLink = ({ client }: Props) => {
   return (
     <div onClick={handleReloadSingleClient} style={{color: '#17a2b8', cursor: 'pointer'}}>
       <p style={{ margin: 0, fontWeight: 'bold', fontSize: '14px' }}>
-        {client?.name}
+        {client?.fullname}
       </p>
       <i>+{client?.phone}</i>
     </div>

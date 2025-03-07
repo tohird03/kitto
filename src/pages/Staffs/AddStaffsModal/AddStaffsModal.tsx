@@ -183,7 +183,7 @@ export const AddStaffsModal = observer(() => {
           />
         </Form.Item>
       </Form>
-      {roleData?.data?.map(role => (
+      {roleData?.data?.data?.map(role => (
         <div key={role?.id}>
           <Collapse
             size="small"

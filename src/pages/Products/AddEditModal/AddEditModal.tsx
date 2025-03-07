@@ -99,7 +99,7 @@ export const AddEditModal = observer(() => {
         <Form.Item
           label="O'ramdagi mahsulotlar soni"
           rules={[{ required: true }]}
-          name="count"
+          name="quantity"
         >
           <InputNumber
             placeholder="O'ramdagi mahsulotlar soni"
@@ -109,21 +109,10 @@ export const AddEditModal = observer(() => {
         </Form.Item>
         <Form.Item
           label="Ogohlantiruvchi qoldiq"
-          name="min_amount"
+          name="warningThreshold"
         >
           <InputNumber
             placeholder="Ushbu sondan kam qolgan mahsulot haqida sizni ogohlantiramiz!"
-            style={{ width: '100%' }}
-            formatter={(value) => priceFormat(value!)}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Sotish narxi"
-          rules={[{ required: true }]}
-          name="selling_price"
-        >
-          <InputNumber
-            placeholder="Sotish narxi"
             style={{ width: '100%' }}
             formatter={(value) => priceFormat(value!)}
           />
@@ -135,6 +124,17 @@ export const AddEditModal = observer(() => {
         >
           <InputNumber
             placeholder="Sotib olingan narxi"
+            style={{ width: '100%' }}
+            formatter={(value) => priceFormat(value!)}
+          />
+        </Form.Item>
+        <Form.Item
+          label="Sotish narxi"
+          rules={[{ required: true }]}
+          name="price"
+        >
+          <InputNumber
+            placeholder="Sotish narxi"
             style={{ width: '100%' }}
             formatter={(value) => priceFormat(value!)}
           />

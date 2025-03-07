@@ -1,8 +1,10 @@
 export interface IResponse<TBody, TTotalCalc = any> {
-  totalCount: number;
-  pageNumber: number;
-  pageSize: number;
-  data: TBody;
+  data: {
+    totalCount: number;
+    pageNumber: number;
+    pageSize: number;
+    data: TBody;
+  }
   totalCalc?: TTotalCalc;
 }
 
@@ -36,7 +38,6 @@ export interface IPayment extends IPaymentType {
 export interface IPaymentType {
   card: number,
   cash: number,
-  transfer: number,
   other: number,
   description: string,
 }

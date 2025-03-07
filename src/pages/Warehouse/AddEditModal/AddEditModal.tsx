@@ -1,22 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
-import {ColorPicker, Form, Input, InputNumber, Modal} from 'antd';
-import {addNotification} from '@/utils';
-import { IAddClientInfo, IUpdateUser, clientsInfoApi } from '@/api/clients';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ColorPicker, Form, Input, Modal } from 'antd';
+import { addNotification } from '@/utils';
+import { IAddClientInfo, IUpdateClient, clientsInfoApi } from '@/api/clients';
 import { warehousesStore } from '@/stores/warehouse';
+import { warehouseApi } from '@/api/warehouse/warehouse';
+import { IAddOrEditWarehouse } from '@/api/warehouse/types';
 
 export const AddEditModal = observer(() => {
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
 
-  const {mutate: addNewClients} =
+  const { mutate: addNewWarehouse } =
     useMutation({
-      mutationKey: ['addNewClients'],
-      mutationFn: (params: IAddClientInfo) => clientsInfoApi.addClients(params),
+      mutationKey: ['addNewWarehouse'],
+      mutationFn: (params: IAddOrEditWarehouse) => warehouseApi.addNewWarehouse(params),
       onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ['getClients']});
+        queryClient.invalidateQueries({ queryKey: ['getWarehouses'] });
         handleModalClose();
       },
       onError: addNotification,
@@ -25,12 +27,12 @@ export const AddEditModal = observer(() => {
       },
     });
 
-  const {mutate: updateClient} =
+  const { mutate: updateClient } =
     useMutation({
       mutationKey: ['updateClient'],
-      mutationFn: (params: IUpdateUser) => clientsInfoApi.updateClient(params),
+      mutationFn: (params: IAddOrEditWarehouse) => warehouseApi.addNewWarehouse(params),
       onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ['getClients']});
+        queryClient.invalidateQueries({ queryKey: ['getWarehouses'] });
         handleModalClose();
       },
       onError: addNotification,
@@ -39,23 +41,20 @@ export const AddEditModal = observer(() => {
       },
     });
 
-  const handleSubmit = (values: IAddClientInfo) => {
-    const valueControl = {
-      ...values,
-      phone: `998${values?.phone}`,
-    };
+  const handleSubmit = (values: IAddOrEditWarehouse) => {
+    const valueControl = { ...values };
 
     setLoading(true);
 
-    // if (warehousesStore?.singleWarehouse) {
-    //   updateClient({
-    //     ...valueControl,
-    //     id: warehousesStore?.singleWarehouse?.id!,
-    //   });
+    if (warehousesStore?.singleWarehouse) {
+      updateClient({
+        ...valueControl,
+        id: warehousesStore?.singleWarehouse?.id!,
+      });
 
-    //   return;
-    // }
-    // addNewClients(valueControl);
+      return;
+    }
+    addNewWarehouse(valueControl);
   };
 
   const handleModalClose = () => {
@@ -93,16 +92,20 @@ export const AddEditModal = observer(() => {
         <Form.Item
           name="name"
           label="Nomi"
-          rules={[{required: true}]}
+          rules={[{ required: true }]}
         >
           <Input placeholder="Nomi" />
         </Form.Item>
         <Form.Item
-          name="color"
+          name="hexColor"
           label="Rangi"
-          rules={[{required: true}]}
+          rules={[{ required: true }]}
         >
-          <ColorPicker defaultValue="#1677ff" size="large" />
+          <ColorPicker
+            defaultValue="#1677ff"
+            size="large"
+            onChange={(color) => form.setFieldsValue({ hexColor: color.toHexString() })}
+          />
         </Form.Item>
       </Form>
     </Modal>

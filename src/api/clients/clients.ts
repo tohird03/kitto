@@ -6,7 +6,7 @@ import {
   IAddClientInfo,
   IClientsInfo,
   IGetClientsInfoParams,
-  IUpdateUser,
+  IUpdateClient,
 } from './types';
 
 const config: INetworkConfig = {
@@ -20,16 +20,17 @@ class ClientsInfoApi extends Instance {
   }
 
   getClientsInfo = (params: IGetClientsInfoParams): Promise<IResponse<IClientsInfo[]>> =>
-    this.get(Endpoints.Clients, { params });
-
-  getSingleClient = (clientId: string): Promise<IClientsInfo> =>
-    this.get(`${Endpoints.Users}/${clientId}`);
+    this.get(Endpoints.ClientsMany, { params });
 
   addClients = (params: IAddClientInfo): Promise<AxiosResponse> =>
     this.post(Endpoints.Clients, params);
 
-  updateClient = (params: IUpdateUser): Promise<AxiosResponse> =>
+  updateClient = (params: IUpdateClient): Promise<AxiosResponse> =>
     this.patch(`${Endpoints.Users}/${params?.id}`, params);
+
+  //
+  getSingleClient = (clientId: string): Promise<IClientsInfo> =>
+    this.get(`${Endpoints.Users}/${clientId}`);
 
   deleteClient = (id: string): Promise<AxiosResponse> =>
     this.delete(`${Endpoints.Users}/${id}`);

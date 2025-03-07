@@ -50,8 +50,8 @@ export const WarehouseProductsList = observer(() => {
   }, []);
 
   const rowClassName = (record: IProducts) =>
-    record.count < 0 ? 'error__row'
-      : record.count < record?.min_amount
+    record.quantity < 0 ? 'error__row'
+      : record.quantity < record?.warningThreshold
         ? 'warning__row' : '';
 
   return (
