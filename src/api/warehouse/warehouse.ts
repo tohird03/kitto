@@ -20,11 +20,11 @@ class WarehouseApi extends Instance {
   addNewWarehouse = (params: IAddOrEditWarehouse): Promise<AxiosResponse> =>
     this.post(Endpoints.warehouse, params);
 
-  // updateWarehouse = (params: IAddEditProduct): Promise<AxiosResponse> =>
-  //   this.patch(`${Endpoints.product}`, params);
+  updateWarehouse = (params: IAddOrEditWarehouse): Promise<AxiosResponse> =>
+    this.patch(`${Endpoints.warehouse}`, params, { params: { id: params?.id } });
 
-  // deleteWarehouse = (id: string): Promise<AxiosResponse> =>
-  //   this.delete(`${Endpoints.product}/${id}`);
+  deleteWarehouse = (id: string): Promise<AxiosResponse> =>
+    this.delete(`${Endpoints.warehouse}`, {params: {id}});
 }
 
 export const warehouseApi = new WarehouseApi(config);

@@ -1,7 +1,7 @@
 import { IPagination } from "../types";
 
 export interface IGetProductsParams extends IPagination {
-  search?: string;
+  name?: string;
 }
 
 

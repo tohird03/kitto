@@ -9,6 +9,8 @@ import { productsListColumn } from './constants';
 import { productsListStore } from '@/stores/products-list';
 import { IProducts } from '@/api/products/types';
 import { useQuery } from '@tanstack/react-query';
+import { getPaginationParams } from '@/utils/getPaginationParams';
+import { priceFormat } from '@/utils/priceFormat';
 
 const cn = classNames.bind(styles);
 
@@ -18,13 +20,13 @@ export const ProductsList = observer(() => {
       'getProducts',
       productsListStore.pageNumber,
       productsListStore.pageSize,
-      productsListStore.search,
+      productsListStore.name,
     ],
     queryFn: () =>
       productsListStore.getProducts({
         pageNumber: productsListStore.pageNumber,
         pageSize: productsListStore.pageSize,
-        search: productsListStore.search!,
+        name: productsListStore.name!,
       }),
   });
 
@@ -33,7 +35,7 @@ export const ProductsList = observer(() => {
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    productsListStore.setSearch(e.currentTarget?.value);
+    productsListStore.setName(e.currentTarget?.value);
   };
 
   const handlePageChange = (page: number, pageSize: number | undefined) => {
@@ -74,17 +76,17 @@ export const ProductsList = observer(() => {
       <Table
         columns={productsListColumn}
         dataSource={productsData?.data?.data || []}
-        // loading={loading}
+        loading={loading}
         rowClassName={rowClassName}
-        // pagination={{
-        //   total: productsData?.totalCount,
-        //   current: productsListStore?.pageNumber,
-        //   pageSize: productsListStore?.pageSize,
-        //   showSizeChanger: true,
-        //   onChange: handlePageChange,
-        //   ...getPaginationParams(productsData?.totalCount),
-        //   pageSizeOptions: [50, 100, 500, 1000],
-        // }}
+        pagination={{
+          total: productsData?.data?.totalCount,
+          current: productsListStore?.pageNumber,
+          pageSize: productsListStore?.pageSize,
+          showSizeChanger: true,
+          onChange: handlePageChange,
+          ...getPaginationParams(productsData?.data?.totalCount),
+          pageSizeOptions: [50, 100, 500, 1000],
+        }}
         // summary={() => (
         //   <Table.Summary.Row>
         //     <Table.Summary.Cell colSpan={2} index={1} />

@@ -6,7 +6,7 @@ import { productsApi } from '@/api/products';
 class ProductsListStore {
   pageNumber = 1;
   pageSize = 100;
-  search: string | null = null;
+  name: string | null = null;
   isOpenAddEditProductModal = false;
   singleProduct: IProducts | null = null;
 
@@ -27,8 +27,8 @@ class ProductsListStore {
     this.pageSize = pageSize;
   };
 
-  setSearch = (search: string | null) => {
-    this.search = search;
+  setName = (name: string | null) => {
+    this.name = name;
   };
 
   setIsOpenAddEditProductModal = (isOpenAddEditProductModal: boolean) => {
@@ -42,7 +42,7 @@ class ProductsListStore {
   reset() {
     this.pageNumber = 1;
     this.pageSize = 100;
-    this.search = null;
+    this.name = null;
   }
 }
 

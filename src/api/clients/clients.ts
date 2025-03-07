@@ -26,14 +26,14 @@ class ClientsInfoApi extends Instance {
     this.post(Endpoints.Clients, params);
 
   updateClient = (params: IUpdateClient): Promise<AxiosResponse> =>
-    this.patch(`${Endpoints.Users}/${params?.id}`, params);
+    this.patch(`${Endpoints.Clients}`, params, { params: { id: params?.id } });
+
+  deleteClient = (id: string): Promise<AxiosResponse> =>
+    this.delete(`${Endpoints.Clients}`, {params: {id}});
 
   //
   getSingleClient = (clientId: string): Promise<IClientsInfo> =>
     this.get(`${Endpoints.Users}/${clientId}`);
-
-  deleteClient = (id: string): Promise<AxiosResponse> =>
-    this.delete(`${Endpoints.Users}/${id}`);
 
   getUploadClients = (params: IGetClientsInfoParams): Promise<any> =>
     this.get(`${Endpoints.UploadClient}`, {

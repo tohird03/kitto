@@ -30,7 +30,7 @@ export const Action: FC<Props> = observer(({client}) => {
   };
 
   const handleDelete = () => {
-    // deleteClient(client?.id);
+    deleteClient(client?.id);
   };
 
   return (

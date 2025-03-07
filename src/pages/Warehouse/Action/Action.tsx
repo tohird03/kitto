@@ -6,6 +6,7 @@ import {Button, Popconfirm} from 'antd';
 import {addNotification} from '@/utils';
 import { warehousesStore } from '@/stores/warehouse';
 import { IWarehouse } from '@/api/warehouse/types';
+import { warehouseApi } from '@/api/warehouse/warehouse';
 
 type Props = {
   warehouse: IWarehouse;
@@ -17,9 +18,9 @@ export const Action: FC<Props> = observer(({warehouse}) => {
   const {mutate: deleteWarehouse} =
   useMutation({
     mutationKey: ['deleteWarehouse'],
-    // mutationFn: (id: string) => clientsInfoApi.deleteWarehouse(id!),
+    mutationFn: (id: string) => warehouseApi.deleteWarehouse(id!),
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['getClients']});
+      queryClient.invalidateQueries({queryKey: ['getWarehouses']});
     },
     onError: addNotification,
   });
@@ -30,7 +31,7 @@ export const Action: FC<Props> = observer(({warehouse}) => {
   };
 
   const handleDeleteWarehouse = () => {
-    // deleteWarehouse(client?.id);
+    deleteWarehouse(warehouse?.id);
   };
 
   return (

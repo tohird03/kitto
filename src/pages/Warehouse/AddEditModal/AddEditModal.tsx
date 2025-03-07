@@ -27,10 +27,10 @@ export const AddEditModal = observer(() => {
       },
     });
 
-  const { mutate: updateClient } =
+  const { mutate: updateWarehouse } =
     useMutation({
-      mutationKey: ['updateClient'],
-      mutationFn: (params: IAddOrEditWarehouse) => warehouseApi.addNewWarehouse(params),
+      mutationKey: ['updateWarehouse'],
+      mutationFn: (params: IAddOrEditWarehouse) => warehouseApi.updateWarehouse(params),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['getWarehouses'] });
         handleModalClose();
@@ -47,7 +47,7 @@ export const AddEditModal = observer(() => {
     setLoading(true);
 
     if (warehousesStore?.singleWarehouse) {
-      updateClient({
+      updateWarehouse({
         ...valueControl,
         id: warehousesStore?.singleWarehouse?.id!,
       });

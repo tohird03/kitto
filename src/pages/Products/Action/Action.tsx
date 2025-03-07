@@ -15,9 +15,9 @@ type Props = {
 export const Action: FC<Props> = observer(({product}) => {
   const queryClient = useQueryClient();
 
-  const {mutate: deleteClient} =
+  const {mutate: deleteProduct} =
   useMutation({
-    mutationKey: ['deleteClient'],
+    mutationKey: ['deleteProduct'],
     mutationFn: (id: string) => productsApi.deleteProduct(id!),
     onSuccess: () => {
       addNotification('Mahsulot o\'chirildi');
@@ -26,21 +26,21 @@ export const Action: FC<Props> = observer(({product}) => {
     onError: addNotification,
   });
 
-  const handleEditProcess = () => {
+  const handleEdit = () => {
     productsListStore.setSingleProduct(product);
     productsListStore.setIsOpenAddEditProductModal(true);
   };
 
   const handleDelete = () => {
-    deleteClient(product?.id);
+    deleteProduct(product?.id);
   };
 
   return (
     <div style={{display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center'}}>
-      <Button onClick={handleEditProcess} type="primary" icon={<EditOutlined />} />
+      <Button onClick={handleEdit} type="primary" icon={<EditOutlined />} />
       <Popconfirm
-        title="Xodimni o'chirish"
-        description="Rostdan ham bu xodimni o'chirishni xohlaysizmi?"
+        title="Mahsulotni o'chirish"
+        description="Rostdan ham bu mahsulotni o'chirishni xohlaysizmi?"
         onConfirm={handleDelete}
         okText="Ha"
         okButtonProps={{style: {background: 'red'}}}

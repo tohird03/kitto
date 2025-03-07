@@ -16,7 +16,7 @@ export const warehouseColumns: ColumnType<IWarehouse>[] = [
     dataIndex: 'name',
     title: 'Nomi',
     align: 'center',
-    render: (value, record) => <p>S</p>,
+    render: (value, record) => <span>{record?.name}</span>,
   },
   {
     key: 'color',
