@@ -1,7 +1,7 @@
 import {makeAutoObservable} from 'mobx';
 import {addNotification} from '@/utils';
 import { IGetProductsParams, IProducts } from '@/api/products/types';
-import { productsApi } from '@/api/products';
+import { warehouseProductsApi } from '@/api/warehouseProducts/warehouse-products';
 
 class WarehouseProductsStore {
   pageNumber = 1;
@@ -16,7 +16,7 @@ class WarehouseProductsStore {
   }
 
   getProducts = (params: IGetProductsParams) =>
-    productsApi.getProducts(params)
+    warehouseProductsApi.getProducts(params)
       .then(res => res)
       .catch(addNotification);
 

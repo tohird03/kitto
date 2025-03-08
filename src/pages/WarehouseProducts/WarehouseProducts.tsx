@@ -5,28 +5,30 @@ import { Button, Input, Table, Typography } from 'antd';
 import classNames from 'classnames';
 import { AddEditModal } from './AddEditModal';
 import styles from './warehouse-product.scss';
-import { productsListColumn } from './constants';
 import { IProducts } from '@/api/products/types';
 import { warehouseProductsStore } from '@/stores/warehouse-products';
 import { TransferModal } from './TransferModal';
+import { useQuery } from '@tanstack/react-query';
+import { warehouseProductsListColumn } from './constants';
+import { getPaginationParams } from '@/utils/getPaginationParams';
+import { IWarehouseProducts } from '@/api/warehouseProducts/types';
 
 const cn = classNames.bind(styles);
 
 export const WarehouseProductsList = observer(() => {
-  // const { data: productsData, isLoading: loading } = useQuery({
-  //   queryKey: [
-  //     'getProducts',
-  //     warehouseProductsStore.pageNumber,
-  //     warehouseProductsStore.pageSize,
-  //     warehouseProductsStore.search,
-  //   ],
-  //   queryFn: () =>
-  //     warehouseProductsStore.getProducts({
-  //       pageNumber: warehouseProductsStore.pageNumber,
-  //       pageSize: warehouseProductsStore.pageSize,
-  //       search: warehouseProductsStore.search!,
-  //     }),
-  // });
+  const { data: productsStorehouseData, isLoading: loading } = useQuery({
+    queryKey: [
+      'getWarehouseProducts',
+      warehouseProductsStore.pageNumber,
+      warehouseProductsStore.pageSize,
+      warehouseProductsStore.search,
+    ],
+    queryFn: () =>
+      warehouseProductsStore.getProducts({
+        pageNumber: warehouseProductsStore.pageNumber,
+        pageSize: warehouseProductsStore.pageSize,
+      }),
+  });
 
   const handleAddNewProduct = () => {
     warehouseProductsStore.setIsOpenAddEditProductModal(true);
@@ -49,9 +51,9 @@ export const WarehouseProductsList = observer(() => {
     warehouseProductsStore.reset();
   }, []);
 
-  const rowClassName = (record: IProducts) =>
+  const rowClassName = (record: IWarehouseProducts) =>
     record.quantity < 0 ? 'error__row'
-      : record.quantity < record?.warningThreshold
+      : record.quantity < record?.product?.warningThreshold
         ? 'warning__row' : '';
 
   return (
@@ -83,19 +85,19 @@ export const WarehouseProductsList = observer(() => {
       </div>
 
       <Table
-        columns={productsListColumn}
-        dataSource={[]}
-        // loading={loading}
+        columns={warehouseProductsListColumn}
+        dataSource={productsStorehouseData?.data?.data || []}
+        loading={loading}
         rowClassName={rowClassName}
-        // pagination={{
-        //   total: productsData?.totalCount,
-        //   current: warehouseProductsStore?.pageNumber,
-        //   pageSize: warehouseProductsStore?.pageSize,
-        //   showSizeChanger: true,
-        //   onChange: handlePageChange,
-        //   ...getPaginationParams(productsData?.totalCount),
-        //   pageSizeOptions: [50, 100, 500, 1000],
-        // }}
+        pagination={{
+          total: productsStorehouseData?.data?.totalCount,
+          current: warehouseProductsStore?.pageNumber,
+          pageSize: warehouseProductsStore?.pageSize,
+          showSizeChanger: true,
+          onChange: handlePageChange,
+          ...getPaginationParams(productsStorehouseData?.data?.totalCount),
+          pageSizeOptions: [50, 100, 500, 1000],
+        }}
         // summary={() => (
         //   <Table.Summary.Row>
         //     <Table.Summary.Cell colSpan={2} index={1} />

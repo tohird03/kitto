@@ -18,6 +18,7 @@ export interface IProducts {
   // Foyda
   avarage_cost: number;
   lastSale: string;
+  countInStorehouses: number;
 }
 
 export interface IAddEditProduct {

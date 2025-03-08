@@ -5,7 +5,7 @@ export interface IResponse<TBody, TTotalCalc = any> {
     pageSize: number;
     data: TBody;
   }
-  totalCalc?: TTotalCalc;
+  calc?: TTotalCalc;
 }
 
 export interface IOneElement {
@@ -20,6 +20,7 @@ export interface ISuccessResponse {
 export interface IPagination {
   pageNumber?: number;
   pageSize?: number;
+  pagination?: boolean;
   description?: string;
 }
 

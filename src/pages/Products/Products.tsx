@@ -10,7 +10,6 @@ import { productsListStore } from '@/stores/products-list';
 import { IProducts } from '@/api/products/types';
 import { useQuery } from '@tanstack/react-query';
 import { getPaginationParams } from '@/utils/getPaginationParams';
-import { priceFormat } from '@/utils/priceFormat';
 
 const cn = classNames.bind(styles);
 
@@ -48,8 +47,8 @@ export const ProductsList = observer(() => {
   }, []);
 
   const rowClassName = (record: IProducts) =>
-    record.quantity < 0 ? 'error__row'
-      : record.quantity < record?.warningThreshold
+    record?.countInStorehouses < 0 ? 'error__row'
+      : record.countInStorehouses < record?.warningThreshold
         ? 'warning__row' : '';
 
   return (

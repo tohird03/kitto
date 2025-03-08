@@ -142,22 +142,22 @@ export const ClientsPayments = observer(() => {
             <Table.Summary.Cell colSpan={2} index={1} />
             <Table.Summary.Cell index={2}>
               <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                Jami: {paymentsData?.totalCalc?.totalCash}
+                Jami: {paymentsData?.calc?.totalCash}
               </div>
             </Table.Summary.Cell>
             <Table.Summary.Cell index={2}>
               <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                Jami: {paymentsData?.totalCalc?.totalCard}
+                Jami: {paymentsData?.calc?.totalCard}
               </div>
             </Table.Summary.Cell>
             <Table.Summary.Cell index={2}>
               <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                Jami: {paymentsData?.totalCalc?.totalTransfer}
+                Jami: {paymentsData?.calc?.totalTransfer}
               </div>
             </Table.Summary.Cell>
             <Table.Summary.Cell index={2}>
               <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                Jami: {paymentsData?.totalCalc?.totalOther}
+                Jami: {paymentsData?.calc?.totalOther}
               </div>
             </Table.Summary.Cell>
           </Table.Summary.Row>

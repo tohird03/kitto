@@ -4,8 +4,9 @@ import {Action} from './Action';
 import { getFullDateFormat } from '@/utils/getDateFormat';
 import { priceFormat } from '@/utils/priceFormat';
 import { IProducts } from '@/api/products/types';
+import { IWarehouseProducts } from '@/api/warehouseProducts/types';
 
-export const productsListColumn: ColumnType<IProducts>[] = [
+export const warehouseProductsListColumn: ColumnType<IWarehouseProducts>[] = [
   {
     key: 'index',
     dataIndex: 'index',
@@ -18,14 +19,14 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     dataIndex: 'name',
     title: 'Mahsulot nomi',
     align: 'center',
-    render: (value, record) => record?.name,
+    render: (value, record) => record?.product?.name,
   },
   {
     key: 'warehouse',
     dataIndex: 'warehouse',
     title: 'Skladi',
     align: 'center',
-    render: (value, record) => record?.name,
+    render: (value, record) => record?.product?.name,
   },
   {
     key: 'count',
@@ -46,14 +47,14 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     dataIndex: 'cost',
     title: 'Sotib olingan narxi',
     align: 'center',
-    render: (value, record) => record?.cost,
+    render: (value, record) => record?.product?.cost,
   },
   {
     key: 'selling_price',
     dataIndex: 'selling_price',
     title: 'Sotilish narxi',
     align: 'center',
-    render: (value, record) => record?.price,
+    render: (value, record) => record?.product?.price,
   },
   {
     key: 'totalPrice',
@@ -61,7 +62,7 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     title: 'Umumiy sotib olingan qiymati',
     align: 'center',
     render: (value, record) => {
-      const totalSellingPrice = record?.cost * record?.quantity;
+      const totalSellingPrice = record?.product?.cost * record?.quantity;
 
       return priceFormat(totalSellingPrice);
     },
@@ -71,21 +72,21 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     dataIndex: 'min_amount',
     title: 'Ogohlantirish',
     align: 'center',
-    render: (value, record) => `${record?.warningThreshold} dona`,
+    render: (value, record) => `${record?.product?.warningThreshold} dona`,
   },
   {
     key: 'createdAt',
     dataIndex: 'createdAt',
     title: 'Yaratilgan vaqti',
     align: 'center',
-    render: (value, record) => getFullDateFormat(record?.createdAt),
+    render: (value, record) => getFullDateFormat(record?.product?.createdAt),
   },
   {
     key: 'action',
     dataIndex: 'action',
     title: 'Action',
     align: 'center',
-    render: (value, record) => <Action product={record} />,
+    render: (value, record) => <Action product={record?.product} />,
   },
 ];
 
