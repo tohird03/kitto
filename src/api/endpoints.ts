@@ -5,7 +5,7 @@ export enum Endpoints {
   Base = '',
 
   // SETTINGS
-  SignIn = '/admin/sign-in',
+  SignIn = '/auth/sign-in',
   RefreshToken = '/dashboard-auth/refresh',
   UserProfile = '/admin/profile',
 
@@ -21,21 +21,34 @@ export enum Endpoints {
   SupplierDeedExcelUpload = '/user/supplier/deed/upload',
   UploadClient = '/user/client/debtors',
 
+  // STAFFS
+  Staff = '/staff/one',
+  StaffMany = '/staff/many',
   // PRODUCTS
   product = '/product/one',
   productsMany = '/product/many',
+  productOneSelling = '/product/one-for-selling',
+  productExcel = '/product/excel',
   // CLIENTS
   Clients = '/client/one',
   ClientsMany = '/client/many',
   // PAYMENT
   payment = '/payment/one',
   paymentMany = '/payment/many',
+  paymentUpload = '/payment/excel',
+  // SALE
+  sale = '/selling/one',
+  saleMany = '/selling/many',
+
   // WAREHOUSE
   warehouse = '/storehouse/one',
   warehouseMany = '/storehouse/many',
   // WAREHOUSE PRODUCTS
   WarehouseProducts = '/product-storehouse/one',
   WarehouseProductsMany = '/product-storehouse/many',
+  // ROLE
+  Role = '/role/one',
+  RoleMany = '/role/many',
 
   productsIncomeOrder = '/incomingOrder',
   productsIncomeOrderProduct = '/incomingProduct',
@@ -45,7 +58,6 @@ export enum Endpoints {
   productsOrderExel = '/Order/upload',
   productsIncomeOrderExel = '/incomingOrder/upload',
 
-  paymentUpload = '/payment/upload',
   incomePayment = '/incomingOrderPayment',
 
   // ROLES

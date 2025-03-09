@@ -18,9 +18,8 @@ export const useBootstrap = () => {
     if (accessToken) {
       authStore.setIsAuth(true);
       await authStore.setToken({accessToken});
-
-      await getProfile();
-
+      authStore.setMainMenuItems(generateAllMenuItems(mainMenuList));
+      // await getProfile();
     }
   };
 

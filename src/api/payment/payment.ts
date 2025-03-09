@@ -21,10 +21,10 @@ class PaymentApi extends Instance {
     this.post(Endpoints.payment, params);
 
   updatePayment = (params: IAddEditPaymentParams): Promise<AxiosResponse> =>
-    this.patch(`${Endpoints.payment}/${params?.id}`, params);
+    this.patch(`${Endpoints.payment}`, params, { params: { id: params?.id } });
 
   deletePayment = (id: string): Promise<AxiosResponse> =>
-    this.delete(`${Endpoints.payment}/${id}`);
+    this.delete(`${Endpoints.payment}`, {params: {id}});
 
   getUploadPayments = (params: IGetClientsPaymentsParams): Promise<any> =>
     this.get(`${Endpoints.paymentUpload}`, {

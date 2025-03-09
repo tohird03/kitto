@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Input, Table, Typography } from 'antd';
+import { DownloadOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Button, Input, Table, Tooltip, Typography } from 'antd';
 import classNames from 'classnames';
 import { AddEditModal } from './AddEditModal';
 import styles from './product.scss';
@@ -10,10 +10,14 @@ import { productsListStore } from '@/stores/products-list';
 import { IProducts } from '@/api/products/types';
 import { useQuery } from '@tanstack/react-query';
 import { getPaginationParams } from '@/utils/getPaginationParams';
+import { addNotification } from '@/utils';
+import { productsApi } from '@/api/products';
 
 const cn = classNames.bind(styles);
 
 export const ProductsList = observer(() => {
+  const [downloadLoading, setDownLoadLoading] = useState(false);
+
   const { data: productsData, isLoading: loading } = useQuery({
     queryKey: [
       'getProducts',
@@ -40,6 +44,24 @@ export const ProductsList = observer(() => {
   const handlePageChange = (page: number, pageSize: number | undefined) => {
     productsListStore.setPageNumber(page);
     productsListStore.setPageSize(pageSize!);
+  };
+
+  const handleDownloadExcel = () => {
+    setDownLoadLoading(true);
+    productsApi.getUploadProducts()
+      .then(res => {
+        const url = URL.createObjectURL(new Blob([res]));
+        const a = document.createElement('a');
+
+        a.href = url;
+        a.download = 'mahsulotlar.xlsx';
+        a.click();
+        URL.revokeObjectURL(url);
+      })
+      .catch(addNotification)
+      .finally(() => {
+        setDownLoadLoading(false);
+      });
   };
 
   useEffect(() => () => {
@@ -69,6 +91,16 @@ export const ProductsList = observer(() => {
           >
             Mahsulot qo&apos;shish
           </Button>
+          <Tooltip placement="top" title="Excelda yuklash">
+            <Button
+              onClick={handleDownloadExcel}
+              type="primary"
+              icon={<DownloadOutlined />}
+              loading={downloadLoading}
+            >
+              Exelda Yuklash
+            </Button>
+          </Tooltip>
         </div>
       </div>
 

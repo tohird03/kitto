@@ -1,6 +1,6 @@
-import {makeAutoObservable} from 'mobx';
-import {addNotification} from '@/utils';
-import { IGetProductsParams, IProducts } from '@/api/products/types';
+import { makeAutoObservable } from 'mobx';
+import { addNotification } from '@/utils';
+import { IGetProductsParams, IProducts, ISingleSaleProductParams } from '@/api/products/types';
 import { productsApi } from '@/api/products';
 
 class ProductsListStore {
@@ -16,6 +16,16 @@ class ProductsListStore {
 
   getProducts = (params: IGetProductsParams) =>
     productsApi.getProducts(params)
+      .then(res => res)
+      .catch(addNotification);
+
+  getSingleProducts = (id: string) =>
+    productsApi.getSingleProduct(id)
+      .then(res => res)
+      .catch(addNotification);
+
+  getSingleSaleProducts = (params: ISingleSaleProductParams) =>
+    productsApi.getSingleSaleProduct(params)
       .then(res => res)
       .catch(addNotification);
 

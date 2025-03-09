@@ -8,6 +8,10 @@ export interface IResponse<TBody, TTotalCalc = any> {
   calc?: TTotalCalc;
 }
 
+export interface IResponseSingle<TBody> {
+  data: TBody;
+}
+
 export interface IOneElement {
   id: string;
   name: string;

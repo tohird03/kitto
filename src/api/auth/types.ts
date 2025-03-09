@@ -3,6 +3,10 @@ export interface ILoginForm {
   password: string;
 }
 export interface ILoginResponse {
-  accessToken: string;
-  refreshToken: string;
+  data: {
+    tokens: {
+      accessToken: string;
+      refreshToken: string;
+    }
+  }
 }

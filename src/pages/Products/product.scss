@@ -8,11 +8,11 @@
 .product-list__filter {
   display: flex;
   flex-direction: row;
+  gap: 20px;
 }
 
 .product-list__search {
   width: 250px;
-  margin-right: 10px;
 }
 
 @media only screen and (max-width: 800px) {

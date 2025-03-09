@@ -17,20 +17,20 @@ const cn = classNames.bind(styles);
 export const Staffs = observer(() => {
   const isMobile = useMediaQuery('(max-width: 800px)');
 
-  // const {data: staffsData, isLoading: loading} = useQuery({
-  //   queryKey: [
-  //     'getStaffs',
-  //     staffsStore.pageNumber,
-  //     staffsStore.pageSize,
-  //     staffsStore.search,
-  //   ],
-  //   queryFn: () =>
-  //     staffsStore.getStaffs({
-  //       pageNumber: staffsStore.pageNumber,
-  //       pageSize: staffsStore.pageSize,
-  //       search: staffsStore.search!,
-  //     }),
-  // });
+  const {data: staffsData, isLoading: loading} = useQuery({
+    queryKey: [
+      'getStaffs',
+      staffsStore.pageNumber,
+      staffsStore.pageSize,
+      staffsStore.search,
+    ],
+    queryFn: () =>
+      staffsStore.getStaffs({
+        pageNumber: staffsStore.pageNumber,
+        pageSize: staffsStore.pageSize,
+        search: staffsStore.search!,
+      }),
+  });
 
   const handleAddNewStaff = () => {
     staffsStore.setIsOpenAddEditStaffModal(true);
@@ -72,17 +72,17 @@ export const Staffs = observer(() => {
 
       <DataTable
         columns={staffsColumns}
-        data={[]}
-        // loading={loading}
+        data={staffsData?.data?.data || []}
+        loading={loading}
         isMobile={isMobile}
-        // pagination={{
-        //   total: staffsData?.totalCount,
-        //   current: staffsStore?.pageNumber,
-        //   pageSize: staffsStore?.pageSize,
-        //   showSizeChanger: true,
-        //   onChange: handlePageChange,
-        //   ...getPaginationParams(staffsData?.totalCount),
-        // }}
+        pagination={{
+          total: staffsData?.data?.totalCount,
+          current: staffsStore?.pageNumber,
+          pageSize: staffsStore?.pageSize,
+          showSizeChanger: true,
+          onChange: handlePageChange,
+          ...getPaginationParams(staffsData?.data?.totalCount),
+        }}
       />
 
       {staffsStore.isOpenAddEditStaffModal && <AddStaffsModal />}

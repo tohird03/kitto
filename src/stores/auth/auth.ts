@@ -24,7 +24,7 @@ class AuthStore {
       .then(res => {
         if (res?.data) {
           this.setToken({
-            accessToken: res.data?.accessToken,
+            accessToken: res.data?.data?.tokens?.accessToken,
           });
           this.setIsAuth(true);
         }

@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Form, Input, InputNumber, Modal, Select, Spin } from 'antd';
+import { Form, InputNumber, Modal, Select, Spin } from 'antd';
 import { addNotification } from '@/utils';
 import { priceFormat } from '@/utils/priceFormat';
-import { IAddEditProduct } from '@/api/products/types';
 import { productsApi } from '@/api/products';
 import { warehouseProductsStore } from '@/stores/warehouse-products';
 import { warehouseApi } from '@/api/warehouse/warehouse';

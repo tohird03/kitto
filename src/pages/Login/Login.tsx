@@ -28,14 +28,15 @@ export const Login = observer(() => {
 
   const handleSubmit = (values: ILoginForm) => {
     setLoading(true);
-    console.log(values);
 
     authStore.getSignIn(values)
       .then(res => {
         if (res?.data) {
-          setAccessToken(res.data?.accessToken);
-          // navigate(ROUTES.productsOrder);
-          addNotification('Success login');
+          console.log(res.data);
+
+          setAccessToken(res.data?.data?.tokens?.accessToken);
+          navigate(ROUTES.home);
+          addNotification('Muvaffaqiyatli kirildi!');
           authStore.getProfile();
         }
       })

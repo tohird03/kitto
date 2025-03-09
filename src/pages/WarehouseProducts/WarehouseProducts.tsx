@@ -51,11 +51,6 @@ export const WarehouseProductsList = observer(() => {
     warehouseProductsStore.reset();
   }, []);
 
-  const rowClassName = (record: IWarehouseProducts) =>
-    record.quantity < 0 ? 'error__row'
-      : record.quantity < record?.product?.warningThreshold
-        ? 'warning__row' : '';
-
   return (
     <main>
       <div className={cn('product-list__head')}>
@@ -88,7 +83,6 @@ export const WarehouseProductsList = observer(() => {
         columns={warehouseProductsListColumn}
         dataSource={productsStorehouseData?.data?.data || []}
         loading={loading}
-        rowClassName={rowClassName}
         pagination={{
           total: productsStorehouseData?.data?.totalCount,
           current: warehouseProductsStore?.pageNumber,

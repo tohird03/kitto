@@ -45,10 +45,10 @@ export const ClientsPayments = observer(() => {
     paymentsStore.setSearch(e.currentTarget?.value);
   };
 
-  const handleDateChange = (values: any) => {
-    if (values) {
-      paymentsStore.setStartDate(new Date(values[0]));
-      paymentsStore.setEndDate(new Date(values[1]));
+  const handleDateChange = (values: any, dateFormat: any) => {
+    if (dateFormat) {
+      paymentsStore.setStartDate(dateFormat[0]);
+      paymentsStore.setEndDate(dateFormat[1]);
     } else {
       paymentsStore.setStartDate(null);
       paymentsStore.setEndDate(null);
@@ -66,8 +66,8 @@ export const ClientsPayments = observer(() => {
       pageNumber: paymentsStore.pageNumber,
       pageSize: paymentsStore.pageSize,
       search: paymentsStore.search!,
-      startDate: paymentsStore.startDate!,
-      endDate: paymentsStore.endDate!,
+      startDate: paymentsStore?.startDate!,
+      endDate: paymentsStore?.endDate!,
     })
       .then(res => {
         const url = URL.createObjectURL(new Blob([res]));

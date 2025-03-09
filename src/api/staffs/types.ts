@@ -2,9 +2,9 @@ import {IPagination} from '../types';
 
 export interface IStaffs {
   id: string;
-  name: string;
+  fullname: string;
   phone: string;
-  permissions: IStaffPer[];
+  actionIds: string[];
 }
 
 export interface IGetStaffsParams extends IPagination {
@@ -13,22 +13,22 @@ export interface IGetStaffsParams extends IPagination {
 
 export interface IAddStaff {
   id?: string;
-  name: string;
+  fullname: string;
   phone: string;
   password: string;
-  permissions: string[];
+  actionsToConnect: string[];
 }
 
 export interface IUpdateStaff {
   id?: string;
-  name: string;
+  fullname: string;
   phone: string;
   password: string;
-  connectPermissions: string[];
-  disconnectPermissions: string[];
+  actionsToConnect: string[];
+  actionsToDisconnect: string[];
 }
 
 export interface IStaffPer {
   id: string;
-  name: string;
+  fullname: string;
 }

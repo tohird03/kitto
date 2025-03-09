@@ -68,19 +68,19 @@ export const AddStaffsModal = observer(() => {
       const disconnectPer = oldPer?.filter(newPer => !userPer?.includes(newPer));
 
       updateStaffs({
-        name: values?.name,
+        fullname: values?.fullname,
         password: values?.password,
         phone: `998${values?.phone}`,
         id: staffsStore?.singleStaff?.id!,
-        connectPermissions: connectPer,
-        disconnectPermissions: disconnectPer,
+        actionsToConnect: connectPer,
+        actionsToDisconnect: disconnectPer,
       });
 
       return;
     }
     addNewStaffs({
       ...values,
-      permissions: userPer,
+      actionsToConnect: userPer,
       phone: `998${values?.phone}`,
     });
   };
@@ -101,11 +101,13 @@ export const AddStaffsModal = observer(() => {
     if (staffsStore.singleStaff) {
       staffsApi?.getSingleStaffs(staffsStore?.singleStaff?.id)
         .then(res => {
+          console.log(res);
+
           form.setFieldsValue({
-            ...res,
-            phone: res?.phone?.slice(3),
+            ...res?.data,
+            phone: res?.data?.phone?.slice(3),
           });
-          const checkPer = res?.permissions?.map(per => per?.id);
+          const checkPer = res?.data?.actionIds;
 
           setUserPer(checkPer);
           setOldPer(checkPer);
@@ -132,7 +134,7 @@ export const AddStaffsModal = observer(() => {
         autoComplete="off"
       >
         <Form.Item
-          name="name"
+          name="fullname"
           label="Xodim"
           rules={[{ required: true }]}
         >
@@ -191,14 +193,14 @@ export const AddStaffsModal = observer(() => {
               key: role?.id,
               label: role?.name,
               children:
-                role?.permissions?.map((per) => (
+                role?.actions?.map((per) => (
                   <Checkbox
                     onChange={(e) => handleChangePer(e, per?.id)}
                     key={per?.id}
                     style={{ display: 'flex', paddingLeft: '20px' }}
                     checked={userPer?.includes(per?.id)}
                   >
-                    {per?.name}
+                    {per?.description}
                   </Checkbox>
                 )),
             }]}

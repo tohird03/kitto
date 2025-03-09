@@ -1,12 +1,13 @@
 export interface IRole {
   id: string;
   name: string;
-  key: string;
-  permissions: IPermission[];
+  actions: IPermission[];
 }
 
 export interface IPermission {
   id: string;
   name: string;
-  key: string;
+  method: 'get' | 'post' | 'patch' | 'delete';
+  description: string;
+  url: string;
 }

@@ -1,4 +1,5 @@
 import { IPagination } from "../types";
+import { IWarehouseProducts } from "../warehouseProducts/types";
 
 export interface IGetProductsParams extends IPagination {
   name?: string;
@@ -16,9 +17,11 @@ export interface IProducts {
   // Sotuvda sotiladigan narxi
   price: number;
   // Foyda
-  avarage_cost: number;
-  lastSale: string;
   countInStorehouses: number;
+}
+
+export interface IProductOneForSelling extends IProducts {
+  storehouses: IWarehouseProducts[];
 }
 
 export interface IAddEditProduct {
@@ -34,4 +37,9 @@ export interface IProductTotalCalc {
   totalProductCount: number,
   totalProductCost: number,
   totalProductPrice: number,
+}
+
+export interface ISingleSaleProductParams {
+  id: string;
+  minQuantity: number;
 }
