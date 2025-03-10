@@ -27,6 +27,7 @@ export const PaymentModal = observer(() => {
       onSuccess: () => {
         handleModalClose();
         addNotification('Sotuv muvaffaqiyatli amalga oshirildi');
+        saleStore.removeTab(saleStore.activeKey);
       },
       onError: addNotification,
       onSettled: async () => {
@@ -65,7 +66,6 @@ export const PaymentModal = observer(() => {
 
   const handleModalClose = () => {
     saleStore.setActiveSaleProducts([]);
-    saleStore.removeTab(saleStore.activeKey);
     saleStore.setIsOpenAddEditSaleModal(false);
   };
 

@@ -10,6 +10,9 @@ const handleCatchChunkError = () => {
 export const Sale = lazy(() =>
   import('@/pages/Sale').then(({Sale}) => ({default: Sale})).catch(handleCatchChunkError));
 
+export const SaleHistory = lazy(() =>
+  import('@/pages/SaleHistory').then(({SaleHistory}) => ({default: SaleHistory})).catch(handleCatchChunkError));
+
 export const Statistic = lazy(() =>
   import('@/pages/Statistic').then(({Statistic}) => ({default: Statistic})).catch(handleCatchChunkError));
 

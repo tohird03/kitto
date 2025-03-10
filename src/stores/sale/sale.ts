@@ -1,8 +1,9 @@
 import { makeAutoObservable } from 'mobx';
 import { addNotification } from '@/utils';
 import { IClientsPayments, IGetClientsPaymentsParams } from '@/api/payment/types';
-import { paymentApi } from '@/api/payment';
 import { ISaleProduct, SalesData } from '@/pages/Sale/Sale';
+import { saleApi } from '@/api/sale/sale';
+import { IGetSaleParams, IGetTotalSaleStatistic } from '@/api/sale/types';
 
 class SaleStore {
   #today = new Date().toISOString().split('T')[0];
@@ -22,8 +23,18 @@ class SaleStore {
     makeAutoObservable(this);
   }
 
-  getClientsPayments = (params: IGetClientsPaymentsParams) =>
-    paymentApi.getPayments(params)
+  getSales = (params: IGetSaleParams) =>
+    saleApi.getSales(params)
+      .then(res => res)
+      .catch(addNotification);
+
+  getSalesStatisticGraph = (params: IGetTotalSaleStatistic) =>
+    saleApi.getSalesTotal(params)
+      .then(res => res)
+      .catch(addNotification);
+
+  getSalesStatistic = () =>
+    saleApi.getSalesStatistic()
       .then(res => res)
       .catch(addNotification);
 
@@ -58,40 +69,6 @@ class SaleStore {
   setEndDate = (endDate: string | null) => {
     this.endDate = endDate;
   };
-
-  // addTab() {
-  //   const tabNumbers = Object.keys(this.sales).map(Number);
-  //   const newKey = String(Math.max(...tabNumbers, 0) + 1);
-
-  //   this.sales = { ...this.sales, [newKey]: [] };
-  //   this.activeKey = newKey;
-  // }
-
-  // removeTab(targetKey: string) {
-  //   const newSales: SalesData = {};
-  //   const sortedKeys = Object.keys(this.sales).map(Number).sort((a, b) => a - b);
-
-  //   let newActiveKey = this.activeKey;
-  //   let newKeyCounter = 1;
-
-  //   sortedKeys.forEach((key) => {
-  //     if (String(key) !== targetKey) {
-  //       newSales[String(newKeyCounter)] = this.sales[String(key)];
-  //       if (this.activeKey === String(key)) {
-  //         newActiveKey = String(newKeyCounter);
-  //       }
-  //       newKeyCounter++;
-  //     }
-  //   });
-
-  //   if (Object.keys(newSales).length === 0) {
-  //     newSales['1'] = [];
-  //     newActiveKey = '1';
-  //   }
-
-  //   this.sales = newSales;
-  //   this.activeKey = newActiveKey;
-  // }
 
   setSales = (sales: SalesData) => {
     this.sales = sales;

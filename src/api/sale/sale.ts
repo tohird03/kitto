@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import { Endpoints, umsStages } from '../endpoints';
 import { INetworkConfig, Instance } from '../instance';
 import { IResponse, IResponseSingle } from '../types';
-import { IAddSale } from './types';
+import { IAddSale, IGetSaleParams, IGetTotalSaleStatistic, ISale, ITotalSaleStatistic, ITotalStatisticNumber } from './types';
 
 const config: INetworkConfig = {
   baseURL: Endpoints.Base,
@@ -14,8 +14,8 @@ class SaleApi extends Instance {
     super(config);
   }
 
-  // getProducts = (params: IGetProductsParams): Promise<IResponse<IProducts[], IProductTotalCalc>> =>
-  //   this.get(Endpoints.productsMany, { params });
+  getSales = (params: IGetSaleParams): Promise<IResponse<ISale[]>> =>
+    this.get(Endpoints.saleMany, { params });
 
   // getSingleProduct = (id: string): Promise<IResponseSingle<IProducts>> =>
   //   this.get(`${Endpoints.product}`, { params: { id } });
@@ -26,20 +26,22 @@ class SaleApi extends Instance {
   addNewSale = (params: IAddSale): Promise<AxiosResponse> =>
     this.post(Endpoints.sale, params);
 
-  // updateProduct = (params: IAddEditProduct): Promise<AxiosResponse> =>
-  //   this.patch(`${Endpoints.product}`, params, { params: { id: params?.id } });
+  // STATISTIC
+  getSalesTotal = (params: IGetTotalSaleStatistic): Promise<IResponseSingle<ITotalSaleStatistic[]>> =>
+    this.get(Endpoints.saleStatisticGraph, { params });
 
-  // deleteProduct = (id: string): Promise<AxiosResponse> =>
-  //   this.delete(`${Endpoints.product}`, { params: { id } });
+  getSalesStatistic = (): Promise<IResponseSingle<ITotalStatisticNumber>> =>
+    this.get(Endpoints.saleStatistic);
 
-  // getUploadProducts = (): Promise<any> =>
-  //   this.get(`${Endpoints.productExcel}`, {
-  //     responseType: 'arraybuffer',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/xlsx',
-  //     },
-  //   });
+  getUploadSale = (params: IGetSaleParams): Promise<any> =>
+    this.get(`${Endpoints.saleExcel}`, {
+      params,
+      responseType: 'arraybuffer',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/xlsx',
+      },
+    });
 }
 
 export const saleApi = new SaleApi(config);

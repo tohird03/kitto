@@ -3,6 +3,7 @@ import {
   AppstoreOutlined,
   BarChartOutlined,
   CalculatorOutlined,
+  HistoryOutlined,
   HomeOutlined,
   RetweetOutlined,
   ShoppingCartOutlined,
@@ -17,6 +18,11 @@ export const mainMenuList: IMenuItems[] = [
     label: 'Sotuv',
     key: ROUTES.home,
     icon: <ShoppingCartOutlined />,
+  },
+  {
+    label: 'Sotuvlar tarixi',
+    key: ROUTES.saleHistory,
+    icon: <HistoryOutlined />,
   },
   {
     label: 'Mahsulotlar',

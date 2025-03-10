@@ -1,0 +1,33 @@
+.sale-history__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sale-history__filter {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.sale-history__search {
+  width: 250px;
+}
+
+@media only screen and (max-width: 800px) {
+  .sale-history__head {
+    flex-direction: column;
+  }
+
+  .sale-history__filter {
+    display: flex;
+    flex-direction: column;
+    gap: 15px !important;
+    width: 100%;
+  }
+
+  .sale-history__search {
+    width: 100%;
+  }
+}

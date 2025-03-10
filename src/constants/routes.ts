@@ -1,5 +1,6 @@
 export const ROUTES = {
   home: '/',
+  saleHistory: '/sale-history',
   statistic: '/statistic',
   signIn: '/signin',
   warehouse: '/warehouse',

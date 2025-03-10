@@ -10,6 +10,7 @@ import { dateFormat, getStartAndEndDate, getStartMonthEndDate } from '@/utils/ge
 import CountUp from 'react-countup';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants';
+import { saleStore } from '@/stores/sale';
 
 const cn = classNames.bind(styles);
 const formatter = (value: number) => <CountUp duration={2} end={value} separator=" " />;
@@ -17,10 +18,17 @@ const formatter = (value: number) => <CountUp duration={2} end={value} separator
 export const Statistic = observer(() => {
 
   const navigate = useNavigate();
-  // const { data: ordersStatisticData, isLoading: loading } = useQuery({
-  //   queryKey: ['getOrdersStatistic'],
-  //   queryFn: () => ordersStore.getOrdersStatistic(),
-  // });
+  const { data: saleGraphStatistic, isLoading: loading } = useQuery({
+    queryKey: ['getOrdersStatisticGraph'],
+    queryFn: () => saleStore.getSalesStatisticGraph({
+      type: 'month',
+    }),
+  });
+
+  const { data: saleStatistic } = useQuery({
+    queryKey: ['getOrdersStatistic'],
+    queryFn: () => saleStore.getSalesStatistic(),
+  });
 
   const chartOptions = {
     options: {
@@ -52,7 +60,7 @@ export const Statistic = observer(() => {
         },
       },
       xaxis: {
-        // categories: ordersStatisticData?.weeklyChart?.map(value => dateFormat(value?.date)),
+        categories: saleGraphStatistic?.data?.map(value => dateFormat(value?.date)),
       },
       yaxis: {
         tickAmount: 10,
@@ -74,8 +82,7 @@ export const Statistic = observer(() => {
     series: [
       {
         name: 'Sotuv',
-        // data: ordersStatisticData?.weeklyChart?.map(value => value?.sum || 0) || [],
-        data: [],
+        data: saleGraphStatistic?.data?.map(value => Number(value?.sum) || 0) || [],
       },
     ],
   };
@@ -110,21 +117,21 @@ export const Statistic = observer(() => {
               <CalendarOutlined style={{ fontSize: '40px', color: '#f18024', marginBottom: 5 }} />
               <p className={cn('statistic__top-card-info')}>Bugun</p>
               <p className={cn('statistic__top-card-value')}>
-                {formatter(0)}
+                {formatter(saleStatistic?.data?.daily || 0)}
               </p>
             </Card>
             <Card onClick={handleClickTodayWeek} className={cn('statistic__top-card')}>
               <CalendarOutlined style={{ fontSize: '40px', color: '#f18024', marginBottom: 5 }} />
               <p className={cn('statistic__top-card-info')}>Shu hafta</p>
               <p className={cn('statistic__top-card-value')}>
-                {formatter(0)}
+                {formatter(saleStatistic?.data?.weekly || 0)}
               </p>
             </Card>
             <Card onClick={handleClickMonth} className={cn('statistic__top-card')}>
               <CalendarOutlined style={{ fontSize: '40px', color: '#f18024', marginBottom: 5 }} />
               <p className={cn('statistic__top-card-info')}>Shu oy</p>
               <p className={cn('statistic__top-card-value')}>
-                {formatter(0)}
+                {formatter(saleStatistic?.data?.monthly || 0)}
               </p>
             </Card>
           </div>

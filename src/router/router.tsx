@@ -10,6 +10,7 @@ import {
   Payments,
   ProductsList,
   Sale,
+  SaleHistory,
   Staffs,
   Statistic,
   Warehouse,
@@ -40,6 +41,10 @@ export const Router = ({isAuth}: Props) => useRoutes([
           {
             element: <Suspense fallback={<Loading />}><Statistic /></Suspense>,
             path: ROUTES.statistic,
+          },
+          {
+            element: <Suspense fallback={<Loading />}><SaleHistory /></Suspense>,
+            path: ROUTES.saleHistory,
           },
           {
             element: <Suspense fallback={<Loading />}><Warehouse /></Suspense>,

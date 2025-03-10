@@ -39,6 +39,9 @@ export enum Endpoints {
   // SALE
   sale = '/selling/one',
   saleMany = '/selling/many',
+  saleExcel = '/selling/excel',
+  saleStatistic = '/selling/total-stats',
+  saleStatisticGraph = '/selling/period-stats',
 
   // WAREHOUSE
   warehouse = '/storehouse/one',

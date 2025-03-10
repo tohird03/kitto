@@ -25,3 +25,19 @@ export interface IAddSaleForm extends IPaymentType {
   clientId: string,
   totalSum: number,
 }
+
+export interface IGetTotalSaleStatistic {
+  type: 'day' | 'week' | 'month' | 'year',
+};
+
+export interface ITotalSaleStatistic {
+  date: string;
+  sum: string;
+}
+
+export interface ITotalStatisticNumber {
+  monthly: number;
+  daily: number;
+  weekly: number;
+  yearly: number;
+}
