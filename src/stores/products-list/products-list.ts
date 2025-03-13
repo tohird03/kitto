@@ -1,7 +1,7 @@
-import { makeAutoObservable } from 'mobx';
-import { addNotification } from '@/utils';
-import { IGetProductsParams, IProducts, ISingleSaleProductParams } from '@/api/products/types';
-import { productsApi } from '@/api/products';
+import {makeAutoObservable} from 'mobx';
+import {productsApi} from '@/api/products';
+import {IGetProductsParams, IProducts, ISingleSaleProductParams} from '@/api/products/types';
+import {addNotification} from '@/utils';
 
 class ProductsListStore {
   pageNumber = 1;

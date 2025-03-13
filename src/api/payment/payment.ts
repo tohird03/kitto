@@ -1,8 +1,8 @@
-import { AxiosResponse } from 'axios';
-import { Endpoints, umsStages } from '../endpoints';
-import { INetworkConfig, Instance } from '../instance';
-import { IResponse } from '../types';
-import { IAddEditPaymentParams, IClientsPayments, IGetClientsPaymentsParams, ITotalPayment } from './types';
+import {AxiosResponse} from 'axios';
+import {Endpoints, umsStages} from '../endpoints';
+import {INetworkConfig, Instance} from '../instance';
+import {IResponse} from '../types';
+import {IAddEditPaymentParams, IClientsPayments, IGetClientsPaymentsParams, ITotalPayment} from './types';
 
 const config: INetworkConfig = {
   baseURL: Endpoints.Base,
@@ -15,13 +15,13 @@ class PaymentApi extends Instance {
   }
 
   getPayments = (params: IGetClientsPaymentsParams): Promise<IResponse<IClientsPayments[], ITotalPayment>> =>
-    this.get(Endpoints.paymentMany, { params });
+    this.get(Endpoints.paymentMany, {params});
 
   addPayment = (params: IAddEditPaymentParams): Promise<AxiosResponse> =>
     this.post(Endpoints.payment, params);
 
   updatePayment = (params: IAddEditPaymentParams): Promise<AxiosResponse> =>
-    this.patch(`${Endpoints.payment}`, params, { params: { id: params?.id } });
+    this.patch(`${Endpoints.payment}`, params, {params: {id: params?.id}});
 
   deletePayment = (id: string): Promise<AxiosResponse> =>
     this.delete(`${Endpoints.payment}`, {params: {id}});

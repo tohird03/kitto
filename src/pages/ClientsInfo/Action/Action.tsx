@@ -3,9 +3,9 @@ import {observer} from 'mobx-react';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {Button, Popconfirm} from 'antd';
+import {clientsInfoApi, IClientsInfo} from '@/api/clients';
+import {clientsInfoStore} from '@/stores/clients-info';
 import {addNotification} from '@/utils';
-import { clientsInfoStore } from '@/stores/clients-info';
-import { IClientsInfo, clientsInfoApi } from '@/api/clients';
 
 type Props = {
   client: IClientsInfo;

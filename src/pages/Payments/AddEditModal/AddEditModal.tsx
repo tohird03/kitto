@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { observer } from 'mobx-react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Form, Input, InputNumber, Modal, Select, Spin } from 'antd';
-import { addNotification } from '@/utils';
-import { priceFormat } from '@/utils/priceFormat';
-import { paymentApi } from '@/api/payment';
-import { IAddEditPaymentParams } from '@/api/payment/types';
-import { clientsInfoStore } from '@/stores/clients-info';
-import { paymentsStore } from '@/stores/payments';
+import React, {useEffect, useMemo, useState} from 'react';
+import {observer} from 'mobx-react';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
+import {Form, Input, InputNumber, Modal, Select, Spin} from 'antd';
+import {paymentApi} from '@/api/payment';
+import {IAddEditPaymentParams} from '@/api/payment/types';
+import {clientsInfoStore} from '@/stores/clients-info';
+import {paymentsStore} from '@/stores/payments';
+import {addNotification} from '@/utils';
+import {priceFormat} from '@/utils/priceFormat';
 
-const filterOption = (input: string, option?: { label: string, value: string }) =>
+const filterOption = (input: string, option?: {label: string, value: string}) =>
   (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
 export const AddEditModal = observer(() => {
@@ -19,7 +19,7 @@ export const AddEditModal = observer(() => {
   const [searchClients, setSearchClients] = useState<string | null>(null);
 
   // GET DATAS
-  const { data: clientsData, isLoading: loadingClients } = useQuery({
+  const {data: clientsData, isLoading: loadingClients} = useQuery({
     queryKey: ['getClients', searchClients],
     queryFn: () =>
       clientsInfoStore.getClients({
@@ -39,7 +39,7 @@ export const AddEditModal = observer(() => {
       })
         .then(() => {
           addNotification('To\'lov muvaffaqiyatli tahrirlandi!');
-          queryClient.invalidateQueries({ queryKey: ['getPayments'] });
+          queryClient.invalidateQueries({queryKey: ['getPayments']});
           handleModalClose();
         })
         .catch(addNotification)
@@ -53,7 +53,7 @@ export const AddEditModal = observer(() => {
     paymentApi.addPayment(values)
       .then(() => {
         addNotification('To\'lov muvaffaqiyatli qo\'shildi!');
-        queryClient.invalidateQueries({ queryKey: ['getPayments'] });
+        queryClient.invalidateQueries({queryKey: ['getPayments']});
         handleModalClose();
       })
       .catch(addNotification)
@@ -116,7 +116,7 @@ export const AddEditModal = observer(() => {
       >
         <Form.Item
           label="Mijoz"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
           name="clientId"
         >
           <Select
@@ -124,7 +124,7 @@ export const AddEditModal = observer(() => {
             placeholder="Mijoz"
             loading={loadingClients}
             optionFilterProp="children"
-            notFoundContent={loadingClients ? <Spin style={{ margin: '10px' }} /> : null}
+            notFoundContent={loadingClients ? <Spin style={{margin: '10px'}} /> : null}
             filterOption={filterOption}
             onSearch={handleSearchClients}
             onClear={handleClearClient}
@@ -140,7 +140,7 @@ export const AddEditModal = observer(() => {
           <InputNumber
             placeholder="Bank kartasi orqali to'lov"
             defaultValue={0}
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             formatter={(value) => priceFormat(value!)}
           />
         </Form.Item>
@@ -152,7 +152,7 @@ export const AddEditModal = observer(() => {
           <InputNumber
             placeholder="Bank kartasi orqali to'lov"
             defaultValue={0}
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             formatter={(value) => priceFormat(value!)}
           />
         </Form.Item>
@@ -163,7 +163,7 @@ export const AddEditModal = observer(() => {
         >
           <InputNumber
             placeholder="Boshqa usullar bilan to'lov"
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             formatter={(value) => priceFormat(value!)}
           />
         </Form.Item>
@@ -173,11 +173,11 @@ export const AddEditModal = observer(() => {
         >
           <Input.TextArea
             placeholder="To'lov haqida ma'lumot"
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             rows={4}
             maxLength={100}
             showCount
-            autoSize={{ minRows: 2, maxRows: 6 }}
+            autoSize={{minRows: 2, maxRows: 6}}
           />
         </Form.Item>
       </Form>

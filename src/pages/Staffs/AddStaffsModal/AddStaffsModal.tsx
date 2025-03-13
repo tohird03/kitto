@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Checkbox, Collapse, Form, Input, InputNumber, Modal } from 'antd';
-import { IAddStaff, IUpdateStaff, staffsApi } from '@/api/staffs';
-import { addNotification } from '@/utils';
-import { regexPhoneNumber } from '@/utils/phoneFormat';
-import { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { roleApi } from '@/api/role';
-import { staffsStore } from '@/stores/staffs';
+import React, {useEffect, useState} from 'react';
+import {observer} from 'mobx-react';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {Checkbox, Collapse, Form, Input, InputNumber, Modal} from 'antd';
+import {CheckboxChangeEvent} from 'antd/es/checkbox';
+import {roleApi} from '@/api/role';
+import {IAddStaff, IUpdateStaff, staffsApi} from '@/api/staffs';
+import {staffsStore} from '@/stores/staffs';
+import {addNotification} from '@/utils';
+import {regexPhoneNumber} from '@/utils/phoneFormat';
 
 export const AddStaffsModal = observer(() => {
   const [form] = Form.useForm();
@@ -16,17 +16,17 @@ export const AddStaffsModal = observer(() => {
   const [userPer, setUserPer] = useState<string[]>([]);
   const [oldPer, setOldPer] = useState<string[]>([]);
 
-  const { data: roleData, isLoading: loadingRole } = useQuery({
+  const {data: roleData, isLoading: loadingRole} = useQuery({
     queryKey: ['getRoles'],
     queryFn: () => roleApi.getAllRoles(),
   });
 
-  const { mutate: addNewStaffs } =
+  const {mutate: addNewStaffs} =
     useMutation({
       mutationKey: ['addNewStaffs'],
       mutationFn: (params: IAddStaff) => staffsApi.addNewStaff(params),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['getStaffs'] });
+        queryClient.invalidateQueries({queryKey: ['getStaffs']});
         handleModalClose();
         addNotification('Xodim muvaffaqiyatli qo\'shildi');
       },
@@ -36,12 +36,12 @@ export const AddStaffsModal = observer(() => {
       },
     });
 
-  const { mutate: updateStaffs } =
+  const {mutate: updateStaffs} =
     useMutation({
       mutationKey: ['updateStaffs'],
       mutationFn: (params: IUpdateStaff) => staffsApi.updateStaff(params),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['getStaffs'] });
+        queryClient.invalidateQueries({queryKey: ['getStaffs']});
         addNotification('Xodim muvaffaqiyatli o\'zgartirildi');
         handleModalClose();
       },
@@ -136,7 +136,7 @@ export const AddStaffsModal = observer(() => {
         <Form.Item
           name="fullname"
           label="Xodim"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
         >
           <Input placeholder="F.I.O" />
         </Form.Item>
@@ -144,7 +144,7 @@ export const AddStaffsModal = observer(() => {
           name="phone"
           label="Telefon raqami: 901234567"
           rules={[
-            { required: true },
+            {required: true},
             {
               pattern: regexPhoneNumber,
               message: 'Raqamni to\'g\'ri kiriting!, Masalan: 901234567',
@@ -154,7 +154,7 @@ export const AddStaffsModal = observer(() => {
           <InputNumber
             addonBefore="+998"
             placeholder="Telefon raqami"
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             type="number"
           />
         </Form.Item>
@@ -197,7 +197,7 @@ export const AddStaffsModal = observer(() => {
                   <Checkbox
                     onChange={(e) => handleChangePer(e, per?.id)}
                     key={per?.id}
-                    style={{ display: 'flex', paddingLeft: '20px' }}
+                    style={{display: 'flex', paddingLeft: '20px'}}
                     checked={userPer?.includes(per?.id)}
                   >
                     {per?.description}

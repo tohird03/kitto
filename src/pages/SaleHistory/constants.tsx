@@ -1,8 +1,8 @@
 import React from 'react';
 import {ColumnType} from 'antd/es/table';
-import { getFullDateFormat } from '@/utils/getDateFormat';
-import { priceFormat } from '@/utils/priceFormat';
-import { ISale } from '@/api/sale/types';
+import {ISale} from '@/api/sale/types';
+import {getFullDateFormat} from '@/utils/getDateFormat';
+import {priceFormat} from '@/utils/priceFormat';
 
 export const productsListColumn: ColumnType<ISale>[] = [
   {
@@ -12,13 +12,27 @@ export const productsListColumn: ColumnType<ISale>[] = [
     align: 'center',
     render: (value, record, index) => index + 1,
   },
-  // {
-  //   key: 'name',
-  //   dataIndex: 'name',
-  //   title: 'Mahsulot nomi',
-  //   align: 'center',
-  //   render: (value, record) => record?.name,
-  // },
+  {
+    key: 'name',
+    dataIndex: 'name',
+    title: 'Umumiy narxi',
+    align: 'center',
+    render: (value, record) => priceFormat(record?.totalSum),
+  },
+  {
+    key: 'name',
+    dataIndex: 'name',
+    title: 'Xodim',
+    align: 'center',
+    render: (value, record) => record?.staff?.fullname,
+  },
+  {
+    key: 'name',
+    dataIndex: 'name',
+    title: 'Sotuv vaqti',
+    align: 'center',
+    render: (value, record) => getFullDateFormat(record?.createdAt),
+  },
   // {
   //   key: 'count',
   //   dataIndex: 'count',

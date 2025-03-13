@@ -1,11 +1,11 @@
 import React from 'react';
-import { ColumnType } from 'antd/es/table';
-import { Action } from './Action';
-import { formatPhoneNumber } from '@/utils/phoneFormat';
-import { priceFormat } from '@/utils/priceFormat';
-import { getFullDateFormat } from '@/utils/getDateFormat';
-import { IClientsInfo } from '@/api/clients';
-import { ClientNameLink } from './ClientNameLink';
+import {ColumnType} from 'antd/es/table';
+import {IClientsInfo} from '@/api/clients';
+import {getFullDateFormat} from '@/utils/getDateFormat';
+import {formatPhoneNumber} from '@/utils/phoneFormat';
+import {priceFormat} from '@/utils/priceFormat';
+import {Action} from './Action';
+import {ClientNameLink} from './ClientNameLink';
 
 export const clientsColumns: ColumnType<IClientsInfo>[] = [
   {

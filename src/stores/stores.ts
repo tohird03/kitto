@@ -2,13 +2,13 @@ import {appStore} from './app';
 import {authStore} from './auth';
 import {breadcrumbStore} from './breadcrumb';
 import {clientsInfoStore} from './clients-info';
-import {warehousesStore} from './warehouse';
-import {productsListStore} from './products-list';
 import {paymentsStore} from './payments';
+import {productsListStore} from './products-list';
+import {saleStore} from './sale';
 import {staffsStore} from './staffs';
 import {statisticStore} from './statistik';
+import {warehousesStore} from './warehouse';
 import {warehouseProductsStore} from './warehouse-products';
-import {saleStore} from './sale';
 
 export const stores = {
   appStore,

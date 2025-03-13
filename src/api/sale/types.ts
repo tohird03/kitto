@@ -1,4 +1,5 @@
-import { IPagination, IPaymentType } from "../types";
+import { IStaffs } from '../staffs';
+import {IPagination, IPaymentType} from '../types';
 
 export interface IGetSaleParams extends IPagination {
   startDate?: string;
@@ -7,6 +8,8 @@ export interface IGetSaleParams extends IPagination {
 
 export interface ISale {
   totalSum: number;
+  staff: IStaffs;
+  createdAt: string;
 }
 
 export interface IAddSaleProducts {
@@ -15,20 +18,20 @@ export interface IAddSaleProducts {
 }
 
 export interface IAddSale {
-  clientId: string,
-  totalSum: number,
-  products: IAddSaleProducts[],
-  payment: IPaymentType,
+  clientId?: string;
+  totalSum: number;
+  products: IAddSaleProducts[];
+  payment?: IPaymentType;
 }
 
 export interface IAddSaleForm extends IPaymentType {
-  clientId: string,
-  totalSum: number,
+  clientId: string;
+  totalSum: number;
 }
 
 export interface IGetTotalSaleStatistic {
-  type: 'day' | 'week' | 'month' | 'year',
-};
+  type: 'day' | 'week' | 'month' | 'year';
+}
 
 export interface ITotalSaleStatistic {
   date: string;

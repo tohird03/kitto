@@ -1,10 +1,10 @@
 import React from 'react';
 import {ColumnType} from 'antd/es/table';
+import {IClientsPayments} from '@/api/payment/types';
+import {getFullDateFormat} from '@/utils/getDateFormat';
+import {priceFormat} from '@/utils/priceFormat';
+import {ClientNameLink} from '../ClientsInfo/ClientNameLink';
 import {Action} from './Action';
-import { priceFormat } from '@/utils/priceFormat';
-import { IClientsPayments } from '@/api/payment/types';
-import { getFullDateFormat } from '@/utils/getDateFormat';
-import { ClientNameLink } from '../ClientsInfo/ClientNameLink';
 
 export const paymentsColumns: ColumnType<IClientsPayments>[] = [
   {

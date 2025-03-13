@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Col, Form, Input, InputNumber, Modal, Row, Select, Table } from 'antd';
-import { addNotification } from '@/utils';
-import { priceFormat } from '@/utils/priceFormat';
-import { IAddEditProduct } from '@/api/products/types';
-import { productsApi } from '@/api/products';
-import { warehouseProductsStore } from '@/stores/warehouse-products';
-import { ArrowRightOutlined } from '@ant-design/icons';
-import { transferProductsListColumn } from '../constants';
+import React, {useEffect, useState} from 'react';
+import {observer} from 'mobx-react';
+import {ArrowRightOutlined} from '@ant-design/icons';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {Col, Form, Input, InputNumber, Modal, Row, Select, Table} from 'antd';
+import {productsApi} from '@/api/products';
+import {IAddEditProduct} from '@/api/products/types';
+import {warehouseProductsStore} from '@/stores/warehouse-products';
+import {addNotification} from '@/utils';
+import {priceFormat} from '@/utils/priceFormat';
+import {transferProductsListColumn} from '../constants';
 
 export const TransferModal = observer(() => {
   const [form] = Form.useForm();
@@ -37,7 +37,7 @@ export const TransferModal = observer(() => {
       cancelText="Bekor qilish"
       centered
       confirmLoading={loading}
-      style={{ top: 0, padding: 0 }}
+      style={{top: 0, padding: 0}}
       bodyStyle={{
         height: '85vh',
         overflow: 'auto',
@@ -51,11 +51,11 @@ export const TransferModal = observer(() => {
         layout="vertical"
         autoComplete="off"
       >
-        <Row style={{ alignItems: 'center' }}>
+        <Row style={{alignItems: 'center'}}>
           <Col span={11}>
             <Form.Item
               label="Skladdan"
-              rules={[{ required: true }]}
+              rules={[{required: true}]}
               name="warehouse"
             >
               <Select
@@ -66,13 +66,13 @@ export const TransferModal = observer(() => {
               />
             </Form.Item>
           </Col>
-          <Col span={2} style={{ textAlign: 'center' }}>
-            <ArrowRightOutlined style={{ fontSize: '30px' }} />
+          <Col span={2} style={{textAlign: 'center'}}>
+            <ArrowRightOutlined style={{fontSize: '30px'}} />
           </Col>
           <Col span={11}>
             <Form.Item
               label="Skladga"
-              rules={[{ required: true }]}
+              rules={[{required: true}]}
               name="warehouse"
             >
               <Select
@@ -88,7 +88,7 @@ export const TransferModal = observer(() => {
           <Col span={11}>
             <Form.Item
               label="Mahsulot nomi"
-              rules={[{ required: true }]}
+              rules={[{required: true}]}
               name="name"
             >
               <Input placeholder="Mahsulot nomi" />
@@ -98,12 +98,12 @@ export const TransferModal = observer(() => {
           <Col span={11}>
             <Form.Item
               label="O'ramlar soni"
-              rules={[{ required: true }]}
+              rules={[{required: true}]}
               name="count"
             >
               <InputNumber
                 placeholder="O'ramlar soni"
-                style={{ width: '100%' }}
+                style={{width: '100%'}}
                 formatter={(value) => priceFormat(value!)}
               />
             </Form.Item>

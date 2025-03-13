@@ -1,7 +1,7 @@
 import {makeAutoObservable} from 'mobx';
+import {IGetWarehouseParams, IWarehouse} from '@/api/warehouse/types';
+import {warehouseApi} from '@/api/warehouse/warehouse';
 import {addNotification} from '@/utils';
-import { IGetWarehouseParams, IWarehouse } from '@/api/warehouse/types';
-import { warehouseApi } from '@/api/warehouse/warehouse';
 
 class WarehouseStore {
   isOpenAddEditWarehouseModal = false;

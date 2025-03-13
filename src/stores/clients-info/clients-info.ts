@@ -1,6 +1,6 @@
 import {makeAutoObservable} from 'mobx';
+import {clientsInfoApi, IClientsInfo, IGetClientsInfoParams} from '@/api/clients';
 import {addNotification} from '@/utils';
-import { IClientsInfo, IGetClientsInfoParams, clientsInfoApi } from '@/api/clients';
 
 class ClientsInfoStore {
   pageNumber = 1;

@@ -1,10 +1,10 @@
 import React from 'react';
 import {ColumnType} from 'antd/es/table';
+import {IProducts} from '@/api/products/types';
+import {IWarehouseProducts} from '@/api/warehouseProducts/types';
+import {getFullDateFormat} from '@/utils/getDateFormat';
+import {priceFormat} from '@/utils/priceFormat';
 import {Action} from './Action';
-import { getFullDateFormat } from '@/utils/getDateFormat';
-import { priceFormat } from '@/utils/priceFormat';
-import { IProducts } from '@/api/products/types';
-import { IWarehouseProducts } from '@/api/warehouseProducts/types';
 
 export const warehouseProductsListColumn: ColumnType<IWarehouseProducts>[] = [
   {

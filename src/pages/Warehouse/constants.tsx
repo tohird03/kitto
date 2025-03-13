@@ -1,7 +1,7 @@
 import React from 'react';
-import { ColumnType } from 'antd/es/table';
-import { Action } from './Action';
-import { IWarehouse } from '@/api/warehouse/types';
+import {ColumnType} from 'antd/es/table';
+import {IWarehouse} from '@/api/warehouse/types';
+import {Action} from './Action';
 
 export const warehouseColumns: ColumnType<IWarehouse>[] = [
   {

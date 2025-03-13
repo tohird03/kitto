@@ -40,13 +40,13 @@
   &__form-wrapper {
     display: flex;
     align-items: center;
-    background-image: url("/public/images/sas-product.jpg");
+    // background-image: url("/public/images/sas-product.jpg");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 200px -50px;
-    width: 70%;
+    width: 100%;
     height: 100%;
-    padding-left: 100px;
+    justify-content: center;
     @media screen and (max-width: 600px) {
       padding-left: 0;
       width: 90%;

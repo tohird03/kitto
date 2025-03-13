@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
-import { DownloadOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Input, Table, Tooltip, Typography } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {observer} from 'mobx-react';
+import {DownloadOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import {useQuery} from '@tanstack/react-query';
+import {Button, Input, Table, Tooltip, Typography} from 'antd';
 import classNames from 'classnames';
-import { AddEditModal } from './AddEditModal';
+// @ts-ignore
+import useScanDetection from 'use-scan-detection';
+import {productsApi} from '@/api/products';
+import {IProducts} from '@/api/products/types';
+import {productsListStore} from '@/stores/products-list';
+import {addNotification} from '@/utils';
+import {getPaginationParams} from '@/utils/getPaginationParams';
+import {AddEditModal} from './AddEditModal';
+import {productsListColumn} from './constants';
 import styles from './product.scss';
-import { productsListColumn } from './constants';
-import { productsListStore } from '@/stores/products-list';
-import { IProducts } from '@/api/products/types';
-import { useQuery } from '@tanstack/react-query';
-import { getPaginationParams } from '@/utils/getPaginationParams';
-import { addNotification } from '@/utils';
-import { productsApi } from '@/api/products';
 
 const cn = classNames.bind(styles);
 
 export const ProductsList = observer(() => {
   const [downloadLoading, setDownLoadLoading] = useState(false);
+  const [scannedCode, setScannedCode] = useState<String>('');
 
-  const { data: productsData, isLoading: loading } = useQuery({
+  const {data: productsData, isLoading: loading} = useQuery({
     queryKey: [
       'getProducts',
       productsListStore.pageNumber,
@@ -73,6 +76,25 @@ export const ProductsList = observer(() => {
       : record.countInStorehouses < record?.warningThreshold
         ? 'warning__row' : '';
 
+  useEffect(() => {
+    let scannedCode = '';
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        console.log('📌 Skaner kodi:', scannedCode);
+        scannedCode = ''; // Tozalash
+      } else {
+        scannedCode += event.key;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <main>
       <div className={cn('product-list__head')}>
@@ -118,29 +140,29 @@ export const ProductsList = observer(() => {
           ...getPaginationParams(productsData?.data?.totalCount),
           pageSizeOptions: [50, 100, 500, 1000],
         }}
-        // summary={() => (
-        //   <Table.Summary.Row>
-        //     <Table.Summary.Cell colSpan={2} index={1} />
-        //     <Table.Summary.Cell index={2}>
-        //       <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-        //         Umumiy:
-        //         <p style={{margin: '0', fontWeight: 'bold'}}>{productsData?.totalCalc?.totalProductCount}</p>
-        //       </div>
-        //     </Table.Summary.Cell>
-        //     <Table.Summary.Cell index={2}>
-        //       <div style={{ textAlign: 'center', fontWeight: 'bold', maxWidth: '150px', margin: '0 auto' }}>
-        //         Umumiy sotib olingan narxi:
-        //         <p style={{margin: '0', fontWeight: 'bold'}}>{priceFormat(productsData?.totalCalc?.totalProductCost)}</p>
-        //       </div>
-        //     </Table.Summary.Cell>
-        //     <Table.Summary.Cell index={3}>
-        //       <div style={{ textAlign: 'center', fontWeight: 'bold', maxWidth: '150px', margin: '0 auto' }}>
-        //         Umumiy sotilish narxi:
-        //         <p style={{margin: '0', fontWeight: 'bold'}}>{priceFormat(productsData?.totalCalc?.totalProductPrice)}</p>
-        //       </div>
-        //     </Table.Summary.Cell>
-        //   </Table.Summary.Row>
-        // )}
+      // summary={() => (
+      //   <Table.Summary.Row>
+      //     <Table.Summary.Cell colSpan={2} index={1} />
+      //     <Table.Summary.Cell index={2}>
+      //       <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+      //         Umumiy:
+      //         <p style={{margin: '0', fontWeight: 'bold'}}>{productsData?.totalCalc?.totalProductCount}</p>
+      //       </div>
+      //     </Table.Summary.Cell>
+      //     <Table.Summary.Cell index={2}>
+      //       <div style={{ textAlign: 'center', fontWeight: 'bold', maxWidth: '150px', margin: '0 auto' }}>
+      //         Umumiy sotib olingan narxi:
+      //         <p style={{margin: '0', fontWeight: 'bold'}}>{priceFormat(productsData?.totalCalc?.totalProductCost)}</p>
+      //       </div>
+      //     </Table.Summary.Cell>
+      //     <Table.Summary.Cell index={3}>
+      //       <div style={{ textAlign: 'center', fontWeight: 'bold', maxWidth: '150px', margin: '0 auto' }}>
+      //         Umumiy sotilish narxi:
+      //         <p style={{margin: '0', fontWeight: 'bold'}}>{priceFormat(productsData?.totalCalc?.totalProductPrice)}</p>
+      //       </div>
+      //     </Table.Summary.Cell>
+      //   </Table.Summary.Row>
+      // )}
       />
 
 

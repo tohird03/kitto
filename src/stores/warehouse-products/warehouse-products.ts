@@ -1,7 +1,7 @@
 import {makeAutoObservable} from 'mobx';
+import {IGetProductsParams, IProducts} from '@/api/products/types';
+import {warehouseProductsApi} from '@/api/warehouseProducts/warehouse-products';
 import {addNotification} from '@/utils';
-import { IGetProductsParams, IProducts } from '@/api/products/types';
-import { warehouseProductsApi } from '@/api/warehouseProducts/warehouse-products';
 
 class WarehouseProductsStore {
   pageNumber = 1;

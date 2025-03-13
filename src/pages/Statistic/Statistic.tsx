@@ -1,16 +1,16 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
-import { observer } from 'mobx-react';
-import { Calendar, Card } from 'antd';
-import classNames from 'classnames';
-import styles from './statistic.scss';
-import { CalendarOutlined, DollarOutlined } from '@ant-design/icons';
-import { useQuery } from '@tanstack/react-query';
-import { dateFormat, getStartAndEndDate, getStartMonthEndDate } from '@/utils/getDateFormat';
 import CountUp from 'react-countup';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/constants';
-import { saleStore } from '@/stores/sale';
+import {useNavigate} from 'react-router-dom';
+import {observer} from 'mobx-react';
+import {CalendarOutlined, DollarOutlined} from '@ant-design/icons';
+import {useQuery} from '@tanstack/react-query';
+import {Calendar, Card} from 'antd';
+import classNames from 'classnames';
+import {ROUTES} from '@/constants';
+import {saleStore} from '@/stores/sale';
+import {dateFormat, getStartAndEndDate, getStartMonthEndDate} from '@/utils/getDateFormat';
+import styles from './statistic.scss';
 
 const cn = classNames.bind(styles);
 const formatter = (value: number) => <CountUp duration={2} end={value} separator=" " />;
@@ -18,14 +18,14 @@ const formatter = (value: number) => <CountUp duration={2} end={value} separator
 export const Statistic = observer(() => {
 
   const navigate = useNavigate();
-  const { data: saleGraphStatistic, isLoading: loading } = useQuery({
+  const {data: saleGraphStatistic, isLoading: loading} = useQuery({
     queryKey: ['getOrdersStatisticGraph'],
     queryFn: () => saleStore.getSalesStatisticGraph({
       type: 'month',
     }),
   });
 
-  const { data: saleStatistic } = useQuery({
+  const {data: saleStatistic} = useQuery({
     queryKey: ['getOrdersStatistic'],
     queryFn: () => saleStore.getSalesStatistic(),
   });
@@ -108,27 +108,27 @@ export const Statistic = observer(() => {
   };
 
   return (
-    <div style={{ backgroundColor: '#F5F5F5', padding: '30px' }}>
+    <div style={{backgroundColor: '#F5F5F5', padding: '30px'}}>
       <div className={cn('statistic__top-wrapper')}>
         <div className={cn('statistic__top-order')}>
           <h3 className={cn('statistic__top-heading')}>Sotuvlar</h3>
           <div className={cn('statistic__top-order-card')}>
             <Card onClick={handleClickTodayOrder} className={cn('statistic__top-card')}>
-              <CalendarOutlined style={{ fontSize: '40px', color: '#f18024', marginBottom: 5 }} />
+              <CalendarOutlined style={{fontSize: '40px', color: '#f18024', marginBottom: 5}} />
               <p className={cn('statistic__top-card-info')}>Bugun</p>
               <p className={cn('statistic__top-card-value')}>
                 {formatter(saleStatistic?.data?.daily || 0)}
               </p>
             </Card>
             <Card onClick={handleClickTodayWeek} className={cn('statistic__top-card')}>
-              <CalendarOutlined style={{ fontSize: '40px', color: '#f18024', marginBottom: 5 }} />
+              <CalendarOutlined style={{fontSize: '40px', color: '#f18024', marginBottom: 5}} />
               <p className={cn('statistic__top-card-info')}>Shu hafta</p>
               <p className={cn('statistic__top-card-value')}>
                 {formatter(saleStatistic?.data?.weekly || 0)}
               </p>
             </Card>
             <Card onClick={handleClickMonth} className={cn('statistic__top-card')}>
-              <CalendarOutlined style={{ fontSize: '40px', color: '#f18024', marginBottom: 5 }} />
+              <CalendarOutlined style={{fontSize: '40px', color: '#f18024', marginBottom: 5}} />
               <p className={cn('statistic__top-card-info')}>Shu oy</p>
               <p className={cn('statistic__top-card-value')}>
                 {formatter(saleStatistic?.data?.monthly || 0)}

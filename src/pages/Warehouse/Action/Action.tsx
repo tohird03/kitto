@@ -3,10 +3,10 @@ import {observer} from 'mobx-react';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {Button, Popconfirm} from 'antd';
+import {IWarehouse} from '@/api/warehouse/types';
+import {warehouseApi} from '@/api/warehouse/warehouse';
+import {warehousesStore} from '@/stores/warehouse';
 import {addNotification} from '@/utils';
-import { warehousesStore } from '@/stores/warehouse';
-import { IWarehouse } from '@/api/warehouse/types';
-import { warehouseApi } from '@/api/warehouse/warehouse';
 
 type Props = {
   warehouse: IWarehouse;

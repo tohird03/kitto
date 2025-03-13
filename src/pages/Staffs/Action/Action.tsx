@@ -4,8 +4,8 @@ import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {Button, Popconfirm} from 'antd';
 import {IStaffs, staffsApi} from '@/api/staffs';
+import {staffsStore} from '@/stores/staffs';
 import {addNotification} from '@/utils';
-import { staffsStore } from '@/stores/staffs';
 
 type Props = {
   staff: IStaffs;

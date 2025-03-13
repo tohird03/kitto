@@ -1,4 +1,4 @@
-import { TStage } from './types';
+import {TStage} from './types';
 export const stage = process.env.REACT_APP_STAGE || 'dev';
 
 export enum Endpoints {
@@ -73,10 +73,10 @@ export enum Endpoints {
 
 const config: Record<string, TStage> = {
   dev: {
-    apiUrl: 'http://51.21.171.73:3000',
+    apiUrl: 'https://16.170.250.134.nip.io',
   },
   prod: {
-    apiUrl: 'http://51.21.171.73:3000',
+    apiUrl: 'https://16.170.250.134.nip.io',
   },
 };
 

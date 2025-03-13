@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
-import { observer } from 'mobx-react';
-import { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Table, Typography } from 'antd';
+import React, {useEffect} from 'react';
+import {observer} from 'mobx-react';
+import {PlusCircleOutlined} from '@ant-design/icons';
+import {useQuery} from '@tanstack/react-query';
+import {Button, Table, Typography} from 'antd';
 import classNames from 'classnames';
-import { AddEditModal } from './AddEditModal';
+import {warehousesStore} from '@/stores/warehouse';
+import {AddEditModal} from './AddEditModal';
+import {warehouseColumns} from './constants';
 import styles from './warehouse.scss';
-import { warehouseColumns } from './constants';
-import { warehousesStore } from '@/stores/warehouse';
-import { useQuery } from '@tanstack/react-query';
 
 const cn = classNames.bind(styles);
 
 export const Warehouse = observer(() => {
-  const { data: warehouseData, isLoading: loading } = useQuery({
+  const {data: warehouseData, isLoading: loading} = useQuery({
     queryKey: [
       'getWarehouses',
       warehousesStore.pageNumber,

@@ -2,14 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Col, Divider, Form, Input, InputNumber, Modal, Row, Select, Spin } from 'antd';
-import { regexPhoneNumber } from '@/utils/phoneFormat';
 import { IAddClientInfo } from '@/api/clients';
+import { saleApi } from '@/api/sale/sale';
+import { IAddSale, IAddSaleForm } from '@/api/sale/types';
 import { clientsInfoStore } from '@/stores/clients-info';
 import { saleStore } from '@/stores/sale';
-import { priceFormat } from '@/utils/priceFormat';
-import { IAddSale, IAddSaleForm } from '@/api/sale/types';
-import { saleApi } from '@/api/sale/sale';
 import { addNotification } from '@/utils';
+import { regexPhoneNumber } from '@/utils/phoneFormat';
+import { priceFormat } from '@/utils/priceFormat';
 
 const filterOption = (input: string, option?: { label: string, value: string }) =>
   (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
@@ -49,17 +49,20 @@ export const PaymentModal = observer(() => {
     const addSaleData: IAddSale = {
       clientId: values?.clientId,
       totalSum: values?.totalSum,
-      payment: {
-        card: values?.card || 0,
-        cash: values?.cash || 0,
-        other: values?.other || 0,
-        description: values?.description,
-      },
       products: saleStore?.activeSaleProducts?.map(product => ({
         id: product?.storehouse?.id,
         quantity: product?.quantity,
       })),
     };
+
+    if (values?.clientId) {
+      addSaleData.payment = {
+        card: values?.card || 0,
+        cash: values?.cash || 0,
+        other: values?.other || 0,
+        description: values?.description,
+      };
+    }
 
     addNewSale(addSaleData);
   };
@@ -97,6 +100,10 @@ export const PaymentModal = observer(() => {
     }
   }, [clientsInfoStore.singleClientInfo]);
 
+  const getTotalPrice = useMemo(() =>
+    (saleStore.sales[saleStore.activeKey]?.reduce((sum, product) => sum + product.price * product.quantity * product.oneCount, 0) || 0),
+  [saleStore.sales, saleStore.activeKey]);
+
   return (
     <Modal
       open={saleStore.isOpenAddEditSaleModal}
@@ -124,7 +131,6 @@ export const PaymentModal = observer(() => {
           <Col span={11}>
             <Form.Item
               label="Mijoz"
-              rules={[{ required: true }]}
               name="clientId"
             >
               <Select
@@ -146,10 +152,11 @@ export const PaymentModal = observer(() => {
               name="totalSum"
               label="Umumiy narxi"
               rules={[{ required: true }]}
+              initialValue={getTotalPrice}
             >
               <InputNumber
                 placeholder="Umumiy narxi"
-                defaultValue={0}
+                defaultValue={getTotalPrice}
                 style={{ width: '100%' }}
                 formatter={(value) => priceFormat(value!)}
               />

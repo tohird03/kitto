@@ -1,7 +1,7 @@
 import {makeAutoObservable} from 'mobx';
+import {paymentApi} from '@/api/payment';
+import {IClientsPayments, IGetClientsPaymentsParams} from '@/api/payment/types';
 import {addNotification} from '@/utils';
-import { IClientsPayments, IGetClientsPaymentsParams } from '@/api/payment/types';
-import { paymentApi } from '@/api/payment';
 
 class PaymentsStore {
   #today = new Date().toISOString().split('T')[0];

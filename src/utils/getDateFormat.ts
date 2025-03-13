@@ -3,7 +3,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
 const DATE_FORMAT = 'DD.MM.YYYY';
-const FULL_DATE_FORMAT = `${DATE_FORMAT} HH:mm`;
+const FULL_DATE_FORMAT = `HH:mm ${DATE_FORMAT}`;
 
 
 export const getDateFormat = (date: string) => dayjs(date).format();
@@ -34,7 +34,7 @@ export const getStartAndEndDate = (startDateCount: number) => {
   const startDate = new Date(oneWeekAgo);
   const endDate = today;
 
-  return { startDate, endDate };
+  return {startDate, endDate};
 };
 
 export const getStartMonthEndDate = () => {
@@ -43,5 +43,5 @@ export const getStartMonthEndDate = () => {
   const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
   const endDate = today;
 
-  return { startDate, endDate };
+  return {startDate, endDate};
 };

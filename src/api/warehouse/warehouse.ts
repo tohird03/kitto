@@ -2,7 +2,7 @@ import {AxiosResponse} from 'axios';
 import {Endpoints, umsStages} from '../endpoints';
 import {INetworkConfig, Instance} from '../instance';
 import {IResponse} from '../types';
-import { IAddOrEditWarehouse, IGetWarehouseParams, IWarehouse } from './types';
+import {IAddOrEditWarehouse, IGetWarehouseParams, IWarehouse} from './types';
 
 const config: INetworkConfig = {
   baseURL: Endpoints.Base,
@@ -21,7 +21,7 @@ class WarehouseApi extends Instance {
     this.post(Endpoints.warehouse, params);
 
   updateWarehouse = (params: IAddOrEditWarehouse): Promise<AxiosResponse> =>
-    this.patch(`${Endpoints.warehouse}`, params, { params: { id: params?.id } });
+    this.patch(`${Endpoints.warehouse}`, params, {params: {id: params?.id}});
 
   deleteWarehouse = (id: string): Promise<AxiosResponse> =>
     this.delete(`${Endpoints.warehouse}`, {params: {id}});

@@ -1,9 +1,9 @@
-import { makeAutoObservable } from 'mobx';
-import { addNotification } from '@/utils';
-import { IClientsPayments, IGetClientsPaymentsParams } from '@/api/payment/types';
-import { ISaleProduct, SalesData } from '@/pages/Sale/Sale';
-import { saleApi } from '@/api/sale/sale';
-import { IGetSaleParams, IGetTotalSaleStatistic } from '@/api/sale/types';
+import {makeAutoObservable} from 'mobx';
+import {IClientsPayments, IGetClientsPaymentsParams} from '@/api/payment/types';
+import {saleApi} from '@/api/sale/sale';
+import {IGetSaleParams, IGetTotalSaleStatistic} from '@/api/sale/types';
+import {ISaleProduct, SalesData} from '@/pages/Sale/Sale';
+import {addNotification} from '@/utils';
 
 class SaleStore {
   #today = new Date().toISOString().split('T')[0];
@@ -16,7 +16,7 @@ class SaleStore {
   singleSale: IClientsPayments | null = null;
   startDate: string | null = this.#today;
   endDate: string | null = this.#today;
-  sales: SalesData = { '1': [] };
+  sales: SalesData = {'1': []};
   activeKey = '1';
 
   constructor() {

@@ -1,26 +1,16 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { observer } from 'mobx-react';
-// @ts-ignore
-import Barcode from 'react-barcode';
-// @ts-ignore
-import ReactToPrint from 'react-to-print';
-import { Button, Divider, Input, InputNumber, List, Popconfirm, Select, Spin, Table, Tabs, message, notification } from 'antd';
-import { IProducts } from '@/api/products/types';
-import { useQuery } from '@tanstack/react-query';
-import { productsApi } from '@/api/products';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { ColumnType } from 'antd/es/table';
-import { productsListStore } from '@/stores/products-list';
-import { priceFormat } from '@/utils/priceFormat';
-import { IWarehouseProducts } from '@/api/warehouseProducts/types';
-import { saleStore } from '@/stores/sale';
-import { PaymentModal } from './PaymentModal';
-
-declare global {
-  interface Window {
-    qz?: any;
-  }
-}
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {observer} from 'mobx-react';
+import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
+import {useQuery} from '@tanstack/react-query';
+import {Button, Divider, Input, InputNumber, List, notification, Popconfirm, Select, Table, Tabs} from 'antd';
+import {ColumnType} from 'antd/es/table';
+import {productsApi} from '@/api/products';
+import {IWarehouseProducts} from '@/api/warehouseProducts/types';
+import {productsListStore} from '@/stores/products-list';
+import {saleStore} from '@/stores/sale';
+import {priceFormat} from '@/utils/priceFormat';
+import {PaymentModal} from './PaymentModal';
+import useScanDetection from 'use-scan-detection';
 
 const pageStyle = `
   @page {
@@ -41,6 +31,7 @@ const pageStyle = `
 
 export interface ISaleProduct {
   id: string;
+  barcode: string;
   name: string;
   price: number;
   quantity: number;
@@ -54,7 +45,7 @@ export type SalesData = Record<string, ISaleProduct[]>;
 export const Sale = observer(() => {
   const [searchProduct, setSearchProduct] = useState<string | null>(null);
 
-  const { data: productsData, isLoading: loadingProducts } = useQuery({
+  const {data: productsData, isLoading: loadingProducts} = useQuery({
     queryKey: ['getProducts', searchProduct],
     queryFn: () =>
       productsApi.getProducts({
@@ -64,25 +55,11 @@ export const Sale = observer(() => {
       }),
   });
 
-  // SCANNER
-  useEffect(() => {
-    let scannedCode = '';
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
-        addProduct(scannedCode);
-        scannedCode = '';
-      } else {
-        scannedCode += event.key;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  useScanDetection({
+    onComplete: (code: String) => {
+      addProduct(String(code));
+    },
+  });
 
   // LOCAL STORAGE SALING
   useEffect(() => {
@@ -100,13 +77,13 @@ export const Sale = observer(() => {
   // PRODUCT ACTIONS
   const addProduct = async (barcode: string) => {
     const currentCart = saleStore.sales[saleStore.activeKey] || [];
-    const existingProduct = currentCart.find((p) => p.id === barcode);
+    const existingProduct = currentCart.find((p) => p.barcode === barcode);
 
     const newQuantity = existingProduct ? existingProduct.quantity + 1 : 1;
 
     try {
       const findProduct = await productsListStore.getSingleSaleProducts({
-        id: barcode,
+        code: Number(barcode),
         minQuantity: newQuantity,
       });
 
@@ -128,11 +105,12 @@ export const Sale = observer(() => {
 
       const updatedCart = existingProduct
         ? currentCart.map((p) =>
-          p.id === barcode
+          p.barcode === barcode
             ? {
               ...p,
               quantity: newQuantity,
               price: findProduct?.data?.price,
+              barcode: String(findProduct?.data?.barcode?.code),
               oneCount: findProduct?.data?.quantity,
             }
             : p)
@@ -140,6 +118,7 @@ export const Sale = observer(() => {
           ...currentCart,
           {
             id: findProduct?.data?.id,
+            barcode: String(findProduct?.data?.barcode?.code),
             name: findProduct?.data?.name,
             storehouse: findProduct?.data?.storehouses[0],
             price: findProduct?.data?.price,
@@ -166,12 +145,12 @@ export const Sale = observer(() => {
   };
 
   // COLUMNS ACTION
-  const handleChangeQuantity = async (value: number | null, productId: string) => {
+  const handleChangeQuantity = async (value: number | null, barcode: string) => {
     if (!value) return;
 
     try {
       const findProduct = await productsListStore.getSingleSaleProducts({
-        id: productId,
+        code: Number(barcode),
         minQuantity: value,
       });
 
@@ -191,11 +170,11 @@ export const Sale = observer(() => {
         return;
       }
 
-      const updatedSales = { ...saleStore.sales };
+      const updatedSales = {...saleStore.sales};
       const currentCart = updatedSales[saleStore.activeKey] || [];
 
       updatedSales[saleStore.activeKey] = currentCart.map((product) => {
-        if (product.id !== productId) return product;
+        if (product.barcode !== barcode) return product;
 
         const selectedStorehouse = product.storehouse;
         const isEnoughInSelectedStorehouse = selectedStorehouse && value <= selectedStorehouse.quantity;
@@ -219,17 +198,17 @@ export const Sale = observer(() => {
   const handleChangePrice = (value: number | null, productId: string) => {
     if (!value) return;
 
-    const updatedSales = { ...saleStore.sales };
+    const updatedSales = {...saleStore.sales};
     const currentCart = updatedSales[saleStore.activeKey] || [];
 
     updatedSales[saleStore.activeKey] = currentCart.map((product) =>
-      product.id === productId ? { ...product, price: value } : product);
+      product.id === productId ? {...product, price: value} : product);
 
     saleStore.setSales(updatedSales);
   };
 
   const handleDeleteProduct = (productId: string) => {
-    const updatedSales = { ...saleStore.sales };
+    const updatedSales = {...saleStore.sales};
     const currentCart = updatedSales[saleStore.activeKey] || [];
 
     updatedSales[saleStore.activeKey] = currentCart.filter((product) => product.id !== productId);
@@ -238,7 +217,7 @@ export const Sale = observer(() => {
   };
 
   const handleStorehouseChange = (value: string, productId: string) => {
-    const updatedSales = { ...saleStore.sales };
+    const updatedSales = {...saleStore.sales};
     const currentCart = updatedSales[saleStore.activeKey] || [];
 
     updatedSales[saleStore.activeKey] = currentCart.map((product) =>
@@ -278,7 +257,7 @@ export const Sale = observer(() => {
         record?.storehouses[0]?.storehouse
           ? (
             <Select
-              style={{ width: '200px' }}
+              style={{width: '200px'}}
               value={record?.storehouse?.storehouse?.id}
               onChange={(val) => handleStorehouseChange(val, record.id)}
               options={record?.storehouses?.map(storehouse => ({
@@ -286,7 +265,7 @@ export const Sale = observer(() => {
                 label: `${storehouse?.storehouse?.name} / ${storehouse?.quantity}`,
               }))}
             />)
-          : <span style={{ background: 'yellow' }}>Skladlarda qolmagan</span>,
+          : <span style={{background: 'yellow'}}>Skladlarda qolmagan</span>,
     },
     {
       key: 'name',
@@ -297,7 +276,7 @@ export const Sale = observer(() => {
         <InputNumber
           min={1}
           value={record.quantity}
-          onChange={(val) => handleChangeQuantity(val, record.id)}
+          onChange={(val) => handleChangeQuantity(val, record.barcode)}
         />
       ),
     },
@@ -341,13 +320,13 @@ export const Sale = observer(() => {
       title: 'Action',
       align: 'center',
       render: (value, record) => (
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center'}}>
           <Popconfirm
             title="Mahsulotni o'chirish"
             description="Rostdan ham bu mahsulotni o'chirishni xohlaysizmi?"
             onConfirm={handleDeleteProduct.bind(null, record?.id)}
             okText="Ha"
-            okButtonProps={{ style: { background: 'red' } }}
+            okButtonProps={{style: {background: 'red'}}}
             cancelText="Yo'q"
           >
             <Button type="primary" icon={<DeleteOutlined />} danger />
@@ -383,7 +362,7 @@ export const Sale = observer(() => {
       : '';
 
   return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <div style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
       <h2>Sotuv</h2>
 
       <Tabs
@@ -391,7 +370,7 @@ export const Sale = observer(() => {
         activeKey={saleStore.activeKey}
         onChange={saleStore.setActiveKey}
         onEdit={(key, action) => action === 'remove' ? saleStore.removeTab(key as string) : saleStore.addTab()}
-        style={{ flex: 1, overflow: 'auto' }}
+        style={{flex: 1, overflow: 'auto'}}
       >
         {Object.keys(saleStore.sales).map((key) => (
           <Tabs.TabPane tab={`Sotuv ${key}`} key={key} closable>
@@ -404,8 +383,8 @@ export const Sale = observer(() => {
         ))}
       </Tabs>
 
-      <div style={{ height: '30%', display: 'flex', alignItems: 'flex-start', gap: '100px' }}>
-        <div style={{ maxWidth: '700px', width: '100%', height: '100%' }}>
+      <div style={{height: '30%', display: 'flex', alignItems: 'flex-start', gap: '100px'}}>
+        <div style={{maxWidth: '700px', width: '100%', height: '100%'}}>
           <Divider orientation="left">Mahsulotlar</Divider>
           <Input
             onChange={handleSearchProduct}
@@ -416,27 +395,27 @@ export const Sale = observer(() => {
             bordered
             loading={loadingProducts}
             dataSource={productsData?.data?.data}
-            style={{ overflow: 'auto', height: '100%' }}
+            style={{overflow: 'auto', height: '100%'}}
             renderItem={(item) => (
               <List.Item>
-                <div style={{ display: 'flex', alignItems: 'center', maxWidth: '300px' }}>
+                <div style={{display: 'flex', alignItems: 'center', maxWidth: '300px'}}>
                   <p>
                     {item?.name} -
                   </p>
                   {item?.quantity}talik
                 </div>
-                <Button onClick={addProduct.bind(null, item?.id)} icon={<PlusOutlined />} />
+                <Button onClick={addProduct.bind(null, String(item?.barcode?.code))} icon={<PlusOutlined />} />
               </List.Item>
             )}
           />
         </div>
-        <div style={{ maxWidth: '500px', width: '100%' }}>
+        <div style={{maxWidth: '500px', width: '100%'}}>
           <Divider orientation="left">To&apos;lov</Divider>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <p style={{ fontSize: '30px', fontWeight: 'bold' }}>Jami narxi: </p>
-            <p style={{ fontSize: '30px', fontWeight: 'bold' }}>{priceFormat(getTotalPrice)}</p>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+            <p style={{fontSize: '30px', fontWeight: 'bold'}}>Jami narxi: </p>
+            <p style={{fontSize: '30px', fontWeight: 'bold'}}>{priceFormat(getTotalPrice)}</p>
           </div>
-          <Button onClick={handleOpenPaymentModal} style={{ width: '100%' }} type="primary">
+          <Button onClick={handleOpenPaymentModal} style={{width: '100%'}} type="primary">
             To&apos;lov qilib saqlash
           </Button>
         </div>

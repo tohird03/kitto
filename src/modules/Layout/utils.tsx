@@ -1,6 +1,6 @@
 import React from 'react';
-import { MenuProps } from 'antd';
-import { IMenuItems } from './types';
+import {MenuProps} from 'antd';
+import {IMenuItems} from './types';
 
 export type MenuItem = Required<MenuProps>['items'][number];
 

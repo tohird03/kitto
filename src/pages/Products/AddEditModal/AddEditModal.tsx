@@ -1,24 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Form, Input, InputNumber, Modal } from 'antd';
-import { addNotification } from '@/utils';
-import { priceFormat } from '@/utils/priceFormat';
-import { IAddEditProduct } from '@/api/products/types';
-import { productsApi } from '@/api/products';
-import { productsListStore } from '@/stores/products-list';
+import React, {useEffect, useState} from 'react';
+import {observer} from 'mobx-react';
+import {PlusOutlined} from '@ant-design/icons';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {Form, Input, InputNumber, Modal, Upload, UploadFile, UploadProps} from 'antd';
+import {RcFile} from 'antd/es/upload';
+import {productsApi} from '@/api/products';
+import {IAddEditProduct} from '@/api/products/types';
+import {productsListStore} from '@/stores/products-list';
+import {addNotification} from '@/utils';
+import {priceFormat} from '@/utils/priceFormat';
+import {UPLOAD_ACCEPT} from '../constants';
 
 export const AddEditModal = observer(() => {
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
+  const [bannerFileList, setBannerFileList] = useState<UploadFile[]>([]);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
 
-  const { mutate: addNewProduct } =
+  const {mutate: addNewProduct} =
     useMutation({
       mutationKey: ['addNewProduct'],
       mutationFn: (params: IAddEditProduct) => productsApi.addNewProduct(params),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['getProducts'] });
+        queryClient.invalidateQueries({queryKey: ['getProducts']});
         handleModalClose();
       },
       onError: addNotification,
@@ -27,12 +33,12 @@ export const AddEditModal = observer(() => {
       },
     });
 
-  const { mutate: updateProduct } =
+  const {mutate: updateProduct} =
     useMutation({
       mutationKey: ['updateProduct'],
       mutationFn: (params: IAddEditProduct) => productsApi.updateProduct(params),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['getProducts'] });
+        queryClient.invalidateQueries({queryKey: ['getProducts']});
         handleModalClose();
       },
       onError: addNotification,
@@ -41,18 +47,53 @@ export const AddEditModal = observer(() => {
       },
     });
 
+  // IMG
+  const handleBeforeUpload = () => false;
+
+  const handleImgChange: UploadProps['onChange'] = ({fileList: newFileList}) => {
+    setBannerFileList(newFileList);
+  };
+
+  const handlePreview = async (file: UploadFile) => {
+    let src = file.url as string;
+
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file.originFileObj as RcFile);
+        reader.onload = () => resolve(reader.result as string);
+      });
+    }
+    const image = new Image();
+
+    setPreviewImage(src);
+    setPreviewOpen(true);
+    image.src = src;
+  };
+
+
   const handleSubmit = (values: IAddEditProduct) => {
     setLoading(true);
+    const formData = new FormData();
+
+    Object.entries(values).forEach(([key, value]) => {
+      formData.append(key, value as string | Blob);
+    });
+
+    if (bannerFileList.length > 0) {
+      const file = bannerFileList[0].originFileObj as RcFile;
+
+      formData.append('image', file);
+    }
 
     if (productsListStore?.singleProduct) {
-      updateProduct({
-        ...values,
-        id: productsListStore?.singleProduct?.id!,
-      });
+      formData.append('id', productsListStore?.singleProduct?.id!.toString());
 
-      return;
+      updateProduct(formData as unknown as IAddEditProduct);
+    } else {
+      addNewProduct(formData as unknown as IAddEditProduct);
     }
-    addNewProduct(values);
   };
 
   const handleModalClose = () => {
@@ -89,21 +130,38 @@ export const AddEditModal = observer(() => {
         layout="vertical"
         autoComplete="off"
       >
+        <Form.Item label="Изображение" rules={[{required: true}]}>
+          <Upload
+            maxCount={1}
+            onPreview={handlePreview}
+            beforeUpload={handleBeforeUpload}
+            onChange={handleImgChange} fileList={bannerFileList}
+            listType="picture-card" accept={UPLOAD_ACCEPT}
+          >
+            {bannerFileList.length === 0 && (
+              <div>
+                <PlusOutlined />
+                <div style={{marginTop: '8px'}}>Upload</div>
+              </div>
+            )}
+          </Upload>
+        </Form.Item>
+
         <Form.Item
           label="Mahsulot nomi"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
           name="name"
         >
           <Input placeholder="Mahsulot nomi" />
         </Form.Item>
         <Form.Item
           label="O'ramdagi mahsulotlar soni"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
           name="quantity"
         >
           <InputNumber
             placeholder="O'ramdagi mahsulotlar soni"
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             formatter={(value) => priceFormat(value!)}
           />
         </Form.Item>
@@ -113,29 +171,29 @@ export const AddEditModal = observer(() => {
         >
           <InputNumber
             placeholder="Ushbu sondan kam qolgan mahsulot haqida sizni ogohlantiramiz!"
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             formatter={(value) => priceFormat(value!)}
           />
         </Form.Item>
         <Form.Item
           label="Sotib olingan narxi"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
           name="cost"
         >
           <InputNumber
             placeholder="Sotib olingan narxi"
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             formatter={(value) => priceFormat(value!)}
           />
         </Form.Item>
         <Form.Item
           label="Sotish narxi"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
           name="price"
         >
           <InputNumber
             placeholder="Sotish narxi"
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             formatter={(value) => priceFormat(value!)}
           />
         </Form.Item>

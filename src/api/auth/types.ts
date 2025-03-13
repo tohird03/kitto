@@ -7,6 +7,6 @@ export interface ILoginResponse {
     tokens: {
       accessToken: string;
       refreshToken: string;
-    }
-  }
+    };
+  };
 }

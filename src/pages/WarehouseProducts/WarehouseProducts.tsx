@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react';
-import { observer } from 'mobx-react';
-import { PlusCircleOutlined, RetweetOutlined } from '@ant-design/icons';
-import { Button, Input, Table, Typography } from 'antd';
+import React, {useEffect} from 'react';
+import {observer} from 'mobx-react';
+import {PlusCircleOutlined, RetweetOutlined} from '@ant-design/icons';
+import {useQuery} from '@tanstack/react-query';
+import {Button, Input, Table, Typography} from 'antd';
 import classNames from 'classnames';
-import { AddEditModal } from './AddEditModal';
+import {IProducts} from '@/api/products/types';
+import {IWarehouseProducts} from '@/api/warehouseProducts/types';
+import {warehouseProductsStore} from '@/stores/warehouse-products';
+import {getPaginationParams} from '@/utils/getPaginationParams';
+import {AddEditModal} from './AddEditModal';
+import {warehouseProductsListColumn} from './constants';
+import {TransferModal} from './TransferModal';
 import styles from './warehouse-product.scss';
-import { IProducts } from '@/api/products/types';
-import { warehouseProductsStore } from '@/stores/warehouse-products';
-import { TransferModal } from './TransferModal';
-import { useQuery } from '@tanstack/react-query';
-import { warehouseProductsListColumn } from './constants';
-import { getPaginationParams } from '@/utils/getPaginationParams';
-import { IWarehouseProducts } from '@/api/warehouseProducts/types';
 
 const cn = classNames.bind(styles);
 
 export const WarehouseProductsList = observer(() => {
-  const { data: productsStorehouseData, isLoading: loading } = useQuery({
+  const {data: productsStorehouseData, isLoading: loading} = useQuery({
     queryKey: [
       'getWarehouseProducts',
       warehouseProductsStore.pageNumber,

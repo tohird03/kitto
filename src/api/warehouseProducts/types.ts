@@ -1,6 +1,6 @@
-import { IProducts } from "../products/types";
-import { IPagination } from "../types";
-import { IWarehouse } from "../warehouse/types";
+import {IProducts} from '../products/types';
+import {IPagination} from '../types';
+import {IWarehouse} from '../warehouse/types';
 
 export interface IGetWarehouseProductsParams extends IPagination {
   name?: string;

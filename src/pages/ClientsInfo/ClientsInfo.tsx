@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
-import { DownloadOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { useQuery } from '@tanstack/react-query';
-import { Button, Input, Tooltip, Typography } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {observer} from 'mobx-react';
+import {DownloadOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import {useQuery} from '@tanstack/react-query';
+import {Button, Input, Tooltip, Typography} from 'antd';
 import classNames from 'classnames';
-import { DataTable } from '@/components/Datatable/datatable';
-import { getPaginationParams } from '@/utils/getPaginationParams';
-import { useMediaQuery } from '@/utils/mediaQuery';
-import { AddEditModal } from './AddEditModal';
+import {clientsInfoApi, IClientsInfo} from '@/api/clients';
+import {DataTable} from '@/components/Datatable/datatable';
+import {clientsInfoStore} from '@/stores/clients-info';
+import {addNotification} from '@/utils';
+import {getPaginationParams} from '@/utils/getPaginationParams';
+import {useMediaQuery} from '@/utils/mediaQuery';
+import {priceFormat} from '@/utils/priceFormat';
+import {AddEditModal} from './AddEditModal';
 import styles from './client-info.scss';
-import { clientsColumns } from './constants';
-import { addNotification } from '@/utils';
-import { priceFormat } from '@/utils/priceFormat';
-import { clientsInfoStore } from '@/stores/clients-info';
-import { IClientsInfo, clientsInfoApi } from '@/api/clients';
+import {clientsColumns} from './constants';
 
 const cn = classNames.bind(styles);
 
@@ -21,7 +21,7 @@ export const ClientsInfo = observer(() => {
   const isMobile = useMediaQuery('(max-width: 800px)');
   const [downloadLoading, setDownLoadLoading] = useState(false);
 
-  const { data: clientsInfoData, isLoading: loading } = useQuery({
+  const {data: clientsInfoData, isLoading: loading} = useQuery({
     queryKey: [
       'getClients',
       clientsInfoStore.pageNumber,

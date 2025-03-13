@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
-import { DownloadOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { useQuery } from '@tanstack/react-query';
-import { Button, DatePicker, Input, Table, Tooltip, Typography } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {observer} from 'mobx-react';
+import {DownloadOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import {useQuery} from '@tanstack/react-query';
+import {Button, DatePicker, Input, Table, Tooltip, Typography} from 'antd';
 import classNames from 'classnames';
-import { getPaginationParams } from '@/utils/getPaginationParams';
-import { AddEditModal } from './AddEditModal';
-import styles from './payments.scss';
-import { paymentsColumns } from './constants';
 import dayjs from 'dayjs';
-import { paymentApi } from '@/api/payment';
-import { addNotification } from '@/utils';
-import { paymentsStore } from '@/stores/payments';
+import {paymentApi} from '@/api/payment';
+import {paymentsStore} from '@/stores/payments';
+import {addNotification} from '@/utils';
+import {getPaginationParams} from '@/utils/getPaginationParams';
+import {AddEditModal} from './AddEditModal';
+import {paymentsColumns} from './constants';
+import styles from './payments.scss';
 
 const cn = classNames.bind(styles);
 
 export const ClientsPayments = observer(() => {
   const [downloadLoading, setDownLoadLoading] = useState(false);
 
-  const { data: paymentsData, isLoading: loading } = useQuery({
+  const {data: paymentsData, isLoading: loading} = useQuery({
     queryKey: [
       'getPayments',
       paymentsStore.pageNumber,
@@ -141,22 +141,22 @@ export const ClientsPayments = observer(() => {
           <Table.Summary.Row>
             <Table.Summary.Cell colSpan={2} index={1} />
             <Table.Summary.Cell index={2}>
-              <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+              <div style={{textAlign: 'center', fontWeight: 'bold'}}>
                 Jami: {paymentsData?.calc?.totalCash}
               </div>
             </Table.Summary.Cell>
             <Table.Summary.Cell index={2}>
-              <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+              <div style={{textAlign: 'center', fontWeight: 'bold'}}>
                 Jami: {paymentsData?.calc?.totalCard}
               </div>
             </Table.Summary.Cell>
             <Table.Summary.Cell index={2}>
-              <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+              <div style={{textAlign: 'center', fontWeight: 'bold'}}>
                 Jami: {paymentsData?.calc?.totalTransfer}
               </div>
             </Table.Summary.Cell>
             <Table.Summary.Cell index={2}>
-              <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+              <div style={{textAlign: 'center', fontWeight: 'bold'}}>
                 Jami: {paymentsData?.calc?.totalOther}
               </div>
             </Table.Summary.Cell>

@@ -1,16 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { observer } from 'mobx-react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Form, InputNumber, Modal, Select, Spin } from 'antd';
-import { addNotification } from '@/utils';
-import { priceFormat } from '@/utils/priceFormat';
-import { productsApi } from '@/api/products';
-import { warehouseProductsStore } from '@/stores/warehouse-products';
-import { warehouseApi } from '@/api/warehouse/warehouse';
-import { IAddEditWarehouseProduct } from '@/api/warehouseProducts/types';
-import { warehouseProductsApi } from '@/api/warehouseProducts/warehouse-products';
+import React, {useEffect, useMemo, useState} from 'react';
+import {observer} from 'mobx-react';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {Form, InputNumber, Modal, Select, Spin} from 'antd';
+import {productsApi} from '@/api/products';
+import {warehouseApi} from '@/api/warehouse/warehouse';
+import {IAddEditWarehouseProduct} from '@/api/warehouseProducts/types';
+import {warehouseProductsApi} from '@/api/warehouseProducts/warehouse-products';
+import {warehouseProductsStore} from '@/stores/warehouse-products';
+import {addNotification} from '@/utils';
+import {priceFormat} from '@/utils/priceFormat';
 
-const filterOption = (input: string, option?: { label: string, value: string }) =>
+const filterOption = (input: string, option?: {label: string, value: string}) =>
   (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
 export const AddEditModal = observer(() => {
@@ -20,14 +20,14 @@ export const AddEditModal = observer(() => {
   const [searchProduct, setSearchProduct] = useState<string | null>(null);
 
   // GET DATAS
-  const { data: warehouseData, isLoading: loadingWarehouse } = useQuery({
+  const {data: warehouseData, isLoading: loadingWarehouse} = useQuery({
     queryKey: ['getWarehouses'],
     queryFn: () =>
       warehouseApi.getWarehouse({
       }),
   });
 
-  const { data: productsData, isLoading: loadingProducts } = useQuery({
+  const {data: productsData, isLoading: loadingProducts} = useQuery({
     queryKey: ['getProducts', searchProduct],
     queryFn: () =>
       productsApi.getProducts({
@@ -37,12 +37,12 @@ export const AddEditModal = observer(() => {
       }),
   });
 
-  const { mutate: addNewProduct } =
+  const {mutate: addNewProduct} =
     useMutation({
       mutationKey: ['addNewProduct'],
       mutationFn: (params: IAddEditWarehouseProduct) => warehouseProductsApi.addNewProduct(params),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['getWarehouseProducts'] });
+        queryClient.invalidateQueries({queryKey: ['getWarehouseProducts']});
         handleModalClose();
       },
       onError: addNotification,
@@ -51,12 +51,12 @@ export const AddEditModal = observer(() => {
       },
     });
 
-  const { mutate: updateProduct } =
+  const {mutate: updateProduct} =
     useMutation({
       mutationKey: ['updateProduct'],
       mutationFn: (params: IAddEditWarehouseProduct) => warehouseProductsApi.updateProduct(params),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['getWarehouseProducts'] });
+        queryClient.invalidateQueries({queryKey: ['getWarehouseProducts']});
         handleModalClose();
       },
       onError: addNotification,
@@ -137,7 +137,7 @@ export const AddEditModal = observer(() => {
       >
         <Form.Item
           label="Sklad"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
           name="storehouseId"
         >
           <Select
@@ -145,7 +145,7 @@ export const AddEditModal = observer(() => {
             placeholder="Sklad"
             loading={loadingWarehouse}
             optionFilterProp="children"
-            notFoundContent={loadingWarehouse ? <Spin style={{ margin: '10px' }} /> : null}
+            notFoundContent={loadingWarehouse ? <Spin style={{margin: '10px'}} /> : null}
             filterOption={filterOption}
             options={warehouseOptions}
             allowClear
@@ -153,7 +153,7 @@ export const AddEditModal = observer(() => {
         </Form.Item>
         <Form.Item
           label="Mahsulot"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
           name="productId"
         >
           <Select
@@ -161,7 +161,7 @@ export const AddEditModal = observer(() => {
             placeholder="Mahsulot"
             loading={loadingProducts}
             optionFilterProp="children"
-            notFoundContent={loadingProducts ? <Spin style={{ margin: '10px' }} /> : null}
+            notFoundContent={loadingProducts ? <Spin style={{margin: '10px'}} /> : null}
             filterOption={filterOption}
             onSearch={handleSearchProducts}
             onClear={handleClearProducts}
@@ -171,12 +171,12 @@ export const AddEditModal = observer(() => {
         </Form.Item>
         <Form.Item
           label="O'ramlar soni"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
           name="quantity"
         >
           <InputNumber
             placeholder="O'ramlar soni"
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             formatter={(value) => priceFormat(value!)}
           />
         </Form.Item>

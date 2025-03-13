@@ -1,7 +1,7 @@
-import { AxiosResponse } from 'axios';
-import { Endpoints, umsStages } from '../endpoints';
-import { INetworkConfig, Instance } from '../instance';
-import { IResponse } from '../types';
+import {AxiosResponse} from 'axios';
+import {Endpoints, umsStages} from '../endpoints';
+import {INetworkConfig, Instance} from '../instance';
+import {IResponse} from '../types';
 import {
   IAddClientInfo,
   IClientsInfo,
@@ -20,13 +20,13 @@ class ClientsInfoApi extends Instance {
   }
 
   getClientsInfo = (params: IGetClientsInfoParams): Promise<IResponse<IClientsInfo[]>> =>
-    this.get(Endpoints.ClientsMany, { params });
+    this.get(Endpoints.ClientsMany, {params});
 
   addClients = (params: IAddClientInfo): Promise<AxiosResponse> =>
     this.post(Endpoints.Clients, params);
 
   updateClient = (params: IUpdateClient): Promise<AxiosResponse> =>
-    this.patch(`${Endpoints.Clients}`, params, { params: { id: params?.id } });
+    this.patch(`${Endpoints.Clients}`, params, {params: {id: params?.id}});
 
   deleteClient = (id: string): Promise<AxiosResponse> =>
     this.delete(`${Endpoints.Clients}`, {params: {id}});

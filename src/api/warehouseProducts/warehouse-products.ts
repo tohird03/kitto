@@ -1,8 +1,8 @@
-import { AxiosResponse } from 'axios';
-import { Endpoints, umsStages } from '../endpoints';
-import { INetworkConfig, Instance } from '../instance';
-import { IResponse } from '../types';
-import { IAddEditWarehouseProduct, IGetWarehouseProductsParams, IWarehouseProducts } from './types';
+import {AxiosResponse} from 'axios';
+import {Endpoints, umsStages} from '../endpoints';
+import {INetworkConfig, Instance} from '../instance';
+import {IResponse} from '../types';
+import {IAddEditWarehouseProduct, IGetWarehouseProductsParams, IWarehouseProducts} from './types';
 
 const config: INetworkConfig = {
   baseURL: Endpoints.Base,
@@ -15,13 +15,13 @@ class WarehouseProductsApi extends Instance {
   }
 
   getProducts = (params: IGetWarehouseProductsParams): Promise<IResponse<IWarehouseProducts[]>> =>
-    this.get(Endpoints.WarehouseProductsMany, { params });
+    this.get(Endpoints.WarehouseProductsMany, {params});
 
   addNewProduct = (params: IAddEditWarehouseProduct): Promise<AxiosResponse> =>
     this.post(Endpoints.WarehouseProducts, params);
 
   updateProduct = (params: IAddEditWarehouseProduct): Promise<AxiosResponse> =>
-    this.patch(`${Endpoints.WarehouseProducts}`, params, { params: { id: params?.productId } });
+    this.patch(`${Endpoints.WarehouseProducts}`, params, {params: {id: params?.productId}});
 
   deleteProduct = (id: string): Promise<AxiosResponse> =>
     this.delete(`${Endpoints.WarehouseProducts}`, {params: {id}});

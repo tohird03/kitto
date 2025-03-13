@@ -4,7 +4,7 @@ import {observer} from 'mobx-react';
 import {Menu as AntdMenu} from 'antd';
 import {MenuProps} from 'antd/es/menu/menu';
 import {useStores} from '@/stores';
-import { useMediaQuery } from '@/utils/mediaQuery';
+import {useMediaQuery} from '@/utils/mediaQuery';
 
 export const Menu = observer(() => {
   const navigate = useNavigate();

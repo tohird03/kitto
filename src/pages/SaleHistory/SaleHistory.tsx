@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
-import { DownloadOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Table, Tooltip, Typography } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {observer} from 'mobx-react';
+import {DownloadOutlined} from '@ant-design/icons';
+import {useQuery} from '@tanstack/react-query';
+import {Button, DatePicker, Table, Tooltip, Typography} from 'antd';
 import classNames from 'classnames';
-import styles from './sale-history.scss';
-import { productsListColumn } from './constants';
-import { useQuery } from '@tanstack/react-query';
-import { getPaginationParams } from '@/utils/getPaginationParams';
-import { addNotification } from '@/utils';
-import { saleStore } from '@/stores/sale';
-import { saleApi } from '@/api/sale/sale';
 import dayjs from 'dayjs';
+import {saleApi} from '@/api/sale/sale';
+import {saleStore} from '@/stores/sale';
+import {addNotification} from '@/utils';
+import {getPaginationParams} from '@/utils/getPaginationParams';
+import {productsListColumn} from './constants';
+import styles from './sale-history.scss';
 
 const cn = classNames.bind(styles);
 
 export const SaleHistory = observer(() => {
   const [downloadLoading, setDownLoadLoading] = useState(false);
 
-  const { data: saleData, isLoading: loading } = useQuery({
+  const {data: saleData, isLoading: loading} = useQuery({
     queryKey: [
       'getSales',
       saleStore.pageNumber,
@@ -77,7 +77,7 @@ export const SaleHistory = observer(() => {
   return (
     <main>
       <div className={cn('sale-history__head')}>
-        <Typography.Title level={3}>Mahsulotlar</Typography.Title>
+        <Typography.Title level={3}>Sotuvlar</Typography.Title>
         <div className={cn('sale-history__filter')}>
           <Tooltip placement="top" title="Excelda yuklash">
             <DatePicker.RangePicker

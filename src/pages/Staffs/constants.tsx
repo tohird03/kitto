@@ -1,8 +1,8 @@
 import React from 'react';
 import {ColumnType} from 'antd/es/table';
 import {IStaffs} from '@/api/staffs';
-import {Action} from './Action';
 import {formatPhoneNumber} from '@/utils/phoneFormat';
+import {Action} from './Action';
 
 export const staffsColumns: ColumnType<IStaffs>[] = [
   {
