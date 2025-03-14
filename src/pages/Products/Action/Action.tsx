@@ -20,16 +20,6 @@ const pageStyle = `
     size: 60mm 40mm;
     margin: 0;
   }
-  @media print {
-    .barcodeContainer {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20x 0 5px 25px;
-    }
-  }
 `;
 
 

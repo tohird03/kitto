@@ -422,24 +422,6 @@ export const Sale = observer(() => {
       </div>
 
       {saleStore.isOpenAddEditSaleModal && <PaymentModal />}
-
-      {/* <h2 className="text-lg font-bold mt-4">Barcode chiqarish</h2>
-      <div className="p-4 border">
-        <Barcode
-          value="123321"
-          width={1}
-          height={40}
-          ref={barCodeRef}
-        />
-      </div>
-      <div className="mt-2">
-        <ReactToPrint
-          trigger={() => <Button type="dashed">Barcode Chop Etish</Button>}
-          content={() => barCodeRef.current}
-          pageStyle={pageStyle}
-          documentTitle=""
-        />
-      </div> */}
     </div >
   );
 });

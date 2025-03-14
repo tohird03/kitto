@@ -1,7 +1,7 @@
 import {makeAutoObservable} from 'mobx';
 import {IClientsPayments, IGetClientsPaymentsParams} from '@/api/payment/types';
 import {saleApi} from '@/api/sale/sale';
-import {IGetSaleParams, IGetTotalSaleStatistic} from '@/api/sale/types';
+import {IGetSaleParams, IGetTotalSaleStatistic, ISale} from '@/api/sale/types';
 import {ISaleProduct, SalesData} from '@/pages/Sale/Sale';
 import {addNotification} from '@/utils';
 
@@ -18,6 +18,9 @@ class SaleStore {
   endDate: string | null = this.#today;
   sales: SalesData = {'1': []};
   activeKey = '1';
+
+  isOpenOrderProductsModal = false;
+  singleOrderHistory: ISale | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -76,6 +79,14 @@ class SaleStore {
 
   setActiveKey = (activeKey: string) => {
     this.activeKey = activeKey;
+  };
+
+  setIsOpenOrderProductsModal = (isOpenOrderProductsModal: boolean) => {
+    this.isOpenOrderProductsModal = isOpenOrderProductsModal;
+  };
+
+  setSingleOrderHistory = (singleOrderHistory: ISale | null) => {
+    this.singleOrderHistory = singleOrderHistory;
   };
 
   // TAB ACTIONS

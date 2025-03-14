@@ -1,5 +1,8 @@
+import { IClientsInfo } from '../clients';
+import { IProducts } from '../products/types';
 import { IStaffs } from '../staffs';
 import {IPagination, IPaymentType} from '../types';
+import { IWarehouse } from '../warehouse/types';
 
 export interface IGetSaleParams extends IPagination {
   startDate?: string;
@@ -8,8 +11,21 @@ export interface IGetSaleParams extends IPagination {
 
 export interface ISale {
   totalSum: number;
+  debt: number;
   staff: IStaffs;
+  client?: IClientsInfo;
   createdAt: string;
+  products: ISaleProduct[];
+}
+
+export interface ISaleProductStorehouse {
+  product: IProducts;
+  storehouse: IWarehouse;
+}
+
+export interface ISaleProduct {
+  quantity: number;
+  productStorehouse: ISaleProductStorehouse;
 }
 
 export interface IAddSaleProducts {

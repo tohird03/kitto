@@ -1,8 +1,10 @@
 import React from 'react';
-import {ColumnType} from 'antd/es/table';
-import {ISale} from '@/api/sale/types';
-import {getFullDateFormat} from '@/utils/getDateFormat';
-import {priceFormat} from '@/utils/priceFormat';
+import { ColumnType } from 'antd/es/table';
+import { ISale, ISaleProduct, ISaleProductStorehouse } from '@/api/sale/types';
+import { getFullDateFormat } from '@/utils/getDateFormat';
+import { priceFormat } from '@/utils/priceFormat';
+import { Action } from './Action';
+import { ClientNameLink } from '../ClientsInfo/ClientNameLink';
 
 export const productsListColumn: ColumnType<ISale>[] = [
   {
@@ -22,6 +24,20 @@ export const productsListColumn: ColumnType<ISale>[] = [
   {
     key: 'name',
     dataIndex: 'name',
+    title: 'Qarzga',
+    align: 'center',
+    render: (value, record) => priceFormat(record?.debt),
+  },
+  {
+    key: 'name',
+    dataIndex: 'name',
+    title: 'Mijoz',
+    align: 'center',
+    render: (value, record) => record?.client ? <ClientNameLink client={record?.client} /> : null,
+  },
+  {
+    key: 'name',
+    dataIndex: 'name',
     title: 'Xodim',
     align: 'center',
     render: (value, record) => record?.staff?.fullname,
@@ -32,6 +48,14 @@ export const productsListColumn: ColumnType<ISale>[] = [
     title: 'Sotuv vaqti',
     align: 'center',
     render: (value, record) => getFullDateFormat(record?.createdAt),
+  },
+  {
+    key: 'action',
+    dataIndex: 'action',
+    title: 'Action',
+    align: 'center',
+    width: 200,
+    render: (value, record) => <Action sale={record} />,
   },
   // {
   //   key: 'count',
@@ -104,4 +128,42 @@ export const productsListColumn: ColumnType<ISale>[] = [
   //   align: 'center',
   //   render: (value, record) => <Action product={record} />,
   // },
+];
+
+export const orderProductsColumns: ColumnType<ISaleProduct>[] = [
+  {
+    key: 'index',
+    dataIndex: 'index',
+    title: '#',
+    align: 'center',
+    render: (value, record, index) => index + 1,
+  },
+  {
+    key: 'name',
+    dataIndex: 'name',
+    title: 'Mahsulot nomi',
+    align: 'center',
+    render: (value, record) => record?.productStorehouse?.product?.name,
+  },
+  {
+    key: 'name',
+    dataIndex: 'name',
+    title: 'O\'ramlar soni',
+    align: 'center',
+    render: (value, record) => record?.quantity,
+  },
+  {
+    key: 'name',
+    dataIndex: 'name',
+    title: 'O\'ramdagi mahsulotlar soni',
+    align: 'center',
+    render: (value, record) => record?.productStorehouse?.product?.quantity,
+  },
+  {
+    key: 'name',
+    dataIndex: 'name',
+    title: 'Jami mahsulot soni',
+    align: 'center',
+    render: (value, record) => record?.quantity * record?.productStorehouse?.product?.quantity,
+  },
 ];

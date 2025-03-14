@@ -11,6 +11,7 @@ import {addNotification} from '@/utils';
 import {getPaginationParams} from '@/utils/getPaginationParams';
 import {productsListColumn} from './constants';
 import styles from './sale-history.scss';
+import { OrderShowInfoModal } from './OrderShowInfoModal';
 
 const cn = classNames.bind(styles);
 
@@ -137,7 +138,7 @@ export const SaleHistory = observer(() => {
       />
 
 
-      {/* {saleStore.isOpenAddEditProductModal && <AddEditModal />} */}
+      {saleStore.isOpenOrderProductsModal && <OrderShowInfoModal />}
     </main>
   );
 });
