@@ -26,8 +26,8 @@ class ProductsApi extends Instance {
   addNewProduct = (params: IAddEditProduct): Promise<AxiosResponse> =>
     this.post(Endpoints.product, params);
 
-  updateProduct = (params: IAddEditProduct): Promise<AxiosResponse> =>
-    this.patch(`${Endpoints.product}`, params, {params: {id: params?.id}});
+  updateProduct = (params: FormData): Promise<AxiosResponse> =>
+    this.patch(`${Endpoints.product}`, params, { params: { id: params?.get('id') } });
 
   deleteProduct = (id: string): Promise<AxiosResponse> =>
     this.delete(`${Endpoints.product}`, {params: {id}});

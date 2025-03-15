@@ -36,7 +36,7 @@ export const AddEditModal = observer(() => {
   const {mutate: updateProduct} =
     useMutation({
       mutationKey: ['updateProduct'],
-      mutationFn: (params: IAddEditProduct) => productsApi.updateProduct(params),
+      mutationFn: (params: FormData) => productsApi.updateProduct(params),
       onSuccess: () => {
         queryClient.invalidateQueries({queryKey: ['getProducts']});
         handleModalClose();
@@ -90,7 +90,7 @@ export const AddEditModal = observer(() => {
     if (productsListStore?.singleProduct) {
       formData.append('id', productsListStore?.singleProduct?.id!.toString());
 
-      updateProduct(formData as unknown as IAddEditProduct);
+      updateProduct(formData);
     } else {
       addNewProduct(formData as unknown as IAddEditProduct);
     }

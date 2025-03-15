@@ -20,6 +20,26 @@ const pageStyle = `
     size: 60mm 40mm;
     margin: 0;
   }
+  @media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .barcodeContainer {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .barcodeContainer div {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+  }
+}
 `;
 
 
@@ -80,8 +100,6 @@ export const Action: FC<Props> = observer(({product}) => {
             {product.name}
           </h3>
 
-          {/* Mahsulot narxi */}
-
           <p
             style={{
               fontSize: '14px',
@@ -91,7 +109,7 @@ export const Action: FC<Props> = observer(({product}) => {
           >
             Narxi: {priceFormat(product?.price)}
           </p>
-          <div style={{display: 'flex', justifyContent: 'center', width: '100%'}}>
+          <div>
             <Barcode
               value={`${product?.barcode?.code}`}
               width={2}

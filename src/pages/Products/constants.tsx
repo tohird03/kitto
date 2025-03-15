@@ -23,6 +23,8 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     render: (value, record, index) => (
       <Image
         width={50}
+        height={50}
+        fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM4sEG5g9GFcy4SUxbzWNzUTf1jMISTDZrTw&s"
         src={`${umsStages?.apiUrl}/${record?.image}`}
       />
     ),

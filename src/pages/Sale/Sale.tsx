@@ -12,23 +12,6 @@ import {priceFormat} from '@/utils/priceFormat';
 import {PaymentModal} from './PaymentModal';
 import useScanDetection from 'use-scan-detection';
 
-const pageStyle = `
-  @page {
-    size: auto
-    margin: 0
-  };
-  @media all {
-    .pageBreak {
-      display: none
-    }
-  };
-  @media print {
-    .pageBreak {
-      page-break-before: always
-    }
-  }
-`;
-
 export interface ISaleProduct {
   id: string;
   barcode: string;
@@ -56,7 +39,7 @@ export const Sale = observer(() => {
   });
 
   useScanDetection({
-    onComplete: (code: String) => {
+    onComplete: (code: any) => {
       addProduct(String(code));
     },
   });
