@@ -40,7 +40,7 @@ export const Sale = observer(() => {
 
   useScanDetection({
     onComplete: (code: any) => {
-      addProduct(String(code));
+      addProduct(code);
     },
   });
 
