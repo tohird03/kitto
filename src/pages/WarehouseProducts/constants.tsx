@@ -26,7 +26,7 @@ export const warehouseProductsListColumn: ColumnType<IWarehouseProducts>[] = [
     dataIndex: 'warehouse',
     title: 'Skladi',
     align: 'center',
-    render: (value, record) => record?.product?.name,
+    render: (value, record) => record?.storehouse?.name,
   },
   {
     key: 'count',
@@ -40,21 +40,21 @@ export const warehouseProductsListColumn: ColumnType<IWarehouseProducts>[] = [
     dataIndex: 'count',
     title: 'O\'ramdagi mahsulotlar soni',
     align: 'center',
-    render: (value, record) => `${record?.quantity} dona`,
+    render: (value, record) => `${record?.quantity * record?.product?.quantity} dona`,
   },
   {
     key: 'cost',
     dataIndex: 'cost',
     title: 'Sotib olingan narxi',
     align: 'center',
-    render: (value, record) => record?.product?.cost,
+    render: (value, record) => priceFormat(record?.product?.cost),
   },
   {
     key: 'selling_price',
     dataIndex: 'selling_price',
     title: 'Sotilish narxi',
     align: 'center',
-    render: (value, record) => record?.product?.price,
+    render: (value, record) => priceFormat(record?.product?.price),
   },
   {
     key: 'totalPrice',
@@ -62,7 +62,7 @@ export const warehouseProductsListColumn: ColumnType<IWarehouseProducts>[] = [
     title: 'Umumiy sotib olingan qiymati',
     align: 'center',
     render: (value, record) => {
-      const totalSellingPrice = record?.product?.cost * record?.quantity;
+      const totalSellingPrice = record?.product?.cost * record?.quantity * record?.product?.quantity;
 
       return priceFormat(totalSellingPrice);
     },
