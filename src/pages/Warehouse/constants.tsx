@@ -2,6 +2,7 @@ import React from 'react';
 import {ColumnType} from 'antd/es/table';
 import {IWarehouse} from '@/api/warehouse/types';
 import {Action} from './Action';
+import { priceFormat } from '@/utils/priceFormat';
 
 export const warehouseColumns: ColumnType<IWarehouse>[] = [
   {
@@ -30,24 +31,22 @@ export const warehouseColumns: ColumnType<IWarehouse>[] = [
     dataIndex: 'totalPackages',
     title: 'Jami o\'ramlar soni',
     align: 'center',
-    render: (value, record) => <span>Jami oramlar soni</span>,
-    sorter: (a, b) => a?.debt - b?.debt,
+    render: (value, record) => <span>{record?.totalPackagesCount}</span>,
+    sorter: (a, b) => a?.totalPackagesCount - b?.totalPackagesCount,
   },
   {
     key: 'totalCost',
     dataIndex: 'totalCost',
     title: 'Jami sotib olingan narxi',
     align: 'center',
-    render: (value, record) => <span>Jami sotib olingan narxi</span>,
-    sorter: (a, b) => a?.debt - b?.debt,
+    render: (value, record) => <span>{priceFormat(record?.totalCostCount)}</span>,
   },
   {
     key: 'totalPrice',
     dataIndex: 'totalPrice',
     title: 'Jami sotish narxi',
     align: 'center',
-    render: (value, record) => <span>Jami sotish narxi</span>,
-    sorter: (a, b) => a?.debt - b?.debt,
+    render: (value, record) => <span>{priceFormat(record?.totalPriceCount)}</span>,
   },
   {
     key: 'action',

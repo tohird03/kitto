@@ -77,7 +77,7 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     title: 'Umumiy sotib olingan qiymati',
     align: 'center',
     render: (value, record) => {
-      const totalSellingPrice = record?.price * record?.quantity * record?.countInStorehouses;
+      const totalSellingPrice = record?.cost * record?.quantity * record?.countInStorehouses;
 
       return priceFormat(totalSellingPrice);
     },
@@ -88,7 +88,7 @@ export const productsListColumn: ColumnType<IProducts>[] = [
     title: 'Umumiy sotilish qiymati',
     align: 'center',
     render: (value, record) => {
-      const totalSellingPrice = record?.cost * record?.quantity * record?.countInStorehouses;
+      const totalSellingPrice = record?.price * record?.quantity * record?.countInStorehouses;
 
       return priceFormat(totalSellingPrice);
     },

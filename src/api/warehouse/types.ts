@@ -5,6 +5,9 @@ export interface IWarehouse {
   debt: number;
   name: string;
   hexColor: string;
+  totalPackagesCount: number;
+  totalPriceCount: string;
+  totalCostCount: string;
 }
 
 export interface IGetWarehouseParams extends IPagination {

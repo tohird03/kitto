@@ -33,14 +33,21 @@ export const warehouseProductsListColumn: ColumnType<IWarehouseProducts>[] = [
     dataIndex: 'count',
     title: 'O\'ramlar qoldig\'i',
     align: 'center',
-    render: (value, record) => `${record?.quantity} dona`,
+    render: (value, record) => `${record?.quantity} ta`,
   },
   {
     key: 'count',
     dataIndex: 'count',
     title: 'O\'ramdagi mahsulotlar soni',
     align: 'center',
-    render: (value, record) => `${record?.quantity * record?.product?.quantity} dona`,
+    render: (value, record) => `${record?.product?.quantity} dona`,
+  },
+  {
+    key: 'count',
+    dataIndex: 'count',
+    title: 'Jami mahsulotlar soni',
+    align: 'center',
+    render: (value, record) => `${record?.product?.quantity * record?.quantity} dona`,
   },
   {
     key: 'cost',
@@ -72,7 +79,7 @@ export const warehouseProductsListColumn: ColumnType<IWarehouseProducts>[] = [
     dataIndex: 'min_amount',
     title: 'Ogohlantirish',
     align: 'center',
-    render: (value, record) => `${record?.product?.warningThreshold} dona`,
+    render: (value, record) => `${record?.product?.warningThreshold} ta`,
   },
   {
     key: 'createdAt',
