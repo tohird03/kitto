@@ -2,7 +2,7 @@ import {AxiosResponse} from 'axios';
 import {Endpoints, umsStages} from '../endpoints';
 import {INetworkConfig, Instance} from '../instance';
 import {IResponse, IResponseSingle} from '../types';
-import {IAddEditProduct, IGetProductsParams, IProductOneForSelling, IProducts, IProductTotalCalc, ISingleSaleProductParams} from './types';
+import {IAddEditProduct, IGetProductsParams, IProductOneForSelling, IProducts, IProductTotalCalc, IProductTransfer, ISingleSaleProductParams} from './types';
 
 const config: INetworkConfig = {
   baseURL: Endpoints.Base,
@@ -28,6 +28,9 @@ class ProductsApi extends Instance {
 
   updateProduct = (params: FormData): Promise<AxiosResponse> =>
     this.patch(`${Endpoints.product}`, params, { params: { id: params?.get('id') } });
+
+  transferProduct = (params: IProductTransfer): Promise<AxiosResponse> =>
+    this.patch(`${Endpoints.productTransfer}`, params);
 
   deleteProduct = (id: string): Promise<AxiosResponse> =>
     this.delete(`${Endpoints.product}`, {params: {id}});

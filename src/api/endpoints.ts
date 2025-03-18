@@ -49,6 +49,8 @@ export enum Endpoints {
   // WAREHOUSE PRODUCTS
   WarehouseProducts = '/product-storehouse/one',
   WarehouseProductsMany = '/product-storehouse/many',
+  productTransfer = '/product-storehouse/transfer-product/many',
+
   // ROLE
   Role = '/role/one',
   RoleMany = '/role/many',

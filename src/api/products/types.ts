@@ -47,3 +47,19 @@ export interface ISingleSaleProductParams {
   code: number;
   minQuantity: number;
 }
+
+export interface IProductTransferForm {
+  fromStorehouseId: string;
+  toStorehouseId: string;
+  id: string;
+  quantity: number;
+}
+
+export interface IProductTransfer {
+  fromStorehouseId: string;
+  toStorehouseId: string;
+  products: {
+    id: string;
+    quantity: number;
+  }[]
+}
