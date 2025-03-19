@@ -23,8 +23,8 @@ class SaleApi extends Instance {
   // getSingleSaleProduct = (params: ISingleSaleProductParams): Promise<IResponseSingle<IProductOneForSelling>> =>
   //   this.get(`${Endpoints.productOneSelling}`, { params: { id: params?.id, minQuantity: params?.minQuantity } });
 
-  addNewSale = (params: IAddSale): Promise<AxiosResponse> =>
-    this.post(Endpoints.sale, params);
+  addNewSale = (params: IAddSale): Promise<AxiosResponse<ISale>> =>
+    this.resPost(Endpoints.sale, params);
 
   // STATISTIC
   getSalesTotal = (params: IGetTotalSaleStatistic): Promise<IResponseSingle<ITotalSaleStatistic[]>> =>

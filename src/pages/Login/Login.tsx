@@ -33,12 +33,9 @@ export const Login = observer(() => {
     authStore.getSignIn(values)
       .then(res => {
         if (res?.data) {
-          console.log(res.data);
-
           setAccessToken(res.data?.data?.tokens?.accessToken);
           navigate(ROUTES.home);
           addNotification('Muvaffaqiyatli kirildi!');
-          authStore.getProfile();
         }
       })
       .catch(addNotification)

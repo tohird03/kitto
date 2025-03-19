@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { Button, Modal, Table, notification } from 'antd';
-import { observer } from 'mobx-react';
-import { saleStore } from '@/stores/sale';
-import { orderProductsColumns } from '../constants';
+import React, {useEffect} from 'react';
+import {observer} from 'mobx-react';
+import {Button, Modal, notification, Table} from 'antd';
+import {saleStore} from '@/stores/sale';
+import {orderProductsColumns} from '../constants';
 
 export const OrderShowInfoModal = observer(() => {
   const handleModalClose = () => {
@@ -27,7 +27,7 @@ export const OrderShowInfoModal = observer(() => {
       onCancel={handleModalClose}
       cancelText="Bekor qilish"
       centered
-      style={{ top: 0, padding: 0 }}
+      style={{top: 0, padding: 0}}
       bodyStyle={{
         height: '85vh',
         overflow: 'auto',

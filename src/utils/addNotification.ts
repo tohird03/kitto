@@ -6,7 +6,7 @@ export const makeErrMsg = (error: AxiosError<any>): string => {
     return error.message;
   }
 
-  const message = error.response.data;
+  const message = error.response.data?.error?.messages[0];
 
   if (!message) {
     return error.message;
@@ -16,7 +16,7 @@ export const makeErrMsg = (error: AxiosError<any>): string => {
     return message?.details?.join(', ');
   }
 
-  return message.message;
+  return message;
 };
 
 export const addNotification = (data: AxiosError<any> | string): void => {

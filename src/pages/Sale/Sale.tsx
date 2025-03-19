@@ -1,16 +1,18 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {observer} from 'mobx-react';
-import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
-import {useQuery} from '@tanstack/react-query';
-import {Button, Divider, Input, InputNumber, List, notification, Popconfirm, Select, Table, Tabs} from 'antd';
-import {ColumnType} from 'antd/es/table';
-import {productsApi} from '@/api/products';
-import {IWarehouseProducts} from '@/api/warehouseProducts/types';
-import {productsListStore} from '@/stores/products-list';
-import {saleStore} from '@/stores/sale';
-import {priceFormat} from '@/utils/priceFormat';
-import {PaymentModal} from './PaymentModal';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { observer } from 'mobx-react';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { useQuery } from '@tanstack/react-query';
+import { Button, Divider, Input, InputNumber, List, notification, Popconfirm, Select, Table, Tabs } from 'antd';
+import { ColumnType } from 'antd/es/table';
+import { productsApi } from '@/api/products';
+import { IWarehouseProducts } from '@/api/warehouseProducts/types';
+import { productsListStore } from '@/stores/products-list';
+import { saleStore } from '@/stores/sale';
+import { priceFormat } from '@/utils/priceFormat';
+import { PaymentModal } from './PaymentModal';
 import useScanDetection from 'use-scan-detection';
+import { useReactToPrint } from 'react-to-print';
+import { Item, Receipt } from './Print/Print';
 
 export interface ISaleProduct {
   id: string;
@@ -28,7 +30,7 @@ export type SalesData = Record<string, ISaleProduct[]>;
 export const Sale = observer(() => {
   const [searchProduct, setSearchProduct] = useState<string | null>(null);
 
-  const {data: productsData, isLoading: loadingProducts} = useQuery({
+  const { data: productsData, isLoading: loadingProducts } = useQuery({
     queryKey: ['getProducts', searchProduct],
     queryFn: () =>
       productsApi.getProducts({
@@ -111,7 +113,7 @@ export const Sale = observer(() => {
           },
         ];
 
-      const updateCard= {...saleStore.sales, [saleStore.activeKey]: updatedCart};
+      const updateCard = { ...saleStore.sales, [saleStore.activeKey]: updatedCart };
 
       saleStore.setSales(updateCard);
     } catch (error) {
@@ -153,7 +155,7 @@ export const Sale = observer(() => {
         return;
       }
 
-      const updatedSales = {...saleStore.sales};
+      const updatedSales = { ...saleStore.sales };
       const currentCart = updatedSales[saleStore.activeKey] || [];
 
       updatedSales[saleStore.activeKey] = currentCart.map((product) => {
@@ -181,17 +183,17 @@ export const Sale = observer(() => {
   const handleChangePrice = (value: number | null, productId: string) => {
     if (!value) return;
 
-    const updatedSales = {...saleStore.sales};
+    const updatedSales = { ...saleStore.sales };
     const currentCart = updatedSales[saleStore.activeKey] || [];
 
     updatedSales[saleStore.activeKey] = currentCart.map((product) =>
-      product.id === productId ? {...product, price: value} : product);
+      product.id === productId ? { ...product, price: value } : product);
 
     saleStore.setSales(updatedSales);
   };
 
   const handleDeleteProduct = (productId: string) => {
-    const updatedSales = {...saleStore.sales};
+    const updatedSales = { ...saleStore.sales };
     const currentCart = updatedSales[saleStore.activeKey] || [];
 
     updatedSales[saleStore.activeKey] = currentCart.filter((product) => product.id !== productId);
@@ -200,7 +202,7 @@ export const Sale = observer(() => {
   };
 
   const handleStorehouseChange = (value: string, productId: string) => {
-    const updatedSales = {...saleStore.sales};
+    const updatedSales = { ...saleStore.sales };
     const currentCart = updatedSales[saleStore.activeKey] || [];
 
     updatedSales[saleStore.activeKey] = currentCart.map((product) =>
@@ -240,7 +242,7 @@ export const Sale = observer(() => {
         record?.storehouses[0]?.storehouse
           ? (
             <Select
-              style={{width: '200px'}}
+              style={{ width: '200px' }}
               value={record?.storehouse?.storehouse?.id}
               onChange={(val) => handleStorehouseChange(val, record.id)}
               options={record?.storehouses?.map(storehouse => ({
@@ -248,7 +250,7 @@ export const Sale = observer(() => {
                 label: `${storehouse?.storehouse?.name} / ${storehouse?.quantity}`,
               }))}
             />)
-          : <span style={{background: 'yellow'}}>Skladlarda qolmagan</span>,
+          : <span style={{ background: 'yellow' }}>Skladlarda qolmagan</span>,
     },
     {
       key: 'name',
@@ -303,13 +305,13 @@ export const Sale = observer(() => {
       title: 'Action',
       align: 'center',
       render: (value, record) => (
-        <div style={{display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center'}}>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
           <Popconfirm
             title="Mahsulotni o'chirish"
             description="Rostdan ham bu mahsulotni o'chirishni xohlaysizmi?"
             onConfirm={handleDeleteProduct.bind(null, record?.id)}
             okText="Ha"
-            okButtonProps={{style: {background: 'red'}}}
+            okButtonProps={{ style: { background: 'red' } }}
             cancelText="Yo'q"
           >
             <Button type="primary" icon={<DeleteOutlined />} danger />
@@ -345,7 +347,7 @@ export const Sale = observer(() => {
       : '';
 
   return (
-    <div style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <h2>Sotuv</h2>
 
       <Tabs
@@ -353,7 +355,7 @@ export const Sale = observer(() => {
         activeKey={saleStore.activeKey}
         onChange={saleStore.setActiveKey}
         onEdit={(key, action) => action === 'remove' ? saleStore.removeTab(key as string) : saleStore.addTab()}
-        style={{flex: 1, overflow: 'auto'}}
+        style={{ flex: 1, overflow: 'auto' }}
       >
         {Object.keys(saleStore.sales).map((key) => (
           <Tabs.TabPane tab={`Sotuv ${key}`} key={key} closable>
@@ -366,8 +368,8 @@ export const Sale = observer(() => {
         ))}
       </Tabs>
 
-      <div style={{height: '30%', display: 'flex', alignItems: 'flex-start', gap: '100px'}}>
-        <div style={{maxWidth: '700px', width: '100%', height: '100%'}}>
+      <div style={{ height: '30%', display: 'flex', alignItems: 'flex-start', gap: '100px' }}>
+        <div style={{ maxWidth: '700px', width: '100%', height: '100%' }}>
           <Divider orientation="left">Mahsulotlar</Divider>
           <Input
             onChange={handleSearchProduct}
@@ -378,10 +380,10 @@ export const Sale = observer(() => {
             bordered
             loading={loadingProducts}
             dataSource={productsData?.data?.data}
-            style={{overflow: 'auto', height: '100%'}}
+            style={{ overflow: 'auto', height: '100%' }}
             renderItem={(item) => (
               <List.Item>
-                <div style={{display: 'flex', alignItems: 'center', maxWidth: '300px'}}>
+                <div style={{ display: 'flex', alignItems: 'center', maxWidth: '300px' }}>
                   <p>
                     {item?.name} -
                   </p>
@@ -392,13 +394,13 @@ export const Sale = observer(() => {
             )}
           />
         </div>
-        <div style={{maxWidth: '500px', width: '100%'}}>
+        <div style={{ maxWidth: '500px', width: '100%' }}>
           <Divider orientation="left">To&apos;lov</Divider>
-          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-            <p style={{fontSize: '30px', fontWeight: 'bold'}}>Jami narxi: </p>
-            <p style={{fontSize: '30px', fontWeight: 'bold'}}>{priceFormat(getTotalPrice)}</p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <p style={{ fontSize: '30px', fontWeight: 'bold' }}>Jami narxi: </p>
+            <p style={{ fontSize: '30px', fontWeight: 'bold' }}>{priceFormat(getTotalPrice)}</p>
           </div>
-          <Button onClick={handleOpenPaymentModal} style={{width: '100%'}} type="primary">
+          <Button onClick={handleOpenPaymentModal} style={{ width: '100%' }} type="primary">
             To&apos;lov qilib saqlash
           </Button>
         </div>

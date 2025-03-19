@@ -1,15 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Col, Divider, Form, Input, InputNumber, Modal, Row, Select, Spin } from 'antd';
 import { IAddClientInfo } from '@/api/clients';
 import { saleApi } from '@/api/sale/sale';
-import { IAddSale, IAddSaleForm } from '@/api/sale/types';
+import { IAddSale, IAddSaleForm, ISale } from '@/api/sale/types';
 import { clientsInfoStore } from '@/stores/clients-info';
 import { saleStore } from '@/stores/sale';
 import { addNotification } from '@/utils';
 import { regexPhoneNumber } from '@/utils/phoneFormat';
 import { priceFormat } from '@/utils/priceFormat';
+import { useReactToPrint } from 'react-to-print';
+import { Receipt } from '../Print/Print';
+import { AxiosResponse } from 'axios';
 
 const filterOption = (input: string, option?: { label: string, value: string }) =>
   (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
@@ -18,16 +21,20 @@ export const PaymentModal = observer(() => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [searchClients, setSearchClients] = useState<string | null>(null);
+  const receiptRef = useRef<HTMLDivElement>(null);
+  const [resData, setResData] = useState<ISale | null>(null);
 
   // GET DATAS
   const { mutate: addNewSale } =
     useMutation({
       mutationKey: ['addNewSale'],
       mutationFn: (params: IAddSale) => saleApi.addNewSale(params),
-      onSuccess: () => {
-        handleModalClose();
+      onSuccess: (data: AxiosResponse<ISale>) => {
         addNotification('Sotuv muvaffaqiyatli amalga oshirildi');
         saleStore.removeTab(saleStore.activeKey);
+        if (data) {
+          setResData(data?.data);
+        }
       },
       onError: addNotification,
       onSettled: async () => {
@@ -69,6 +76,7 @@ export const PaymentModal = observer(() => {
 
   const handleModalClose = () => {
     saleStore.setActiveSaleProducts([]);
+    setResData(null);
     saleStore.setIsOpenAddEditSaleModal(false);
   };
 
@@ -100,9 +108,22 @@ export const PaymentModal = observer(() => {
     }
   }, [clientsInfoStore.singleClientInfo]);
 
+  const handlePrint = useReactToPrint({
+    content: () => receiptRef.current,
+    onAfterPrint: () => {
+      handleModalClose();
+    },
+  });
+
   const getTotalPrice = useMemo(() =>
     (saleStore.sales[saleStore.activeKey]?.reduce((sum, product) => sum + product.price * product.quantity * product.oneCount, 0) || 0),
   [saleStore.sales, saleStore.activeKey]);
+
+  useEffect(() => {
+    if (resData) {
+      handlePrint();
+    }
+  }, [resData]);
 
   return (
     <Modal
@@ -225,6 +246,11 @@ export const PaymentModal = observer(() => {
           </Col>
         </Row>
       </Form>
+      {resData && (
+        <div style={{ display: 'none' }}>
+          <Receipt ref={receiptRef} items={resData!} />
+        </div>
+      )}
     </Modal>
   );
 });

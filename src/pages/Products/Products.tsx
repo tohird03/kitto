@@ -19,7 +19,7 @@ const cn = classNames.bind(styles);
 
 export const ProductsList = observer(() => {
   const [downloadLoading, setDownLoadLoading] = useState(false);
-  const [scannedCode, setScannedCode] = useState<String>('');
+  const [scannedCode, setScannedCode] = useState<string>('');
 
   const {data: productsData, isLoading: loading} = useQuery({
     queryKey: [

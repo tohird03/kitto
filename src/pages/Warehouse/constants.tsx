@@ -1,8 +1,8 @@
 import React from 'react';
 import {ColumnType} from 'antd/es/table';
 import {IWarehouse} from '@/api/warehouse/types';
+import {priceFormat} from '@/utils/priceFormat';
 import {Action} from './Action';
-import { priceFormat } from '@/utils/priceFormat';
 
 export const warehouseColumns: ColumnType<IWarehouse>[] = [
   {

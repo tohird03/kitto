@@ -1,8 +1,8 @@
-import { IClientsInfo } from '../clients';
-import { IProducts } from '../products/types';
-import { IStaffs } from '../staffs';
+import {IClientsInfo} from '../clients';
+import {IProducts} from '../products/types';
+import {IStaffs} from '../staffs';
 import {IPagination, IPaymentType} from '../types';
-import { IWarehouse } from '../warehouse/types';
+import {IWarehouse} from '../warehouse/types';
 
 export interface IGetSaleParams extends IPagination {
   startDate?: string;

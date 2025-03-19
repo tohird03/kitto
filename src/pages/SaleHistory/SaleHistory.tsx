@@ -10,8 +10,9 @@ import {saleStore} from '@/stores/sale';
 import {addNotification} from '@/utils';
 import {getPaginationParams} from '@/utils/getPaginationParams';
 import {productsListColumn} from './constants';
+import {OrderShowInfoModal} from './OrderShowInfoModal';
 import styles from './sale-history.scss';
-import { OrderShowInfoModal } from './OrderShowInfoModal';
+import { Receipt } from '../Sale/Print/Print';
 
 const cn = classNames.bind(styles);
 

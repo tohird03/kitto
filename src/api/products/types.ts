@@ -61,5 +61,5 @@ export interface IProductTransfer {
   products: {
     id: string;
     quantity: number;
-  }[]
+  }[];
 }

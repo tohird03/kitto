@@ -1,10 +1,10 @@
 import React from 'react';
-import { ColumnType } from 'antd/es/table';
-import { ISale, ISaleProduct, ISaleProductStorehouse } from '@/api/sale/types';
-import { getFullDateFormat } from '@/utils/getDateFormat';
-import { priceFormat } from '@/utils/priceFormat';
-import { Action } from './Action';
-import { ClientNameLink } from '../ClientsInfo/ClientNameLink';
+import {ColumnType} from 'antd/es/table';
+import {ISale, ISaleProduct, ISaleProductStorehouse} from '@/api/sale/types';
+import {getFullDateFormat, getFullDateFormatWithOutTz} from '@/utils/getDateFormat';
+import {priceFormat} from '@/utils/priceFormat';
+import {ClientNameLink} from '../ClientsInfo/ClientNameLink';
+import {Action} from './Action';
 
 export const productsListColumn: ColumnType<ISale>[] = [
   {
@@ -47,7 +47,7 @@ export const productsListColumn: ColumnType<ISale>[] = [
     dataIndex: 'name',
     title: 'Sotuv vaqti',
     align: 'center',
-    render: (value, record) => getFullDateFormat(record?.createdAt),
+    render: (value, record) => getFullDateFormatWithOutTz(record?.createdAt),
   },
   {
     key: 'action',

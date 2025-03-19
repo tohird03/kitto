@@ -1,11 +1,11 @@
-import React, { forwardRef } from 'react';
-import { Document, Page, Text, View, StyleSheet, Font, Image, Path } from '@react-pdf/renderer';
-import { priceFormat } from '@/utils/priceFormat';
-import { getFullDateFormat } from '@/utils/getDateFormat';
-import LogoImg from '@/assets/img/logo-all.png';
+import React, {forwardRef} from 'react';
+import {Document, Font, Image, Page, Path, StyleSheet, Text, View} from '@react-pdf/renderer';
+import {ISale} from '@/api/sale/types';
 import CheckmarkIcon from '@/assets/img/check-mark.png';
-import { phoneFormat } from '@/utils/phoneFormat';
-import { ISale } from '@/api/sale/types';
+import LogoImg from '@/assets/img/logo-all.png';
+import {getFullDateFormat} from '@/utils/getDateFormat';
+import {phoneFormat} from '@/utils/phoneFormat';
+import {priceFormat} from '@/utils/priceFormat';
 
 Font.register({
   family: 'NotoSans',
@@ -23,7 +23,7 @@ type Props = {
   sale: ISale;
 };
 
-export const MyDocument = forwardRef<any, Props>(({ sale }, ref) => (
+export const MyDocument = forwardRef<any, Props>(({sale}, ref) => (
   <Document ref={ref}>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -43,28 +43,28 @@ export const MyDocument = forwardRef<any, Props>(({ sale }, ref) => (
         {/* Jadval */}
         <View style={styles.table}>
           <View style={styles.tableHeader}>
-            <Text style={{ ...styles.tableHeaderCell, maxWidth: '30px' }}>№</Text>
-            <Text style={{ ...styles.tableHeaderCell, maxWidth: '250px', minWidth: '250px' }}>Махсулот номи</Text>
-            <Text style={{ ...styles.tableHeaderCell, maxWidth: '35px' }}>
-              <Image src={CheckmarkIcon} style={{ width: 10, height: 10 }} />
+            <Text style={{...styles.tableHeaderCell, maxWidth: '30px'}}>№</Text>
+            <Text style={{...styles.tableHeaderCell, maxWidth: '250px', minWidth: '250px'}}>Махсулот номи</Text>
+            <Text style={{...styles.tableHeaderCell, maxWidth: '35px'}}>
+              <Image src={CheckmarkIcon} style={{width: 10, height: 10}} />
             </Text>
-            <Text style={{ ...styles.tableHeaderCell }}>Урам</Text>
-            <Text style={{ ...styles.tableHeaderCell }}>Урам сони</Text>
-            <Text style={{ ...styles.tableHeaderCell }}>Нархи</Text>
-            <Text style={{ ...styles.tableHeaderCell }}>Сумма</Text>
+            <Text style={{...styles.tableHeaderCell}}>Урам</Text>
+            <Text style={{...styles.tableHeaderCell}}>Урам сони</Text>
+            <Text style={{...styles.tableHeaderCell}}>Нархи</Text>
+            <Text style={{...styles.tableHeaderCell}}>Сумма</Text>
           </View>
           {
             sale?.products?.map((product, index) => (
               <View key={product?.productStorehouse?.product?.id} style={styles.tableRow}>
-                <Text style={{ ...styles.tableCell, maxWidth: '30px' }}>{index + 1}</Text>
-                <Text style={{ ...styles.tableCell, maxWidth: '250px', minWidth: '250px', textAlign: 'left' }}>
+                <Text style={{...styles.tableCell, maxWidth: '30px'}}>{index + 1}</Text>
+                <Text style={{...styles.tableCell, maxWidth: '250px', minWidth: '250px', textAlign: 'left'}}>
                   {product?.productStorehouse?.product?.name}
                 </Text>
-                <Text style={{ ...styles.tableCell, maxWidth: '35px' }} />
-                <Text style={{ ...styles.tableCell }}>{product?.quantity}</Text>
-                <Text style={{ ...styles.tableCell }}>{product?.productStorehouse?.product?.quantity}</Text>
-                <Text style={{ ...styles.tableCell }}>{product?.productStorehouse?.product?.price}</Text>
-                <Text style={{ ...styles.tableCell }}>
+                <Text style={{...styles.tableCell, maxWidth: '35px'}} />
+                <Text style={{...styles.tableCell}}>{product?.quantity}</Text>
+                <Text style={{...styles.tableCell}}>{product?.productStorehouse?.product?.quantity}</Text>
+                <Text style={{...styles.tableCell}}>{product?.productStorehouse?.product?.price}</Text>
+                <Text style={{...styles.tableCell}}>
                   {priceFormat(product?.quantity * product?.productStorehouse?.product?.price * product?.productStorehouse?.product?.quantity)}
                 </Text>
               </View>

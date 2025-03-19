@@ -1,12 +1,12 @@
 import React, {FC} from 'react';
 import {observer} from 'mobx-react';
 import {DownloadOutlined, EyeOutlined, PrinterOutlined} from '@ant-design/icons';
+import {pdf, PDFDownloadLink} from '@react-pdf/renderer';
 import {Button, Dropdown, Menu, Popconfirm} from 'antd';
-import { ISale } from '@/api/sale/types';
-import { saleStore } from '@/stores/sale';
 import Item from 'antd/es/list/Item';
-import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
-import { MyDocument } from './Pdf-save';
+import {ISale} from '@/api/sale/types';
+import {saleStore} from '@/stores/sale';
+import {MyDocument} from './Pdf-save';
 
 type Props = {
   sale: ISale;
@@ -36,7 +36,7 @@ export const Action: FC<Props> = observer(({sale}) => {
   };
 
   const menuSaveOptions = (
-    <Menu style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+    <Menu style={{padding: '20px', display: 'flex', flexDirection: 'column', gap: '10px'}}>
       <Item key="check">
         <Button
           onClick={handlePrint}
@@ -60,7 +60,7 @@ export const Action: FC<Props> = observer(({sale}) => {
           document={<MyDocument sale={sale} />}
           fileName={sale?.client?.fullname}
         >
-          <DownloadOutlined style={{ marginRight: '10px' }} /> Pdfda yuklash
+          <DownloadOutlined style={{marginRight: '10px'}} /> Pdfda yuklash
         </PDFDownloadLink>
       </Item>
     </Menu>

@@ -1,16 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { observer } from 'mobx-react';
-import { ArrowRightOutlined } from '@ant-design/icons';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Col, Form, Input, InputNumber, Modal, Row, Select, Spin, Table } from 'antd';
-import { productsApi } from '@/api/products';
-import { IAddEditProduct, IProductTransfer, IProductTransferForm } from '@/api/products/types';
-import { warehouseProductsStore } from '@/stores/warehouse-products';
-import { addNotification } from '@/utils';
-import { priceFormat } from '@/utils/priceFormat';
-import { warehouseApi } from '@/api/warehouse/warehouse';
+import React, {useEffect, useMemo, useState} from 'react';
+import {observer} from 'mobx-react';
+import {ArrowRightOutlined} from '@ant-design/icons';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {Col, Form, Input, InputNumber, Modal, Row, Select, Spin, Table} from 'antd';
+import {productsApi} from '@/api/products';
+import {IAddEditProduct, IProductTransfer, IProductTransferForm} from '@/api/products/types';
+import {warehouseApi} from '@/api/warehouse/warehouse';
+import {warehouseProductsStore} from '@/stores/warehouse-products';
+import {addNotification} from '@/utils';
+import {priceFormat} from '@/utils/priceFormat';
 
-const filterOption = (input: string, option?: { label: string, value: string }) =>
+const filterOption = (input: string, option?: {label: string, value: string}) =>
   (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
 export const TransferModal = observer(() => {
@@ -20,7 +20,7 @@ export const TransferModal = observer(() => {
   const [searchProduct, setSearchProduct] = useState<string | null>(null);
 
   // GET DATAS
-  const { data: warehouseData, isLoading: loadingWarehouse } = useQuery({
+  const {data: warehouseData, isLoading: loadingWarehouse} = useQuery({
     queryKey: ['getWarehouses'],
     queryFn: () =>
       warehouseApi.getWarehouse({
@@ -28,7 +28,7 @@ export const TransferModal = observer(() => {
       }),
   });
 
-  const { data: productsData, isLoading: loadingProducts } = useQuery({
+  const {data: productsData, isLoading: loadingProducts} = useQuery({
     queryKey: ['getProducts', searchProduct],
     queryFn: () =>
       productsApi.getProducts({
@@ -38,12 +38,12 @@ export const TransferModal = observer(() => {
       }),
   });
 
-  const { mutate: transferProduct } =
+  const {mutate: transferProduct} =
     useMutation({
       mutationKey: ['transferProduct'],
       mutationFn: (params: IProductTransfer) => productsApi.transferProduct(params),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['getWarehouseProducts'] });
+        queryClient.invalidateQueries({queryKey: ['getWarehouseProducts']});
         handleModalClose();
       },
       onError: addNotification,
@@ -112,11 +112,11 @@ export const TransferModal = observer(() => {
         layout="vertical"
         autoComplete="off"
       >
-        <Row style={{ alignItems: 'center' }}>
+        <Row style={{alignItems: 'center'}}>
           <Col span={11}>
             <Form.Item
               label="Skladdan"
-              rules={[{ required: true }]}
+              rules={[{required: true}]}
               name="fromStorehouseId"
             >
               <Select
@@ -127,13 +127,13 @@ export const TransferModal = observer(() => {
               />
             </Form.Item>
           </Col>
-          <Col span={2} style={{ textAlign: 'center' }}>
-            <ArrowRightOutlined style={{ fontSize: '30px' }} />
+          <Col span={2} style={{textAlign: 'center'}}>
+            <ArrowRightOutlined style={{fontSize: '30px'}} />
           </Col>
           <Col span={11}>
             <Form.Item
               label="Skladga"
-              rules={[{ required: true }]}
+              rules={[{required: true}]}
               name="toStorehouseId"
             >
               <Select
@@ -147,7 +147,7 @@ export const TransferModal = observer(() => {
         </Row>
         <Form.Item
           label="Mahsulot nomi"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
           name="id"
         >
           <Select
@@ -155,7 +155,7 @@ export const TransferModal = observer(() => {
             placeholder="Mahsulot"
             loading={loadingProducts}
             optionFilterProp="children"
-            notFoundContent={loadingProducts ? <Spin style={{ margin: '10px' }} /> : null}
+            notFoundContent={loadingProducts ? <Spin style={{margin: '10px'}} /> : null}
             filterOption={filterOption}
             onSearch={handleSearchProducts}
             onClear={handleClearProducts}
@@ -165,12 +165,12 @@ export const TransferModal = observer(() => {
         </Form.Item>
         <Form.Item
           label="O'ramlar soni"
-          rules={[{ required: true }]}
+          rules={[{required: true}]}
           name="quantity"
         >
           <InputNumber
             placeholder="O'ramlar soni"
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             formatter={(value) => priceFormat(value!)}
           />
         </Form.Item>
