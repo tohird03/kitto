@@ -97,7 +97,17 @@ export const Action: FC<Props> = observer(({product}) => {
               fontWeight: 'bold',
             }}
           >
-            {product.name}
+            {product?.name}
+          </h3>
+          <h3
+            style={{
+              fontSize: '12px',
+              margin: '0',
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            {product?.quantity} шт
           </h3>
 
           <p
