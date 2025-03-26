@@ -1,42 +1,33 @@
-import React, {FC} from 'react';
-import {observer} from 'mobx-react';
-import {DownloadOutlined, EyeOutlined, PrinterOutlined} from '@ant-design/icons';
-import {pdf, PDFDownloadLink} from '@react-pdf/renderer';
-import {Button, Dropdown, Menu, Popconfirm} from 'antd';
+import React, { FC, useRef } from 'react';
+import { observer } from 'mobx-react';
+import { DownloadOutlined, EyeOutlined, PrinterOutlined } from '@ant-design/icons';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { Button, Dropdown, Menu, Popconfirm } from 'antd';
 import Item from 'antd/es/list/Item';
-import {ISale} from '@/api/sale/types';
-import {saleStore} from '@/stores/sale';
-import {MyDocument} from './Pdf-save';
+import { ISale } from '@/api/sale/types';
+import { saleStore } from '@/stores/sale';
+import { Receipt } from '@/pages/Sale/Print/Print';
+import { MyDocument } from './Pdf-save';
+import { useReactToPrint } from 'react-to-print';
 
 type Props = {
   sale: ISale;
 };
 
-export const Action: FC<Props> = observer(({sale}) => {
+export const Action: FC<Props> = observer(({ sale }) => {
+  const receiptRef = useRef<HTMLDivElement>(null);
 
   const handleShowOrderProducts = () => {
     saleStore.setSingleOrderHistory(sale);
     saleStore.setIsOpenOrderProductsModal(true);
   };
 
-  const handlePrint = () => {
-    const doc = <MyDocument sale={sale} />;
-
-    pdf(doc).toBlob().then((blob) => {
-      const url = URL.createObjectURL(blob);
-      const iframe = document.createElement('iframe');
-
-      iframe.style.position = 'absolute';
-      iframe.style.width = '0';
-      iframe.style.height = '0';
-      iframe.src = url;
-      document.body.appendChild(iframe);
-      iframe.contentWindow?.print();
-    });
-  };
+  const handlePrint = useReactToPrint({
+    content: () => receiptRef.current,
+  });
 
   const menuSaveOptions = (
-    <Menu style={{padding: '20px', display: 'flex', flexDirection: 'column', gap: '10px'}}>
+    <Menu style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
       <Item key="check">
         <Button
           onClick={handlePrint}
@@ -60,18 +51,22 @@ export const Action: FC<Props> = observer(({sale}) => {
           document={<MyDocument sale={sale} />}
           fileName={sale?.client?.fullname}
         >
-          <DownloadOutlined style={{marginRight: '10px'}} /> Pdfda yuklash
+          <DownloadOutlined style={{ marginRight: '10px' }} /> Pdfda yuklash
         </PDFDownloadLink>
       </Item>
     </Menu>
   );
 
   return (
-    <div style={{display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center'}}>
+    <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
       <Button onClick={handleShowOrderProducts} type="primary" icon={<EyeOutlined />} />
       <Dropdown placement="bottomRight" overlay={menuSaveOptions} trigger={['click']}>
         <Button icon={<DownloadOutlined />} />
       </Dropdown>
+
+      <div style={{ display: 'none' }}>
+        <Receipt ref={receiptRef} items={sale!} />
+      </div>
     </div >
   );
 });

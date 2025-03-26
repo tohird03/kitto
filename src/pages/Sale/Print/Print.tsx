@@ -36,7 +36,7 @@ export const Receipt = React.forwardRef<HTMLDivElement, ReceiptProps>(({ items }
     </ul>
     <p>---------------------------------------------------</p>
     <h4>Jami: {priceFormat(items?.totalSum)}</h4>
-    <h4>Qarzga: {items?.debt | 0}</h4>
+    <h4>Qarzga: {priceFormat(items?.debt)}</h4>
     <p style={{ textAlign: 'center' }}>Xaridingiz uchun rahmat!</p>
   </div>
 ));
